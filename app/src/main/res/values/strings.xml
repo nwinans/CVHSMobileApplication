@@ -6,4 +6,10 @@
     <string name="three">Wellness</string>
     <string name="four">Extracurricular</string>
     <string name="five">Settings</string>
+
+    <string name="tabOneTemp">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Aenean fermentum sodales nibh sit amet eleifend. Suspendisse sit amet ligula dui.
+                            Etiam porta lorem scelerisque risus vehicula posuere. Vestibulum convallis elit vel lectus pulvinar blandit.
+                            Duis in leo in diam suscipit feugiat aliquet eget arcu. Etiam nisi sapien, consequat quis enim ut, condimentum sodales enim.
+                            Vestibulum nec neque at nibh dapibus tempus.</string>
 </resources>
