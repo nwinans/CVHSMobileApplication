@@ -32,11 +32,16 @@ public class MainActivity extends AppCompatActivity {
 
     // Hard-coded icons for the tabs
     private int[] tabIcons = {
-            R.drawable.ic_announcement_black_36dp, // Announcement bubble with "!"
-            R.drawable.ic_create_black_48dp, // Pencil
-            R.drawable.ic_local_hospital_black_36dp, // Box with cross
-            R.drawable.ic_people_black_36dp, // Two silhouettes
-            R.drawable.ic_settings_black_36dp // Gear
+            R.drawable.tab1, // Newspaper. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab2, // Academics. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab3, // Box with cross. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab4, // Two silhouettes. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab5 // Gear. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
     };
 
     @Override
@@ -75,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign the icons to the tabs (not the text, this is done later)
         setupTabIcons();
+
+
     }
 
     // Assigns the tabs the correct icon from the tabIcons array
