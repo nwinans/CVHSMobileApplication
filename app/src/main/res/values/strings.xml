@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CVHS Mobile Application</string>
+    <string name="action_settings">Settings</string>
+    <string name="one">Announcements</string>
+    <string name="two">Academics</string>
+    <string name="three">Wellness</string>
+    <string name="four">Extracurricular</string>
+    <string name="five">Settings</string>
+</resources>
