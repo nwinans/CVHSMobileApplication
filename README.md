@@ -10,8 +10,9 @@ Sed aliquam metus ac imperdiet auctor. Fusce non rutrum tellus, consequat blandi
 ## Features
 Nunc tellus felis, suscipit a feugiat id, vehicula ac ante. In pharetra vulputate sollicitudin. Cras mi sem, pharetra quis arcu ac, porttitor consectetur ipsum. Suspendisse potenti. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean pellentesque viverra orci. Donec condimentum et nunc facilisis facilisis. Quisque malesuada pretium sem vel feugiat. Pellentesque.
 
-### License 
+## License 
 This application is licensed under the MIT license. Check the license file or visit the following website for additional details. https://opensource.org/licenses/MIT
 
-#### Further Information
+
+##### Further Information
 For more information, or if you have questions or comments, contact OASmall@fcps.edu
