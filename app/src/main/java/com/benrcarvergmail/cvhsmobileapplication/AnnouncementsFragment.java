@@ -15,7 +15,8 @@ public class AnnouncementsFragment extends Fragment {
     private ArrayList<String> data;
 
     public AnnouncementsFragment() {
-        // Required empty public constructor
+        // Instantiate the data ArrayList so we may populate it during onCreateView()
+        data = new ArrayList<String>();
     }
 
     @Override
