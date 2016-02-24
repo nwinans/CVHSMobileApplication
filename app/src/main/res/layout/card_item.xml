@@ -18,17 +18,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
 
+            <!-- RelativeLayout just for the icon and the date -->
             <RelativeLayout
                 android:id="@+id/icon_date_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <!-- The icon -->
                 <ImageView
                     android:id="@+id/card_view_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_wildcat_head" />
 
+                <!-- The data -->
                 <TextView
                     android:id="@+id/date_text_view"
                     android:layout_width="wrap_content"
@@ -40,6 +43,7 @@
                     android:layout_centerInParent="true" />
             </RelativeLayout>
 
+            <!-- TextView for the actual announcement text to be displayed -->
             <TextView
                 android:id="@+id/text_view"
                 android:layout_width="wrap_content"
