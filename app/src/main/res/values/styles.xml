@@ -18,4 +18,9 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
+    <style name="MyActionBarLogo" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="logo">@drawable/ic_action_wildcat_logo_900x900_white</item>
+        <item name="displayOptions">useLogo|showHome</item>
+    </style>
+
 </resources>

@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,38 +53,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Set the content view (XML file to render what the user sees) to activity_main.xml
         setContentView(R.layout.activity_main);
-
         // Instantiated the toolbar object to the one defined in the XML
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         // Assign the support action bar (the toolbar) to the object we just instantiated
         setSupportActionBar(toolbar);
-
         // Setting this to true makes it such that if selecting whatever we determine a "home" button to be
         // will make the UI go up ONE level as opposed to going all the way to the front page.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        // Disables the label defined in AndroidManifest.xml from being displayed on the toolbar
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Instantiate the ViewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        // Determine if we currently want to set up the tabs with icons and text or just icons
-        if(both) {
-            setupViewPagerBoth(viewPager); // Icons and text
-        } else {
-            setupViewPagerIconsOnly(viewPager); // Just icons
-        }
-
+        setupViewPagerIconsOnly(viewPager);
         // Instantiate the TabLayout object
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
         // by swiping left and right (which is what we want)
         tabLayout.setupWithViewPager(viewPager);
-
         // Assign the icons to the tabs (not the text, this is done later)
         setupTabIcons();
-
-
     }
 
     // Assigns the tabs the correct icon from the tabIcons array
@@ -91,6 +81,26 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
         tabLayout.getTabAt(4).setIcon(tabIcons[4]);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // This method creates Fragments for each tab we want.
@@ -109,25 +119,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    // Gives tabs both icons and text.
-    // This has issues as there isn't enough space for five tabs with full text titles.
-    private void setupViewPagerBoth(ViewPager viewPager) {
-        // Create a ViewPagerAdapter (a class we created ourselves)
-        // We pass the method call getSupportFragmentManager() which returns a FragmentManager
-        // object. A FragmentManager is an interface for interacting with Fragment objects inside of an Activity
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "Announcements");
-        adapter.addFrag(new TwoFragment(), "Academics");
-        adapter.addFrag(new ThreeFragment(), "Wellness");
-        adapter.addFrag(new FourFragment(), "Extracurricular");
-        adapter.addFrag(new FiveFragment(), "Settings");
-        viewPager.setAdapter(adapter);
-    }
-
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
     // represents each page as a Fragment that is persistently kept in
     // the fragment manager as long as the user can return to the page.
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
         // List of all the Fragments pertaining to our tabs
         private final List<Fragment> mFragmentList = new ArrayList<>();
 
