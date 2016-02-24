@@ -1,5 +1,6 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,8 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +68,21 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Instantiate the ViewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        viewPager.setAdapter(adapter);
         setupViewPagerIconsOnly(viewPager);
         // Instantiate the TabLayout object
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
         // by swiping left and right (which is what we want)
         tabLayout.setupWithViewPager(viewPager);
-        // Assign the icons to the tabs (not the text, this is done later)
+
+        // Iterate over all tabs and set the custom view
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(adapter.getTabView(i));
+        }
+        // Assign the icons to the tabs
         setupTabIcons();
     }
 
@@ -109,29 +121,37 @@ public class MainActivity extends AppCompatActivity {
     // or behavior that can be placed in an Activity
     // This method only gives tabs icons. It does not give them text.
     private void setupViewPagerIconsOnly(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         // Does not pass any text to the addFrag method, so the icons do not have any text
-        adapter.addFrag(new OneFragment(), ""); // Announcements
-        adapter.addFrag(new TwoFragment(), ""); // Academics
-        adapter.addFrag(new ThreeFragment(), ""); // Wellness
-        adapter.addFrag(new FourFragment(), ""); // Extracurricular
-        adapter.addFrag(new FiveFragment(), ""); // Settings
-        viewPager.setAdapter(adapter);
+        ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
+        vpa.addFrag(new BlankFragment(), "");
+        vpa.addFrag(new BlankFragment(), "");
+        vpa.addFrag(new BlankFragment(), "");
+        vpa.addFrag(new BlankFragment(), "");
+        vpa.addFrag(new BlankFragment(), "");
+        // vpa.addFrag(new OneFragment(), ""); // Announcements
+        // vpa.addFrag(new TwoFragment(), ""); // Academics
+        // vpa.addFrag(new ThreeFragment(), ""); // Wellness
+        // vpa.addFrag(new FourFragment(), ""); // Extracurricular
+        // vpa.addFrag(new FiveFragment(), ""); // Settings
+
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
     // represents each page as a Fragment that is persistently kept in
     // the fragment manager as long as the user can return to the page.
-    static class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentPagerAdapter {
         // List of all the Fragments pertaining to our tabs
         private final List<Fragment> mFragmentList = new ArrayList<>();
 
         // List of each title of each Fragment. The titles would be the String we pass in setupViewPager()
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        Context context;
+
         // Constructor. Calls the super constructor passing our FragmentManager object
-        public ViewPagerAdapter(FragmentManager manager) {
+        public ViewPagerAdapter(FragmentManager manager, Context context) {
             super(manager);
+            this.context = context;
         }
 
         @Override
@@ -150,7 +170,14 @@ public class MainActivity extends AppCompatActivity {
         // Adds a Fragment (effectively a tab). Takes in a Fragment and a title.
         public void addFrag(Fragment fragment, String title) {
             mFragmentList.add(fragment);
+            notifyDataSetChanged();
             mFragmentTitleList.add(title);
+        }
+
+        public View getTabView(int position) {
+            View tab = LayoutInflater.from(MainActivity.this).inflate(R.layout.custom_tab, null);
+            TextView tv = (TextView) tab.findViewById(R.id.custom_text);
+            return tab;
         }
 
         @Override
