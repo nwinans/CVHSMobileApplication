@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewAdapater.MyViewHolder> {
-    private String[] mDataset;
+    // private String[] mDataset; // Array to hold data. I am changing this to use a List.
+    private List<String> mDataset; // ArrayList implementation to hold data
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -18,14 +22,13 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         public TextView mTextView;
         public MyViewHolder(View v) {
             super(v);
-
             mCardView = (CardView) v.findViewById(R.id.card_view);
             mTextView = (TextView) v.findViewById(R.id.text_view);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyRecyclerViewAdapater(String[] myDataset) {
+    public MyRecyclerViewAdapater(List<String> myDataset) {
         mDataset = myDataset;
     }
 
@@ -42,12 +45,22 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
     }
 
     @Override
+    /*
+    This method internally calls onBindViewHolder(ViewHolder, int) to update
+    the RecyclerView.ViewHolder contents with the item at the given position
+    and also sets up some private fields to be used by RecyclerView.
+     */
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(mDataset.get(position));
     }
 
     @Override
+    // Returns number of elements in the mDataset List
     public int getItemCount() {
-        return mDataset.length;
+        if (mDataset == null) {
+            return -1;
+        } else {
+            return mDataset.size();
+        }
     }
 }

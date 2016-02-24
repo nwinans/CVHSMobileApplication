@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -77,11 +76,6 @@ public class MainActivity extends AppCompatActivity {
         // by swiping left and right (which is what we want)
         tabLayout.setupWithViewPager(viewPager);
 
-        // Iterate over all tabs and set the custom view
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(adapter.getTabView(i));
-        }
         // Assign the icons to the tabs
         setupTabIcons();
     }
@@ -123,11 +117,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPagerIconsOnly(ViewPager viewPager) {
         // Does not pass any text to the addFrag method, so the icons do not have any text
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
-        vpa.addFrag(new BlankFragment(), "");
-        vpa.addFrag(new BlankFragment(), "");
-        vpa.addFrag(new BlankFragment(), "");
-        vpa.addFrag(new BlankFragment(), "");
-        vpa.addFrag(new BlankFragment(), "");
+        vpa.addFrag(new AnnouncementsFragment(), "");
+        vpa.addFrag(new AnnouncementsFragment(), "");
+        vpa.addFrag(new AnnouncementsFragment(), "");
+        vpa.addFrag(new AnnouncementsFragment(), "");
+        vpa.addFrag(new AnnouncementsFragment(), "");
         // vpa.addFrag(new OneFragment(), ""); // Announcements
         // vpa.addFrag(new TwoFragment(), ""); // Academics
         // vpa.addFrag(new ThreeFragment(), ""); // Wellness
@@ -172,12 +166,6 @@ public class MainActivity extends AppCompatActivity {
             mFragmentList.add(fragment);
             notifyDataSetChanged();
             mFragmentTitleList.add(title);
-        }
-
-        public View getTabView(int position) {
-            View tab = LayoutInflater.from(MainActivity.this).inflate(R.layout.custom_tab, null);
-            TextView tv = (TextView) tab.findViewById(R.id.custom_text);
-            return tab;
         }
 
         @Override
