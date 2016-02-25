@@ -67,16 +67,14 @@ public class AnnouncementsFragment extends Fragment {
 
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
         data.add(new Announcement("Test Announcement #1",
-                "Est pius nixus, cesaris. Lotus, audax fraticinidas sensim consumere de " +
-                    "bi-color, " + "superbus demissio. Ubi est albus stella?" + "\n",
+                "Chilled celery can be made melted by seasoning with white wine. " +
+                    "Turkey mousse has to have a delicious, sour pickles component." + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
         data.add(new Announcement("Test Announcement #2",
-                "Be embittered. When the body of beauty visualizes the mans of the follower, " +
-                "the grace will know explosion of the politics. " +
-                "Do and you will be viewed theosophically. The definition of your mans will sit " +
-                "cosmically when you emerge that extend is the yogi." + "\n",
-                    Integer.MIN_VALUE,
+                "Cook iced lettuces in a bottle with soy sauce for about an hour to increase their viscosity." +
+                    "Remember: scraped melon tastes best when peeled in a frying pan varnished with dill." + "\n",
+                        Integer.MIN_VALUE,
                             new Date()));
         data.add(new Announcement("Test Announcement #3",
                 "After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
@@ -86,21 +84,15 @@ public class AnnouncementsFragment extends Fragment {
                     Integer.MIN_VALUE,
                         new Date()));
         data.add(new Announcement("Test Announcement #4",
-                "Pants grow with grace at the undead pantano river! Sing swiftly like an " +
-                "old sailor. Amnesty, grace, and courage. Yo-ho-ho, yer not firing me " +
-                "without a faith!" + "\n",
-                    Integer.MIN_VALUE,
-                        new Date()));
+               "All children like pressed raspberries in peanut sauce and woodruff." +
+                    "Try draining paste rinseed with gold tequila, enameled with corn syrup."+ "\n",
+                        Integer.MIN_VALUE,
+                            new Date()));
         data.add(new Announcement("Test Announcement #5",
-                "Peace at the wormhole was the ionic cannon of starlight travel, deserved to a " +
-                "small creature. Courage at the saucer section that is when intelligent " +
-                "ferengis die." + "\n",
-                    Integer.MIN_VALUE,
-                        new Date()));
-        data.add(new Announcement("Test Announcement #6",
-                "This string is only one line!" + "\n",
-                    Integer.MIN_VALUE,
-                        new Date()));
+               "Mash peanut butter quickly, then mix with whiskey and serve thoroughly in pan." +
+                    "Mash margarine smoothly, then mix with kefir and serve fairly in bottle." + "\n",
+                        Integer.MIN_VALUE,
+                            new Date()));
 
         return true; // May eventually return false if unable to pull data from server
     }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- animate the translationZ property of a view when pressed -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_enabled="true"
+        android:state_pressed="true">
+        <set>
+            <!--
+            This animation will move the view up 6dp along the Z-axis.
+            This will be seen as the shadow expanding underneath the view.
+            We are using 6dp because, well, a lot of the tutorials said to do so
+            because the Google I/O 2014 application mentioned using 6dp in its documentation.
+            -->
+            <objectAnimator
+                android:duration="@android:integer/config_shortAnimTime"
+                android:propertyName="translationZ"
+                android:valueTo="6dp"
+                android:valueType="floatType"/>
+        </set>
+    </item>
+    <item>
+        <set>
+            <objectAnimator
+                android:duration="@android:integer/config_shortAnimTime"
+                android:propertyName="translationZ"
+                android:valueTo="0"
+                android:valueType="floatType"/>
+        </set>
+    </item>
+</selector>  
