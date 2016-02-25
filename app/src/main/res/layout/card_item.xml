@@ -15,14 +15,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true">
 
             <!-- RelativeLayout just for the icon and the date -->
             <RelativeLayout
                 android:id="@+id/icon_date_holder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp">
 
                 <!-- The icon -->
                 <ImageView
@@ -31,25 +32,36 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_wildcat_head" />
 
-                <!-- The data -->
+                <TextView
+                    android:id="@+id/card_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/card_view_icon"
+                    android:paddingLeft="5dp"
+                    android:textSize="20sp"/>
+
+                <!-- The date -->
                 <TextView
                     android:id="@+id/date_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
+                    android:textSize="12sp"
                     android:text="February 24, 2016"
                     android:autoText="false"
-                    android:layout_toRightOf="@id/card_view_icon"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp" />
             </RelativeLayout>
 
-            <!-- TextView for the actual announcement text to be displayed -->
+            <!-- TextView for the actual informational announcement text to be displayed -->
             <TextView
-                android:id="@+id/text_view"
+                android:id="@+id/info_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Placeholder Text!"
-                android:layout_below="@id/icon_date_holder">
+                android:layout_below="@+id/icon_date_holder">
             </TextView>
 
         </RelativeLayout>

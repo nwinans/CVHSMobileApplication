@@ -5,7 +5,7 @@
 
     <!--
     content_main.xml is to contain XML that describes the layout of the MAIN interface of the
-    application. This includes the ToolBar and the TabLayout and potentially future UI components.
+    application. This includes the toolbar, along with the TabLayout and potentially future UI components.
     -->
 
     <android.support.design.widget.AppBarLayout

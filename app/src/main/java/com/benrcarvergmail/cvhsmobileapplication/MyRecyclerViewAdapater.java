@@ -2,33 +2,39 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewAdapater.MyViewHolder> {
-    // private String[] mDataset; // Array to hold data. I am changing this to use a List.
-    private List<String> mDataset; // ArrayList implementation to hold data
+    private List<AnnouncementsFragment.Announcement> mDataset; // ArrayList implementation to hold data
+
+    private static final String TAG = "MyRecyclerViewAdapter";
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;
-        public TextView mTextView;
+        public TextView mInfoTextView;
+        public TextView mDateTextView;
+        public ImageView mCardViewIcon;
         public MyViewHolder(View v) {
-            super(v);
-            mCardView = (CardView) v.findViewById(R.id.card_view);
-            mTextView = (TextView) v.findViewById(R.id.text_view);
+            super(v); // Call the super() constructor
+            mCardView = (CardView) v.findViewById(R.id.card_view); // The CardView itself
+            mInfoTextView = (TextView) v.findViewById(R.id.info_text_view); // The actual text
+            mDateTextView = (TextView) v.findViewById(R.id.date_text_view); // The date
+            mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon); // The icon
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyRecyclerViewAdapater(List<String> myDataset) {
+    public MyRecyclerViewAdapater(List<AnnouncementsFragment.Announcement> myDataset) {
         mDataset = myDataset;
     }
 
@@ -41,6 +47,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
                 .inflate(R.layout.card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
         MyViewHolder vh = new MyViewHolder(v);
+
         return vh;
     }
 
@@ -51,8 +58,21 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
     and also sets up some private fields to be used by RecyclerView.
      */
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset.get(position));
-    }
+        // Get the proper Announcement's text and assign the
+        // informational TextView's text to the aforementioned text.
+        holder.mInfoTextView.setText(mDataset.get(position).getText());
+        // Get the proper Announcement's date and assign the
+        // date TextView's text to the aforementioned date.toString()
+        holder.mDateTextView.setText(mDataset.get(position).getAnnouncementDate().toString());
+        int imagePath = mDataset.get(position).getImageSource();
+        if(!(imagePath == Integer.MIN_VALUE)) {
+            // When Image support is fully implemented, we'd assign the Image a source.
+            // For now, however, nothing happens except we print that an Image was specified.
+
+            Log.i(TAG, "An image ID was specified for the Announcement "
+                    + mDataset.get(position).getTitle()); // We could use .toString() instead of .getTitle()
+        }
+}
 
     @Override
     // Returns number of elements in the mDataset List
