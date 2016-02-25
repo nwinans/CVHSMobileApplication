@@ -33,10 +33,11 @@
                     android:src="@drawable/ic_wildcat_head" />
 
                 <TextView
-                    android:id="@+id/card_title"
+                    android:id="@+id/title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@id/card_view_icon"
+                    android:text="Announcement"
                     android:paddingLeft="5dp"
                     android:textSize="20sp"/>
 
@@ -66,5 +67,4 @@
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
 </RelativeLayout>

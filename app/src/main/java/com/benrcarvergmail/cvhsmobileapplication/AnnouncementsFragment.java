@@ -66,29 +66,41 @@ public class AnnouncementsFragment extends Fragment {
         // things up of the String is only one line though, so we'll see what happens.
 
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
-        data.add(new Announcement("Est pius nixus, cesaris. Lotus, audax fraticinidas sensim consumere de " +
-                "bi-color, " + "superbus demissio. Ubi est albus stella?" + "\n",
-                        new Date()));
-        data.add(new Announcement("Be embittered. When the body of beauty visualizes the mans of the follower, " +
+        data.add(new Announcement("Test Announcement #1",
+                "Est pius nixus, cesaris. Lotus, audax fraticinidas sensim consumere de " +
+                    "bi-color, " + "superbus demissio. Ubi est albus stella?" + "\n",
+                        Integer.MIN_VALUE,
+                            new Date()));
+        data.add(new Announcement("Test Announcement #2",
+                "Be embittered. When the body of beauty visualizes the mans of the follower, " +
                 "the grace will know explosion of the politics. " +
                 "Do and you will be viewed theosophically. The definition of your mans will sit " +
                 "cosmically when you emerge that extend is the yogi." + "\n",
+                    Integer.MIN_VALUE,
                             new Date()));
-        data.add(new Announcement("After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
+        data.add(new Announcement("Test Announcement #3",
+                "After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
                 "with it in a plastic bag. Toast two chocolates, rice, and marmalade in a large " +
                 "frying pan over medium heat, cook for a dozen minutes and soak with some " +
                 "zucchini."+ "\n",
+                    Integer.MIN_VALUE,
                         new Date()));
-        data.add(new Announcement("Pants grow with grace at the undead pantano river! Sing swiftly like an " +
+        data.add(new Announcement("Test Announcement #4",
+                "Pants grow with grace at the undead pantano river! Sing swiftly like an " +
                 "old sailor. Amnesty, grace, and courage. Yo-ho-ho, yer not firing me " +
                 "without a faith!" + "\n",
-                        new Date())); // Pirate Lingo
-        data.add(new Announcement("Peace at the wormhole was the ionic cannon of starlight travel, deserved to a " +
+                    Integer.MIN_VALUE,
+                        new Date()));
+        data.add(new Announcement("Test Announcement #5",
+                "Peace at the wormhole was the ionic cannon of starlight travel, deserved to a " +
                 "small creature. Courage at the saucer section that is when intelligent " +
                 "ferengis die." + "\n",
-                        new Date())); // Science Fiction
-        data.add(new Announcement("This string is only one line!" + "\n",
-                        new Date())); // 1-Line test
+                    Integer.MIN_VALUE,
+                        new Date()));
+        data.add(new Announcement("Test Announcement #6",
+                "This string is only one line!" + "\n",
+                    Integer.MIN_VALUE,
+                        new Date()));
 
         return true; // May eventually return false if unable to pull data from server
     }
@@ -98,13 +110,50 @@ public class AnnouncementsFragment extends Fragment {
      * Announcement class to store all data pertaining to what might be
      * displayed or associated with any given announcement. This implementation
      * is subject to change at any point, as a better methodology may be discovered.
+     *
+     * There are a lot of possible future features to announcements. The possibilities
+     * include: customisable icon, Announcement type (club, sports, general, weather, etc.),
+     * Announcement caster (dedicated field pertaining to whom the announcement is from), etc.
      */
     class Announcement {
 
-        private String text;            // The announcement's textual information
         private String title;           // The announcement's title
+        private String text;            // The announcement's textual information
         private int imageSource;        // In the format R.id.XYZ
         private Date announcementDate;  // The date the announcement was posted.
+
+        /**
+         * Instantiates a new Announcement with a title, text, an image, and a date.
+         *
+         * @param title  the announcement's title
+         * @param text   the text-based information for the Announcement
+         * @param source the source for the (optional) image in the format R.id.XYZ
+         * @param date   the date of the announcement
+         */
+
+        public Announcement(String title, String text, int source, Date date) {
+            this.title = title;
+            this.text = text;
+            imageSource = source;
+            announcementDate = date;
+        }
+
+        /**
+         * Instantiates a new Announcement with a title, text, and a date.
+         * This also will assign imageSource to Integer.MIN_VALUE so it will
+         * be something that we can check for and that won't be used automatically by accident.
+         *
+         * @param title  the announcement's title
+         * @param text   the text-based information for the Announcement
+         * @param date   the date of the announcement
+         */
+
+        public Announcement(String title, String text, Date date) {
+            this.title = title;
+            this.text = text;
+            imageSource = Integer.MIN_VALUE;
+            announcementDate = date;
+        }
 
         /**
          * Instantiates a new Announcement with text, an image, and a date.

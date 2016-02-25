@@ -23,11 +23,13 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         public CardView mCardView;
         public TextView mInfoTextView;
         public TextView mDateTextView;
+        public TextView mTitleTextView;
         public ImageView mCardViewIcon;
         public MyViewHolder(View v) {
             super(v); // Call the super() constructor
             mCardView = (CardView) v.findViewById(R.id.card_view); // The CardView itself
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view); // The actual text
+            mTitleTextView = (TextView) v.findViewById(R.id.title_text_view); // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view); // The date
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon); // The icon
         }
@@ -64,11 +66,13 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         // Get the proper Announcement's date and assign the
         // date TextView's text to the aforementioned date.toString()
         holder.mDateTextView.setText(mDataset.get(position).getAnnouncementDate().toString());
+        // Get the proper Announcement's title and assign the
+        // title TextView's text to the aforementioned title.
+        holder.mTitleTextView.setText(mDataset.get(position).getTitle());
         int imagePath = mDataset.get(position).getImageSource();
         if(!(imagePath == Integer.MIN_VALUE)) {
             // When Image support is fully implemented, we'd assign the Image a source.
             // For now, however, nothing happens except we print that an Image was specified.
-
             Log.i(TAG, "An image ID was specified for the Announcement "
                     + mDataset.get(position).getTitle()); // We could use .toString() instead of .getTitle()
         }
