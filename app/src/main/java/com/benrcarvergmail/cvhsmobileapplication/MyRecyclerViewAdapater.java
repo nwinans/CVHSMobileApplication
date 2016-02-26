@@ -39,6 +39,9 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon); // The icon
             view = v;
 
+            /**
+             * This doesn't work as intended! It like... animates the parts around the cards...
+             */
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
