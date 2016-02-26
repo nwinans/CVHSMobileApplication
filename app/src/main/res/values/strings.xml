@@ -1,16 +1,10 @@
 <resources>
-    <string name="app_name">CVHS Mobile Application</string>
-    <string name="toolbar_title">CVHS Application</string>
+    <string name="app_name">Wildcat Mobile</string>
+    <string name="toolbar_title">Wildcat Mobile</string>
     <string name="action_settings">Settings</string>
     <string name="one">Announcements</string>
     <string name="two">Academics</string>
     <string name="three">Wellness</string>
     <string name="four">Extracurricular</string>
     <string name="five">Settings</string>
-
-    <string name="tabOneTemp">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Aenean fermentum sodales nibh sit amet eleifend. Suspendisse sit amet ligula dui.
-                            Etiam porta lorem scelerisque risus vehicula posuere. Vestibulum convallis elit vel lectus pulvinar blandit.
-                            Duis in leo in diam suscipit feugiat aliquet eget arcu. Etiam nisi sapien, consequat quis enim ut, condimentum sodales enim.
-                            Vestibulum nec neque at nibh dapibus tempus.</string>
 </resources>

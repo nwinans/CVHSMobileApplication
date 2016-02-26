@@ -1,7 +1,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:theme="@style/MyMaterialTheme">
 
     <!--
     content_main.xml is to contain XML that describes the layout of the MAIN interface of the
@@ -23,6 +25,7 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+            <!-- Displays the title of the application -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,9 +33,28 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="#FFFFFF"
+                android:paddingRight="25dp"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title"
-                android:paddingLeft="10dp" />
+                android:id="@+id/toolbar_title"/>
+
+            <!--
+            The button that displays what day (A or B) and plus it is.
+            Clicking on the button should bring up a calender with all the
+            days and plus periods listed (by month).
+            -->
+            <Button
+                android:id="@+id/plus_period_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textColor="#000000"
+                android:background="@color/colorPlusButton"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="A+1"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@anim/lift_on_touch"
+                style="?android:attr/borderlessButtonStyle"/>
 
         </android.support.v7.widget.Toolbar>
 

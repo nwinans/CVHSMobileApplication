@@ -1,6 +1,5 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,12 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
         viewPager.setAdapter(adapter);
-        setupViewPagerIconsOnly(viewPager);
+        setupViewPager(viewPager);
         // Instantiate the TabLayout object
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
@@ -104,10 +99,7 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -115,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
     // We want five tabs, so we add five Fragments.
     // A Fragment is a piece of an application's user interface
     // or behavior that can be placed in an Activity
-    // This method only gives tabs icons. It does not give them text.
-    private void setupViewPagerIconsOnly(ViewPager viewPager) {
-        // Does not pass any text to the addFrag method, so the icons do not have any text
+    private void setupViewPager(ViewPager viewPager) {
+        // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), "");
         vpa.addFrag(new AnnouncementsFragment(), "");
@@ -150,15 +141,15 @@ public class MainActivity extends AppCompatActivity {
             this.context = context;
         }
 
-        @Override
         // Returns the position of a given fragment in the fragmentList (would
         // effectively return which tab was currently the active tab)
+        @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
 
-        @Override
         // Returns the number of Fragments (equivalent to the number of tabs)
+        @Override
         public int getCount() {
             return mFragmentList.size();
         }
@@ -170,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             mFragmentTitleList.add(title);
         }
 
-        @Override
         // Returns the title of the current Fragment.
+        @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }

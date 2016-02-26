@@ -25,6 +25,11 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         public TextView mDateTextView;
         public TextView mTitleTextView;
         public ImageView mCardViewIcon;
+
+        private int originalHeight = 0;
+        private boolean isExpanded = false;
+        private View view;
+
         public MyViewHolder(View v) {
             super(v); // Call the super() constructor
             mCardView = (CardView) v.findViewById(R.id.card_view); // The CardView itself
@@ -32,6 +37,15 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view); // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view); // The date
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon); // The icon
+            view = v;
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "onClick() called!");
+                    v.animate().translationY(150);
+                }
+            });
         }
     }
 
