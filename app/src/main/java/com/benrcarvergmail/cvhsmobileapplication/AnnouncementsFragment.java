@@ -60,15 +60,28 @@ public class AnnouncementsFragment extends Fragment {
         return rootView;
     }
 
-    // This will populate the data ArrayList with the data we want to display. This may
-    // eventually get more complicated (if we require lots of different data other than
-    // text to be shown. Additionally, this will eventually grab the information from a server.
-    private boolean populateData() {
-        // This text was generated with an Android Studio plugin known as Insert Dummy Text. That
-        // fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
-        // add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
-        // things up of the String is only one line though, so we'll see what happens.
 
+    /* This will populate the data ArrayList with the data we want to display. This may
+     eventually get more complicated (if we require lots of different data other than
+     text to be shown. Additionally, this will eventually grab the information from a server.
+     */
+    private boolean populateData() {
+        /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
+         fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
+         add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
+         things up of the String is only one line though, so we'll see what happens.
+         */
+
+        /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
+         This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
+         a lot. That means that every single time populateData is called, all of this the data below
+         is re-added to the data ArrayList. If I neglect to clear the ArrayList (I ensure that it isn't
+         null to avoid a NullPointerException), there will be duplicated data in the ArrayList. Android
+         obviously doesn't know any better than to create extra Cards out of this duplicated data, resulting
+         in lots and lots of cards with the exact same data. Clearing the ArrayList each time the populateData()
+         method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
+         is beyond me at the moment, but this works currently and I'm fine with that.
+         */
         if (data != null) {
             data.clear();
         }
@@ -76,12 +89,12 @@ public class AnnouncementsFragment extends Fragment {
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
         data.add(new Announcement("Test Announcement #1",
                 "Chilled celery can be made melted by seasoning with white wine. " +
-                    "Turkey mousse has to have a delicious, sour pickles component." + "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
+                        "Turkey mousse has to have a delicious, sour pickles component." + "\n",
+                Integer.MIN_VALUE,
+                new Date()));
         data.add(new Announcement("Test Announcement #2",
                 "Cook iced lettuces in a bottle with soy sauce for about an hour to increase their viscosity." +
-                    "Remember: scraped melon tastes best when peeled in a frying pan varnished with dill." + "\n",
+                        "Remember: scraped melon tastes best when peeled in a frying pan varnished with dill." + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
         data.add(new Announcement("Test Announcement #3",
@@ -93,12 +106,12 @@ public class AnnouncementsFragment extends Fragment {
                         new Date()));
         data.add(new Announcement("Test Announcement #4",
                "All children like pressed raspberries in peanut sauce and woodruff." +
-                    "Try draining paste rinseed with gold tequila, enameled with corn syrup."+ "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
+                       "Try draining paste rinseed with gold tequila, enameled with corn syrup." + "\n",
+                Integer.MIN_VALUE,
+                new Date()));
         data.add(new Announcement("Test Announcement #5",
-               "Mash peanut butter quickly, then mix with whiskey and serve thoroughly in pan." +
-                    "Mash margarine smoothly, then mix with kefir and serve fairly in bottle." + "\n",
+                "Mash peanut butter quickly, then mix with whiskey and serve thoroughly in pan." +
+                        "Mash margarine smoothly, then mix with kefir and serve fairly in bottle." + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
 
