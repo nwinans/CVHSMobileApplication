@@ -15,7 +15,7 @@
             android:id="@+id/announcements_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Announcements"
+            android:text="@string/announcements_tab"
             android:textSize="36sp"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>

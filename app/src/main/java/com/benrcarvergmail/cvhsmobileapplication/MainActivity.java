@@ -110,17 +110,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
-        vpa.addFrag(new AnnouncementsFragment(), "");
-        vpa.addFrag(new AnnouncementsFragment(), "");
-        vpa.addFrag(new AnnouncementsFragment(), "");
-        vpa.addFrag(new AnnouncementsFragment(), "");
-        vpa.addFrag(new AnnouncementsFragment(), "");
-        // vpa.addFrag(new OneFragment(), ""); // Announcements
-        // vpa.addFrag(new TwoFragment(), ""); // Academics
-        // vpa.addFrag(new ThreeFragment(), ""); // Wellness
-        // vpa.addFrag(new FourFragment(), ""); // Extracurricular
-        // vpa.addFrag(new FiveFragment(), ""); // Settings
-
+        vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
+        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new BasicFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that

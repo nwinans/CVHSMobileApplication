@@ -2,9 +2,10 @@
     <string name="app_name">Wildcat Mobile</string>
     <string name="toolbar_title">Wildcat Mobile</string>
     <string name="action_settings">Settings</string>
-    <string name="one">Announcements</string>
-    <string name="two">Academics</string>
-    <string name="three">Wellness</string>
-    <string name="four">Extracurricular</string>
-    <string name="five">Settings</string>
+    <string name="intro_text_view_temp">Intro Text View Temp...</string>
+    <string name="announcements_tab">Announcements</string>
+    <string name="academics_tab">Academics</string>
+    <string name="wellness_tab">Wellness</string>
+    <string name="extracurricular_tab">Extracurricular</string>
+    <string name="ssettings_tab">Settings</string>
 </resources>

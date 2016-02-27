@@ -20,42 +20,83 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public CardView mCardView;
-        public TextView mInfoTextView;
-        public TextView mDateTextView;
-        public TextView mTitleTextView;
-        public ImageView mCardViewIcon;
+        public CardView mCardView;          // The CardView itself
+        public TextView mInfoTextView;      // The announcement's text
+        public TextView mIntroTextView;     // The announcement's intro text
+        public TextView mDateTextView;      // The announcement's date
+        public TextView mTitleTextView;     // The announcement's title
+        public ImageView mCardViewIcon;     // The announcement's icon
 
-        private int originalHeight = 0;
         private boolean isExpanded = false;
-        private View view;
 
         // References to all of the elements of the CardView
         public MyViewHolder(View v) {
             super(v); // Call the super() constructor
-            mCardView = (CardView) v.findViewById(R.id.card_view); // The CardView itself
-            mInfoTextView = (TextView) v.findViewById(R.id.info_text_view); // The actual text
-            mTitleTextView = (TextView) v.findViewById(R.id.title_text_view); // The title
-            mDateTextView = (TextView) v.findViewById(R.id.date_text_view); // The date
-            mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon); // The icon
-            view = v;
+            mCardView = (CardView) v.findViewById(R.id.card_view);                  // The CardView
+            mIntroTextView = (TextView) v.findViewById(R.id.intro_text_view);       // The intro text
+            mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
+            mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
+            mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
+            mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
 
-            /**
-             * This doesn't work as intended! It like... animates the parts around the cards...
-             */
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "onClick() called!");
-                    v.animate().translationY(150);
+
+                    // If it is already expanded, collapse it. Otherwise, expand it.
+                    if (isExpanded) {
+                        // Collapses the CardView and sets isExpanded to false
+                        Log.i(TAG, "isExpanded: " + isExpanded);
+                        isExpanded = collapse(v); // returns false
+                    } else {
+                        // Expands the CardView and sets isExpanded to true
+                        Log.i(TAG, "isExpanded: " + isExpanded);
+                        isExpanded = expand(v); // returns True
+                    }
                 }
             });
+        }
+
+        // Expand the CardView
+        private boolean expand(View cardView) {
+            // Make the intro text invisible and make the full text visible
+            mIntroTextView.setVisibility(View.GONE);
+            mInfoTextView.setVisibility(View.VISIBLE);
+            return true;
+        }
+
+        // Collapse the CardView
+        private boolean collapse(View cardView) {
+            // Make the intro text visible and make the full text invisible
+            mInfoTextView.setVisibility(View.GONE);
+            mIntroTextView.setVisibility(View.VISIBLE);
+            return false;
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyRecyclerViewAdapater(List<AnnouncementsFragment.Announcement> myDataset) {
         mDataset = myDataset;
+        setHasStableIds(true);
+    }
+
+    // Sets a new Dataset to be our Dataset of Announcements
+    public void updateList(List<AnnouncementsFragment.Announcement> newData) {
+        mDataset = newData;
+        notifyDataSetChanged();
+    }
+
+    // Add an Announcement to our Dataset
+    public void addItem(int position, AnnouncementsFragment.Announcement newAnnouncement) {
+        mDataset.add(position, newAnnouncement);
+        notifyItemInserted(position);
+    }
+
+    // Remove an Announcement from our Dataset
+    public void removeItem(int position) {
+        mDataset.remove(position);
+        notifyItemRemoved(position);
     }
 
     // Create new views (invoked by the layout manager)
@@ -78,23 +119,47 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
     and also sets up some private fields to be used by RecyclerView.
      */
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // Get the proper Announcement's text and assign the
-        // informational TextView's text to the aforementioned text.
+
+        /* Get the proper Announcement's intro text (generate it, it isn't already generated
+        upon or during instantiation) and assign it to the appropriate TextView. */
+        holder.mIntroTextView.setText(mDataset.get(position).generateIntro());
+
+        /* Get the proper Announcement's text and assign the
+        informational TextView's text to a shortened version of the
+        text. The full text will be displayed upon expansion of the CardView. */
         holder.mInfoTextView.setText(mDataset.get(position).getText());
-        // Get the proper Announcement's date and assign the
-        // date TextView's text to the aforementioned date.toString()
+
+        /* Get the proper Announcement's date and assign the
+        date TextView's text to the aforementioned date.toString() */
         holder.mDateTextView.setText(mDataset.get(position).getAnnouncementDate().toString());
-        // Get the proper Announcement's title and assign the
-        // title TextView's text to the aforementioned title.
+
+        /* Get the proper Announcement's title and assign the
+        title TextView's text to the aforementioned title. */
         holder.mTitleTextView.setText(mDataset.get(position).getTitle());
+
+        // Ensure that only the intro text is visible at first
+        holder.mInfoTextView.setVisibility(View.GONE);
+        holder.mIntroTextView.setVisibility(View.VISIBLE);
+
         int imagePath = mDataset.get(position).getImageSource();
         if(!(imagePath == Integer.MIN_VALUE)) {
-            // When Image support is fully implemented, we'd assign the Image a source.
-            // For now, however, nothing happens except we print that an Image was specified.
+            /* When Image support is fully implemented, we'd assign the Image a source.
+            For now, however, nothing happens except we print that an Image was specified. */
             Log.i(TAG, "An image ID was specified for the Announcement "
                     + mDataset.get(position).getTitle()); // We could use .toString() instead of .getTitle()
         }
+
+        Log.i(TAG, "onBindViewHolder() called");
 }
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
     // Returns number of elements in the mDataset List

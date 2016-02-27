@@ -2,8 +2,10 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;;
@@ -17,6 +19,8 @@ import java.util.Date;
 public class AnnouncementsFragment extends Fragment {
 
     private ArrayList<Announcement> data;
+
+    private static final String TAG = "AnnouncementsFragment";
 
     /**
      * Instantiates a new Announcements fragment.
@@ -318,6 +322,31 @@ public class AnnouncementsFragment extends Fragment {
         @Override
         public String toString() {
             return "Announcement: " + title + ", " + text + ", " + announcementDate.toString() + ", " + imageSource;
+        }
+
+        /**
+         * This method creates a substring from the announcement's text to be used as a intro of
+         * sorts. Basically, this generated String can be used to display on each CardView when
+         * the CardView isn't expanded. Upon expansion, the CardView will display the full text
+         * of the announcement.
+         *
+         * @return a substring of the announcement
+         */
+        public String generateIntro() {
+            Log.i(TAG, "generateIntro() called!");
+            if (text.length() == 0) {
+                return "...";
+            } else {
+                // Ensure that the text is long to generate an 80-character substring
+                if (text.length() >= 80) {
+                    String toReturn = text.substring(0, 80) + "...";
+                    // Log.i(TAG, "Returning: " + toReturn + "\n for String: " + text);
+                    return toReturn;
+                } else {
+                    // Log.i(TAG, "Returning full String for String: \n" + text);
+                    return text; // The text is already short enough.
+                }
+            }
         }
     }
 }
