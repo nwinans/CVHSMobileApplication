@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewAdapater.MyViewHolder> {
+public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private List<AnnouncementsFragment.Announcement> mDataset; // ArrayList implementation to hold data
 
     private static final String TAG = "MyRecyclerViewAdapter";
@@ -25,6 +25,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         public TextView mIntroTextView;     // The announcement's intro text
         public TextView mDateTextView;      // The announcement's date
         public TextView mTitleTextView;     // The announcement's title
+        public TextView mDotsTextView;      // The ellipses for the intro text
         public ImageView mCardViewIcon;     // The announcement's icon
 
         private boolean isExpanded = false;
@@ -37,6 +38,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
+            mDotsTextView = (TextView) v.findViewById(R.id.text_view_dots);         // The ellipses
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
 
             v.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +64,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         private boolean expand(View cardView) {
             // Make the intro text invisible and make the full text visible
             mIntroTextView.setVisibility(View.GONE);
+            mDotsTextView.setVisibility(View.GONE);
             mInfoTextView.setVisibility(View.VISIBLE);
             return true;
         }
@@ -71,12 +74,14 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
             // Make the intro text visible and make the full text invisible
             mInfoTextView.setVisibility(View.GONE);
             mIntroTextView.setVisibility(View.VISIBLE);
+            mDotsTextView.setVisibility(View.VISIBLE);
+
             return false;
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyRecyclerViewAdapater(List<AnnouncementsFragment.Announcement> myDataset) {
+    public MyRecyclerViewAdapter(List<AnnouncementsFragment.Announcement> myDataset) {
         mDataset = myDataset;
         setHasStableIds(true);
     }
@@ -101,7 +106,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyRecyclerViewAdapater.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public MyRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -140,6 +145,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         // Ensure that only the intro text is visible at first
         holder.mInfoTextView.setVisibility(View.GONE);
         holder.mIntroTextView.setVisibility(View.VISIBLE);
+        holder.mDotsTextView.setVisibility(View.VISIBLE);
 
         int imagePath = mDataset.get(position).getImageSource();
         if(!(imagePath == Integer.MIN_VALUE)) {

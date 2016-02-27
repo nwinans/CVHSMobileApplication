@@ -80,10 +80,25 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/card_header_layout"
             android:text="@string/intro_text_view_temp"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:visibility="visible">
+        </TextView>
+
+        <TextView
+            android:id="@+id/text_view_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_header_layout"
+            android:layout_toEndOf="@id/intro_text_view"
+            android:layout_toRightOf="@id/intro_text_view"
+            android:textSize="36sp"
+            android:text="@string/ellipses"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="visible"
+            android:background="#671212">
         </TextView>
 
         <TextView

@@ -2,7 +2,6 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,7 +47,7 @@ public class AnnouncementsFragment extends Fragment {
         // Populate the data ArrayList. We currently do not utilize the boolean return type
         populateData();
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
-        MyRecyclerViewAdapater adapter = new MyRecyclerViewAdapater(data);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(data);
         // Set the RecyclerView's adapater to the one we just created
         rv.setAdapter(adapter);
 
@@ -79,7 +78,7 @@ public class AnnouncementsFragment extends Fragment {
          null to avoid a NullPointerException), there will be duplicated data in the ArrayList. Android
          obviously doesn't know any better than to create extra Cards out of this duplicated data, resulting
          in lots and lots of cards with the exact same data. Clearing the ArrayList each time the populateData()
-         method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
+         method is called ensures that there aren't any duplicates. Whether or not tghere's a better way to do this
          is beyond me at the moment, but this works currently and I'm fine with that.
          */
         if (data != null) {
@@ -356,11 +355,8 @@ public class AnnouncementsFragment extends Fragment {
             } else {
                 // Ensure that the text is long to generate an 80-character substring
                 if (text.length() >= 80) {
-                    String toReturn = text.substring(0, 80) + "...";
-                    // Log.i(TAG, "Returning: " + toReturn + "\n for String: " + text);
-                    return toReturn;
+                    return text.substring(0, 80);
                 } else {
-                    // Log.i(TAG, "Returning full String for String: \n" + text);
                     return text; // The text is already short enough.
                 }
             }
