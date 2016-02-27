@@ -30,6 +30,7 @@ public class MyRecyclerViewAdapater extends RecyclerView.Adapter<MyRecyclerViewA
         private boolean isExpanded = false;
         private View view;
 
+        // References to all of the elements of the CardView
         public MyViewHolder(View v) {
             super(v); // Call the super() constructor
             mCardView = (CardView) v.findViewById(R.id.card_view); // The CardView itself
