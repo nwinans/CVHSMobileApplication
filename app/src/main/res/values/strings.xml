@@ -8,5 +8,6 @@
     <string name="wellness_tab">Wellness</string>
     <string name="extracurricular_tab">Extracurricular</string>
     <string name="ssettings_tab">Settings</string>
-    <string name="ellipses">...</string>
+    <string name="more">More</string>
+    <string name="less">Less</string>
 </resources>

@@ -355,7 +355,7 @@ public class AnnouncementsFragment extends Fragment {
             } else {
                 // Ensure that the text is long to generate an 80-character substring
                 if (text.length() >= 80) {
-                    return text.substring(0, 80);
+                    return text.substring(0, 80) + "...";
                 } else {
                     return text; // The text is already short enough.
                 }

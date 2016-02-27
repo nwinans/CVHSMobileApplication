@@ -17,11 +17,12 @@
 
     <RelativeLayout
         android:id="@+id/card_data_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
-        android:paddingBottom="15dp">
+        android:paddingBottom="5dp"
+        android:focusable="false">
 
         <!-- RelativeLayout just for the icon, title, and the date -->
         <RelativeLayout
@@ -86,20 +87,14 @@
             android:visibility="visible">
         </TextView>
 
-        <TextView
-            android:id="@+id/text_view_dots"
+        <ImageView
+            android:id="@+id/image_view_expand_collapse_indictaor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_header_layout"
-            android:layout_toEndOf="@id/intro_text_view"
-            android:layout_toRightOf="@id/intro_text_view"
-            android:textSize="36sp"
-            android:text="@string/ellipses"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:visibility="visible"
-            android:background="#671212">
-        </TextView>
+            android:src="@drawable/ic_chevron_down_black_36dp"
+            android:layout_below="@id/intro_text_view"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="false" />
 
         <TextView
             android:id="@+id/info_text_view"
