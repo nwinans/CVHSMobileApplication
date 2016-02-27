@@ -69,6 +69,10 @@ public class AnnouncementsFragment extends Fragment {
         // add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
         // things up of the String is only one line though, so we'll see what happens.
 
+        if (data != null) {
+            data.clear();
+        }
+
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
         data.add(new Announcement("Test Announcement #1",
                 "Chilled celery can be made melted by seasoning with white wine. " +
