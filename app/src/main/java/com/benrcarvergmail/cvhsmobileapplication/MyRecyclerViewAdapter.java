@@ -20,13 +20,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public CardView mCardView;          // The CardView itself
-        public TextView mInfoTextView;      // The announcement's text
-        public TextView mIntroTextView;     // The announcement's intro text
-        public TextView mDateTextView;      // The announcement's date
-        public TextView mTitleTextView;     // The announcement's title
-        public ImageView mExpandableIndicator;      // The indicator for expanding/collapsing
-        public ImageView mCardViewIcon;     // The announcement's icon
+        public CardView mCardView;                  // The CardView itself
+        public TextView mInfoTextView;              // The announcement's text
+        public TextView mIntroTextView;             // The announcement's intro text
+        public TextView mDateTextView;              // The announcement's date
+        public TextView mTitleTextView;             // The announcement's title
+        public ImageView mExpandableIndicator;      // The indicator for expanding
+        public ImageView mCollapseIndicator;       // The indicator for collapsing
+        public ImageView mCardViewIcon;             // The announcement's icon
 
         private boolean isExpanded = false;
 
@@ -38,7 +39,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
-            mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_collapse_indictaor);         // The ellipses
+            mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_indictaor);
+            mCollapseIndicator = (ImageView) v.findViewById(R.id.image_view_collapse_indictaor);
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
 
             v.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +66,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         private boolean expand(View cardView) {
             // Make the intro text invisible and make the full text visible
             mIntroTextView.setVisibility(View.GONE);
+            mExpandableIndicator.setVisibility(View.GONE);
+            mCollapseIndicator.setVisibility(View.VISIBLE);
             mInfoTextView.setVisibility(View.VISIBLE);
-            mExpandableIndicator.setImageResource(R.drawable.ic_chevron_up_black_36dp);
             return true;
         }
 
@@ -73,8 +76,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         private boolean collapse(View cardView) {
             // Make the intro text visible and make the full text invisible
             mInfoTextView.setVisibility(View.GONE);
+            mCollapseIndicator.setVisibility(View.GONE);
+            mExpandableIndicator.setVisibility(View.VISIBLE);
             mIntroTextView.setVisibility(View.VISIBLE);
-            mExpandableIndicator.setImageResource(R.drawable.ic_chevron_down_black_36dp);
             return false;
         }
     }
