@@ -43,13 +43,17 @@ public class BluetoothActivity extends AppCompatActivity {
         } else {
             // If the adapter isn't enabled...
             if (!btAdapater.isEnabled()) {
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(intent, 1); // Check if the intent worked (returned true)
+                turnOnBluetooth();
             }
 
             // Get the paired devices
             getPairedDevices();
         }
+    }
+
+    private void turnOnBluetooth() {
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(intent, 1); // Check if the intent worked (returned true)
     }
 
     private void getPairedDevices() {
@@ -93,8 +97,11 @@ public class BluetoothActivity extends AppCompatActivity {
                     // Run some code...
                 }
 
+                // This effectively checks if Bluetooth was turned off or something of that nature.
                 else if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
-                    // Run some code...
+                    if (btAdapater.getState() == btAdapater.STATE_OFF) {
+                        turnOnBluetooth();
+                    }
                 }
             }
         };
@@ -114,6 +121,14 @@ public class BluetoothActivity extends AppCompatActivity {
 
         IntentFilter filterStateChanged = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(receiver, filterStateChanged);
+    }
+
+    @Override
+    protected void onPause() {
+        // You must unregister the receiver if the acitivity pauses,
+        // otherwise the application will crash.
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     @Override
