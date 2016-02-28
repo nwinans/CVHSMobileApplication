@@ -87,32 +87,44 @@ public class AnnouncementsFragment extends Fragment {
 
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
         data.add(new Announcement("Test Announcement #1",
-                "Chilled celery can be made melted by seasoning with white wine. " +
-                        "Turkey mousse has to have a delicious, sour pickles component." + "\n",
+                "Now. Slice beautifully. Good. The chicken is raw. It's fucking raw! Fuck! Fuck!" +
+                    "Fuck! Fuck! I like to swear a lot on TV because it gets me views!" + "\n",
                 Integer.MIN_VALUE,
                 new Date()));
         data.add(new Announcement("Test Announcement #2",
-                "Cook iced lettuces in a bottle with soy sauce for about an hour to increase their viscosity." +
-                        "Remember: scraped melon tastes best when peeled in a frying pan varnished with dill." + "\n",
+                "Computer Science rules! Go CVHS Robotics! I like dogs! Mountain Dew is the best soda!" +
+                        "Remember: scraped melon tastes best when peeled in a frying pan varnished with dog meat." + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
         data.add(new Announcement("Test Announcement #3",
                 "After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
-                "with it in a plastic bag. Toast two chocolates, rice, and marmalade in a large " +
+                "in a plastic bag, toast two chocolates, rice, and marmalade in a large " +
                 "frying pan over medium heat, cook for a dozen minutes and soak with some " +
-                "zucchini."+ "\n",
+                "memes that are dank."+ "\n",
                     Integer.MIN_VALUE,
                         new Date()));
         data.add(new Announcement("Test Announcement #4",
-               "All children like pressed raspberries in peanut sauce and woodruff." +
-                       "Try draining paste rinseed with gold tequila, enameled with corn syrup." + "\n",
+               "All children like pressed raspberries in peanut sauce and socialism." +
+                    "Try draining anti-capitalist memes with gold tequila, enameled with corn syrup." +
+                        "My opponent is taking donations from overpaid CEOs, biased media insiders and Rupert Murdoch yes-men." +
+                            "Unlike myself, my opponent wants an America where highly-paid lobbyists and overseas manufacturers can undermine our American workforce." + "\n",
                 Integer.MIN_VALUE,
                 new Date()));
         data.add(new Announcement("Test Announcement #5",
-                "Mash peanut butter quickly, then mix with whiskey and serve thoroughly in pan." +
-                        "Mash margarine smoothly, then mix with kefir and serve fairly in bottle." + "\n",
+                "I will work for an America where Mexican drug mules and oil cartels can't corrupt our love for Jesus." +
+                    "I refuse to support an America where al-Qaeda insurgents and Hollywood liberals can take away our Christian values." +
+                        "Unlike my opponent, I believe in our innocent children, our job creators and our iPhones." +
+                            "Know this: that I will protect our love for the Bible, our McMansions and our heroes of 9/11." +
+                                "My opponent is conspiring with terrorists, communists and angry chefs." + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
+
+        // Because I am too lazy to add this into each constructor...
+        data.get(0).setAuthor("Gordon Ramsay");
+        data.get(1).setAuthor("Oliver Small");
+        data.get(2).setAuthor("Ozodbek Kurbonov");
+        data.get(3).setAuthor("Bernie Sanders #EnoughIsEnough");
+        data.get(4).setAuthor("The One, the Only: Donald Trump");
 
         return true; // May eventually return false if unable to pull data from server
     }
@@ -131,8 +143,30 @@ public class AnnouncementsFragment extends Fragment {
 
         private String title;           // The announcement's title
         private String text;            // The announcement's textual information
+        private String author;          // The announcement's author/poster
+        private int iconSource;         // The source for the announcement's icon in format R.id.XYZ
         private int imageSource;        // In the format R.id.XYZ
         private Date announcementDate;  // The date the announcement was posted.
+
+        /**
+         * Full (or almost full if more fields are added and I forget to change this comment) constructor
+         * for an announcement
+         *
+         * @param title the announcement's title
+         * @param text the body informational text of the announcement
+         * @param author the author/poster of the announcement
+         * @param iconSource source for the announcement's icon's source in the format R.id.XYZ
+         * @param imageSource source for the announcement's image's source in the format R.id.XYZ
+         * @param announcementDate date for the announcement in the form of a import java.util.Date object
+         */
+        public Announcement(String title, String text, String author, int iconSource, int imageSource, Date announcementDate) {
+            this.title = title;
+            this.text = text;
+            this.author = author;
+            this.iconSource = iconSource;
+            this.imageSource = imageSource;
+            this.announcementDate = announcementDate;
+        }
 
         /**
          * Instantiates a new Announcement with a title, text, an image, and a date.
@@ -299,6 +333,24 @@ public class AnnouncementsFragment extends Fragment {
          */
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        /**
+         * Get method for the announcement's author.
+         *
+         * @return the author of the announcement
+         */
+        public String getAuthor() {
+            return author;
+        }
+
+        /**
+         * Setter for the announcement's author
+         *
+         * @param newAuthor new author for announcement
+         */
+        public void setAuthor(String newAuthor) {
+            author = newAuthor;
         }
 
         @Override

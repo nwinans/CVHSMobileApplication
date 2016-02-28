@@ -25,8 +25,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         public TextView mIntroTextView;             // The announcement's intro text
         public TextView mDateTextView;              // The announcement's date
         public TextView mTitleTextView;             // The announcement's title
+        public TextView mAuthorTextView;            // The announcement's author
         public ImageView mExpandableIndicator;      // The indicator for expanding
-        public ImageView mCollapseIndicator;       // The indicator for collapsing
+        public ImageView mCollapseIndicator;        // The indicator for collapsing
         public ImageView mCardViewIcon;             // The announcement's icon
 
         private boolean isExpanded = false;
@@ -39,9 +40,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
+            mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
+            mAuthorTextView = (TextView) v.findViewById(R.id.text_view_announcement_author);
             mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_indictaor);
             mCollapseIndicator = (ImageView) v.findViewById(R.id.image_view_collapse_indictaor);
-            mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,6 +129,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     and also sets up some private fields to be used by RecyclerView.
      */
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        /* Get the proper Announcement's author and assign it to the appropriate TextView. */
+        holder.mAuthorTextView.setText(mDataset.get(position).getAuthor());
 
         /* Get the proper Announcement's intro text (generate it, it isn't already generated
         upon or during instantiation) and assign it to the appropriate TextView. */

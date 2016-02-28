@@ -10,4 +10,5 @@
     <string name="ssettings_tab">Settings</string>
     <string name="more">More</string>
     <string name="less">Less</string>
+    <string name="author_sample_text">Author sample text</string>
 </resources>
