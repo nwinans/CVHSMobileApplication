@@ -1,7 +1,7 @@
 ![alt text](https://i.imgur.com/fFHXXyz.png)
 
 # Centreville High School - Android Application. 
-This repository contains the source code for Centreville High School's Android application. 
+This repository contains the source code for Centreville High School's Android application.
 
 ## Development
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel scelerisque tellus, ac tincidunt quam. Sed eu nisi velit. Aliquam metus nulla, tristique ac ultricies ac, ultrices ut dolor. Donec vitae aliquet sem, sit amet eleifend purus. Fusce eu pharetra ante, nec aliquet urna. Aenean posuere nisi justo, eu laoreet.

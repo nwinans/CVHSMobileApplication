@@ -21,11 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".BluetoothActivity"
-            android:label="Bluetooth Activity">
-
-        </activity>
     </application>
 
 </manifest>
