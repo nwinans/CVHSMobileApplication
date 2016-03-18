@@ -1,6 +1,8 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.app.AlertDialog;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +77,32 @@ public class MainActivity extends AppCompatActivity {
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
         // by swiping left and right (which is what we want)
         tabLayout.setupWithViewPager(viewPager);
+
+        ImageButton imageButtonCrisis = (ImageButton) findViewById(R.id.crisisButton);
+        imageButtonCrisis.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog  = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("CRISIS");
+                alertDialog.setMessage("CrisisLink Regional Hotlink \n " + "703-527-4077\n\n"+
+                        "Crisis Texting \n" + " Text NEEDHELP to 85511\n\n" +
+                        "Dominion Hospital Emergency Room \n" + "703-536-200\n\n"+
+                        "Inova Emergency Services \n" + "703-289-7560\n\n"+
+                        "Mobile Crisis Unit \n" + "1-844-627-4747\n\n"+
+                        "National Suicide Prevention Hotline \n" + "1-800-273-TALK and 1-800-SUICIDE\n\n"+
+                        "Merrifield Center Emergency Services \n" + "703-573-5769\n\n"+
+                        "TTY Dial: 711 \n" +
+                        "Life-Threatening Emergencies: 911");
+                alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
 
         // Assign the icons to the tabs
         setupTabIcons();
@@ -160,5 +191,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+
     }
+
+
 }
