@@ -12,6 +12,8 @@
     <string name="less">Less</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="author_sample_text">Author sample text</string>
+    <string name="clubs_tab">Clubs</string>
+    <string name="sponsor_sample_text">Sponsor sample text</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
