@@ -87,35 +87,23 @@ public class AnnouncementsFragment extends Fragment {
 
         // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
         data.add(new Announcement("Test Announcement #1",
-                "Now. Slice beautifully. Good. The chicken is raw. It's fucking raw! Fuck! Fuck!" +
-                    "Fuck! Fuck! I like to swear a lot on TV because it gets me views!" + "\n",
+                "HI" + "\n",
                 Integer.MIN_VALUE,
                 new Date()));
         data.add(new Announcement("Test Announcement #2",
-                "Computer Science rules! Go CVHS Robotics! I like dogs! Mountain Dew is the best soda!" +
-                        "Remember: scraped melon tastes best when peeled in a frying pan varnished with dog meat." + "\n",
+                "Fragment 2" + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
         data.add(new Announcement("Test Announcement #3",
-                "After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
-                "in a plastic bag, toast two chocolates, rice, and marmalade in a large " +
-                "frying pan over medium heat, cook for a dozen minutes and soak with some " +
-                "memes that are dank."+ "\n",
+                "Fragment 3"+ "\n",
                     Integer.MIN_VALUE,
                         new Date()));
         data.add(new Announcement("Test Announcement #4",
-               "All children like pressed raspberries in peanut sauce and socialism." +
-                    "Try draining anti-capitalist memes with gold tequila, enameled with corn syrup." +
-                        "My opponent is taking donations from overpaid CEOs, biased media insiders and Rupert Murdoch yes-men." +
-                            "Unlike myself, my opponent wants an America where highly-paid lobbyists and overseas manufacturers can undermine our American workforce." + "\n",
+               "Fragment " + "\n",
                 Integer.MIN_VALUE,
                 new Date()));
         data.add(new Announcement("Test Announcement #5",
-                "I will work for an America where Mexican drug mules and oil cartels can't corrupt our love for Jesus." +
-                    "I refuse to support an America where al-Qaeda insurgents and Hollywood liberals can take away our Christian values." +
-                        "Unlike my opponent, I believe in our innocent children, our job creators and our iPhones." +
-                            "Know this: that I will protect our love for the Bible, our McMansions and our heroes of 9/11." +
-                                "My opponent is conspiring with terrorists, communists and angry chefs." + "\n",
+                "Fragment 5" + "\n",
                         Integer.MIN_VALUE,
                             new Date()));
 
