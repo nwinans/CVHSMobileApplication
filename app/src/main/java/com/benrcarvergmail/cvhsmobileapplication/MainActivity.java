@@ -85,13 +85,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog  = new AlertDialog.Builder(MainActivity.this);
                 alertDialog.setTitle("CRISIS");
-                alertDialog.setMessage("CrisisLink Regional Hotlink \n " + "703-527-4077\n\n"+
-                        "Crisis Texting \n" + " Text NEEDHELP to 85511\n\n" +
-                        "Dominion Hospital Emergency Room \n" + "703-536-200\n\n"+
-                        "Inova Emergency Services \n" + "703-289-7560\n\n"+
-                        "Mobile Crisis Unit \n" + "1-844-627-4747\n\n"+
-                        "National Suicide Prevention Hotline \n" + "1-800-273-TALK and 1-800-SUICIDE\n\n"+
-                        "Merrifield Center Emergency Services \n" + "703-573-5769\n\n"+
+                alertDialog.setMessage("CrisisLink Regional Hotlink \n " + "(703) 527-4077\n\n"+
+                        "Crisis Texting \n" + "\b\bText NEEDHELP to 85511\n\n"+
+                        "Dominion Hospital Emergency Room \b" + "\b\b(703) 536-200\n\n"+
+                        "Inova Emergency Services \n" + "\b\b(703) 289-7560\n\n"+
+                        "Mobile Crisis Unit \n" + "\b\b1-844-627-4747\n\n"+
+                        "National Suicide Prevention Hotline \n" + "\b\b1-800-273-TALK and \n\b\b1-800-SUICIDE\n\n"+
+                        "Merrifield Center Emergency Services \n" + "\b\b(703) 573-5769\n\n"+
+                        "Fairfax County Police Department \n" + "\b\b(703) 691-2131\n\n"+
+                        "Fairfax County Sheriff Department \n" + "\b\b(703) 360-8404\n\n"+
                         "TTY Dial: 711 \n" +
                         "Life-Threatening Emergencies: 911");
                 alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new ClubsFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
