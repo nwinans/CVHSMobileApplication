@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<AnnouncementsRecyclerViewAdapter.MyViewHolder> {
     private List<AnnouncementsFragment.Announcement> mDataset; // ArrayList implementation to hold data
 
-    private static final String TAG = "MyRecyclerViewAdapter";
+    private static final String TAG = "AnnRecyclerViewAdapter";
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -86,7 +86,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyRecyclerViewAdapter(List<AnnouncementsFragment.Announcement> myDataset) {
+    public AnnouncementsRecyclerViewAdapter(List<AnnouncementsFragment.Announcement> myDataset) {
         mDataset = myDataset;
         setHasStableIds(true);
     }
@@ -111,7 +111,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public AnnouncementsRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())

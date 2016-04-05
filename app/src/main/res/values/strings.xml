@@ -7,14 +7,14 @@
     <string name="academics_tab">Academics</string>
     <string name="wellness_tab">Wellness</string>
     <string name="extracurricular_tab">Extracurricular</string>
-    <string name="ssettings_tab">Settings</string>
+    <string name="settings_tab">Settings</string>
     <string name="more">More</string>
     <string name="less">Less</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="author_sample_text">Author sample text</string>
     <string name="clubs_tab">Clubs</string>
     <string name="sponsor_sample_text">Sponsor sample text</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ip_address_hint">IP Address</string>
+    <string name="port_hint">Port</string>
+    <string name="refresh_connection_button">Refresh</string>
 </resources>

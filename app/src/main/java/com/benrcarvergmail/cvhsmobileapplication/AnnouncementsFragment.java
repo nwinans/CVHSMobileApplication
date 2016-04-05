@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +27,16 @@ import java.util.GregorianCalendar;
 public class AnnouncementsFragment extends Fragment {
 
     private ArrayList<Announcement> data;
+
+    // References to the IP Address EditText field and the Port EditText field
+    private EditText mEditIPAddress, mEditPort;
+
+    // These are, for now, the default address of
+    // Ben's phone's server when it's at Ben's house
+    private final String defaultServerAddress = "192.168.0.4";
+    private final String defaultServerPort = "8080";//
+
+    private AnnouncementsRecyclerViewAdapter adapter;
 
     private static final String TAG = "AnnouncementsFragment";
 
@@ -50,13 +62,37 @@ public class AnnouncementsFragment extends Fragment {
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         // Ensure that its size is fixed (unchanging)
         rv.setHasFixedSize(true);
-        // Populate the data ArrayList. We currently do not utilize the boolean return type
-        populateData();
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(data);
+        adapter = new AnnouncementsRecyclerViewAdapter(data);
+        // Populate the data ArrayList. We currently do not utilize the boolean return type
+        populateData(defaultServerAddress, defaultServerPort);
         // Set the RecyclerView's adapater to the one we just created
         rv.setAdapter(adapter);
-
+        // Instantiate the references to the IP Address and Port EditText fields
+        // Notice we are calling rootView.findViewById(), not rv.findViewById().
+        // This is because the EditText fields are NOT a part of the recycler view (rv). They are
+        // a part of the actual announcements fragment, so we use the rootView object.
+        mEditIPAddress = (EditText) rootView.findViewById(R.id.ip_address_field);
+        mEditPort = (EditText) rootView.findViewById(R.id.port_field);
+        // Instantiate a reference to the button that refreshes the announcements and add an
+        // onClick listener to that button. Eventually, we will refresh by scrolling or some
+        // other nicer implementation but this works for now. Notice we are calling rootView.findViewById(),
+        // not rv.findViewById(). This is because the button is NOT a part of the recycler view (rv). It is
+        // a part of the actual announcements fragment, so we use the rootView object.
+        final Button refreshAnnouncementsButton = (Button) rootView.findViewById(R.id.button_refresh_connection);
+        refreshAnnouncementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the IP and the port entered in the text fields and pass
+                // them to the populateData() method. Notice we are calling toString() after
+                // we call getText(). This is because getText() in this case returns an Editable,
+                // as we are calling getText() on EditText fields. In order to convert the Editable
+                // to a String, we must call toString() after we call getText().
+                String IPAddress = mEditIPAddress.getText().toString();
+                String port = mEditPort.getText().toString();
+                populateData(IPAddress, port);
+            }
+        });
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
         // implementation which provides similar functionality to ListView.
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -65,12 +101,14 @@ public class AnnouncementsFragment extends Fragment {
         return rootView;
     }
 
-
     /* This will populate the data ArrayList with the data we want to display. This may
      eventually get more complicated (if we require lots of different data other than
      text to be shown. Additionally, this will eventually grab the information from a server.
+
+     This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
+     It may eventually be removed due to said redundancy but for now, I'm leaving it.
      */
-    private boolean populateData() {
+    private boolean populateData(String... args) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -83,9 +121,11 @@ public class AnnouncementsFragment extends Fragment {
          */
         if (data != null) {
             data.clear();
+            adapter.notifyDataSetChanged();
         }
 
-        new RetrieveAnnouncementsTask().execute("");
+        // Offload the network connection to the AsyncTask
+        new RetrieveAnnouncementsTask().execute(args);
 
         return true;
 
@@ -395,14 +435,19 @@ public class AnnouncementsFragment extends Fragment {
 
     class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Announcement> {
 
-        private Exception exception;
-
+        /**
+         *
+         * @param URLInformation An Array of information to build the URL. URLInformation[0]
+         *                       is the IP Address while URLInformation[1] is the port to use.
+         *
+         */
         @Override
-        protected Announcement doInBackground(String... params) {
+        protected Announcement doInBackground(String... URLInformation) {
             try {
                 Log.i(TAG, "Connection successful!");
                 // Create a URL for the desired document/page/etc.
-                URL url = new URL("http://192.168.0.4:8080/announcements.txt");
+                URL url = new URL("http://" + URLInformation[0] + ":" + URLInformation[1] + "/announcements.txt");
+                Log.i(TAG, url.toString());
                 // Read all the text returned by the Server
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
@@ -415,8 +460,8 @@ public class AnnouncementsFragment extends Fragment {
                 while((line = in.readLine()) != null) {
                     String[] tokens = line.split(delim);
                     int day = Integer.parseInt(tokens[3].substring(0, 2));
-                    int month = Integer.parseInt(tokens[3].substring(2,4));;
-                    int year = Integer.parseInt(tokens[3].substring(4));;
+                    int month = Integer.parseInt(tokens[3].substring(2,4));
+                    int year = Integer.parseInt(tokens[3].substring(4));
                     GregorianCalendar gregorianDate = new GregorianCalendar(year, month, day);
                     Announcement a = new Announcement(tokens[0], tokens[1], tokens[2], gregorianDate.getTime());
                     Log.i(TAG, a.toString());
@@ -434,7 +479,7 @@ public class AnnouncementsFragment extends Fragment {
         }
 
         protected void onPostExecute() {
-
+            adapter.notifyDataSetChanged();
         }
     }
 }
