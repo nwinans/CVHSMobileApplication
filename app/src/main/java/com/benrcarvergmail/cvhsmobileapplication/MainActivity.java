@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         vpa.addFrag(new BluetoothFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new ClubsFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
