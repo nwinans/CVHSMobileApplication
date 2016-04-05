@@ -78,7 +78,7 @@ public class ClubsFragment extends ListFragment {
          null to avoid a NullPointerException), there will be duplicated data in the ArrayList. Android
          obviously doesn't know any better than to create extra Cards out of this duplicated data, resulting
          in lots and lots of cards with the exact same data. Clearing the ArrayList each time the populateData()
-         method is called ensures that there aren't any duplicates. Whether or not tghere's a better way to do this
+         method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
          is beyond me at the moment, but this works currently and I'm fine with that.
          */
         if (data != null) {
@@ -387,13 +387,9 @@ public class ClubsFragment extends ListFragment {
 
 
     /**
-     * Announcement class to store all data pertaining to what might be
-     * displayed or associated with any given announcement. This implementation
+     * Club class to store all data pertaining to what might be
+     * displayed or associated with any given Club. This implementation
      * is subject to change at any point, as a better methodology may be discovered.
-     *
-     * There are a lot of possible future features to announcements. The possibilities
-     * include: customisable icon, Announcement type (club, sports, general, weather, etc.),
-     * Announcement caster (dedicated field pertaining to whom the announcement is from), etc.
      */
     class Club {
 
@@ -609,7 +605,7 @@ public class ClubsFragment extends ListFragment {
          */
         @Override
         public String toString() {
-            return "Announcement: " + title + ", " + text + ", " + ", " + imageSource;
+            return "Club: " + title + ", " + text + ", " + ", " + imageSource;
         }
 
         /**

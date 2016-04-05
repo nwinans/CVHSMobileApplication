@@ -1,5 +1,6 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * The type Announcements fragment.
@@ -32,7 +39,6 @@ public class AnnouncementsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -65,12 +71,6 @@ public class AnnouncementsFragment extends Fragment {
      text to be shown. Additionally, this will eventually grab the information from a server.
      */
     private boolean populateData() {
-        /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
-         fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
-         add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
-         things up of the String is only one line though, so we'll see what happens.
-         */
-
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -85,36 +85,10 @@ public class AnnouncementsFragment extends Fragment {
             data.clear();
         }
 
-        // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
-        data.add(new Announcement("Test Announcement #1",
-                "HI" + "\n",
-                Integer.MIN_VALUE,
-                new Date()));
-        data.add(new Announcement("Test Announcement #2",
-                "Fragment 2" + "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
-        data.add(new Announcement("Test Announcement #3",
-                "Fragment 3"+ "\n",
-                    Integer.MIN_VALUE,
-                        new Date()));
-        data.add(new Announcement("Test Announcement #4",
-               "Fragment " + "\n",
-                Integer.MIN_VALUE,
-                new Date()));
-        data.add(new Announcement("Test Announcement #5",
-                "Fragment 5" + "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
+        new RetrieveAnnouncementsTask().execute("");
 
-        // Because I am too lazy to add this into each constructor...
-        data.get(0).setAuthor("Gordon Ramsay");
-        data.get(1).setAuthor("Oliver Small");
-        data.get(2).setAuthor("Ozodbek Kurbonov");
-        data.get(3).setAuthor("Bernie Sanders #EnoughIsEnough");
-        data.get(4).setAuthor("The One, the Only: Donald Trump");
+        return true;
 
-        return true; // May eventually return false if unable to pull data from server
     }
 
 
@@ -200,6 +174,22 @@ public class AnnouncementsFragment extends Fragment {
         public Announcement(String text, int source, Date date) {
             this.text = text;
             imageSource = source;
+            announcementDate = date;
+        }
+
+        /**
+         * Instantiates a new Announcement with text, an image, and a date.
+         *
+         * @param text   the text-based information for the Announcement
+         * @param title  the title of the announcement
+         * @param author the author of the announcement
+         * @param date   the date of the announcement
+         */
+
+        public Announcement(String title, String author, String text, Date date) {
+            this.text = text;
+            this.title = title;
+            this.author = author;
             announcementDate = date;
         }
 
@@ -400,6 +390,51 @@ public class AnnouncementsFragment extends Fragment {
                     return text; // The text is already short enough.
                 }
             }
+        }
+    }
+
+    class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Announcement> {
+
+        private Exception exception;
+
+        @Override
+        protected Announcement doInBackground(String... params) {
+            try {
+                Log.i(TAG, "Connection successful!");
+                // Create a URL for the desired document/page/etc.
+                URL url = new URL("http://192.168.0.4:8080/announcements.txt");
+                // Read all the text returned by the Server
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                String line;               // Currently in the form: title*author*message*date
+                                           // The date is in the format MMDDYYYY
+                String delim = "[*]+";     // Delimiter for parsing the String
+
+                // Assign line to the next line from the file and check if it's null. If it isn't,
+                // we will do something with it. If it is, that's the end of all the announcements.
+                while((line = in.readLine()) != null) {
+                    String[] tokens = line.split(delim);
+                    int day = Integer.parseInt(tokens[3].substring(0, 2));
+                    int month = Integer.parseInt(tokens[3].substring(2,4));;
+                    int year = Integer.parseInt(tokens[3].substring(4));;
+                    GregorianCalendar gregorianDate = new GregorianCalendar(year, month, day);
+                    Announcement a = new Announcement(tokens[0], tokens[1], tokens[2], gregorianDate.getTime());
+                    Log.i(TAG, a.toString());
+                    data.add(a);
+                }
+
+                in.close();
+
+            } catch (MalformedURLException e) {
+                Log.e(TAG, "MalformedURLException", e);
+            } catch (IOException e) {
+                Log.e(TAG, "IOException", e);
+            }
+            return null;
+        }
+
+        protected void onPostExecute() {
+
         }
     }
 }

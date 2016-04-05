@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
-        vpa.addFrag(new BluetoothFragment(), ""); // Placeholder
+        vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Placeholder
