@@ -11,24 +11,23 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
-    private List<AnnouncementsFragment.Announcement> mDataset; // ArrayList implementation to hold data
+public class ClubRecyclerViewAdapter extends RecyclerView.Adapter<ClubRecyclerViewAdapter.MyViewHolder> {
+    private List<ClubsFragment.Club> mDataset; // ArrayList implementation to hold data
 
-    private static final String TAG = "MyRecyclerViewAdapter";
+    private static final String TAG = "ClubRecyclerViewAdapter";
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public CardView mCardView;                  // The CardView itself
-        public TextView mInfoTextView;              // The announcement's text
-        public TextView mIntroTextView;             // The announcement's intro text
-        public TextView mDateTextView;              // The announcement's date
-        public TextView mTitleTextView;             // The announcement's title
-        public TextView mAuthorTextView;            // The announcement's author
+        public TextView mInfoTextView;              // The club's text
+        public TextView mIntroTextView;             // The club's intro text
+        public TextView mTitleTextView;             // The club's title
+        public TextView mSponsorTextView;           // The club's sponsor
         public ImageView mExpandableIndicator;      // The indicator for expanding
         public ImageView mCollapseIndicator;        // The indicator for collapsing
-        public ImageView mCardViewIcon;             // The announcement's icon
+        public ImageView mCardViewIcon;             // The club's icon
 
         private boolean isExpanded = false;
 
@@ -39,9 +38,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mIntroTextView = (TextView) v.findViewById(R.id.intro_text_view);       // The intro text
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
-            mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
-            mAuthorTextView = (TextView) v.findViewById(R.id.text_view_announcement_author);
+            mSponsorTextView = (TextView) v.findViewById(R.id.text_view_club_sponsor);
             mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_indictaor);
             mCollapseIndicator = (ImageView) v.findViewById(R.id.image_view_collapse_indictaor);
 
@@ -86,24 +84,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyRecyclerViewAdapter(List<AnnouncementsFragment.Announcement> myDataset) {
+    public ClubRecyclerViewAdapter(List<ClubsFragment.Club> myDataset) {
         mDataset = myDataset;
         setHasStableIds(true);
     }
 
-    // Sets a new Dataset to be our Dataset of Announcements
-    public void updateList(List<AnnouncementsFragment.Announcement> newData) {
+    // Sets a new Dataset to be our Dataset of Clubs
+    public void updateList(List<ClubsFragment.Club> newData) {
         mDataset = newData;
         notifyDataSetChanged();
     }
 
-    // Add an Announcement to our Dataset
-    public void addItem(int position, AnnouncementsFragment.Announcement newAnnouncement) {
-        mDataset.add(position, newAnnouncement);
+    // Add an Club to our Dataset
+    public void addItem(int position, ClubsFragment.Club newClub) {
+        mDataset.add(position, newClub);
         notifyItemInserted(position);
     }
 
-    // Remove an Announcement from our Dataset
+    // Remove an Club from our Dataset
     public void removeItem(int position) {
         mDataset.remove(position);
         notifyItemRemoved(position);
@@ -111,8 +109,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public ClubRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                 int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_item, parent, false);
@@ -130,23 +128,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
      */
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        /* Get the proper Announcement's author and assign it to the appropriate TextView. */
-        holder.mAuthorTextView.setText(mDataset.get(position).getAuthor());
+        /* Get the proper Club's sponsor and assign it to the appropriate TextView. */
+        holder.mSponsorTextView.setText(mDataset.get(position).getSponsor());
 
-        /* Get the proper Announcement's intro text (generate it, it isn't already generated
+        /* Get the proper Club's intro text (generate it, it isn't already generated
         upon or during instantiation) and assign it to the appropriate TextView. */
         holder.mIntroTextView.setText(mDataset.get(position).generateIntro());
 
-        /* Get the proper Announcement's text and assign the
+        /* Get the proper Club's text and assign the
         informational TextView's text to a shortened version of the
         text. The full text will be displayed upon expansion of the CardView. */
         holder.mInfoTextView.setText(mDataset.get(position).getText());
 
-        /* Get the proper Announcement's date and assign the
-        date TextView's text to the aforementioned date.toString() */
-        holder.mDateTextView.setText(mDataset.get(position).getAnnouncementDate().toString());
-
-        /* Get the proper Announcement's title and assign the
+        /* Get the proper Club's title and assign the
         title TextView's text to the aforementioned title. */
         holder.mTitleTextView.setText(mDataset.get(position).getTitle());
 
@@ -159,12 +153,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         if(!(imagePath == Integer.MIN_VALUE)) {
             /* When Image support is fully implemented, we'd assign the Image a source.
             For now, however, nothing happens except we print that an Image was specified. */
-            Log.i(TAG, "An image ID was specified for the Announcement "
+            Log.i(TAG, "An image ID was specified for the Club "
                     + mDataset.get(position).getTitle()); // We could use .toString() instead of .getTitle()
         }
 
         Log.i(TAG, "onBindViewHolder() called");
-}
+    }
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);

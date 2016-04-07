@@ -1,6 +1,8 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.app.AlertDialog;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Object to represent the toolbar. The toolbar is the element
     // labeled "CVHS Mobile Application" with the back arrow
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     // Object to represent the tabLayout. TabLayout is an XML layout used for creating tabbed
     // interfaces. It is best to use this methodology for our current target API and supported APIs
-    private TabLayout tabLayout;
+    private TabLayout mTabLayout;
 
     // Object for the ViewPager. ViewPagers are layout managers that allow the user to flip left
     // and right through pages of data. This is what allows us to swipe left and right to go through
     // tabs in addition to tapping the specific tab that we want.
-    private ViewPager viewPager;
+    private ViewPager mViewPager;
 
     // If true, tabs will be given an icon AND text. If false, tabs will only be given an icon.
-    private boolean both = false;
+    private boolean mBoth = false;
 
     // Hard-coded icons for the tabs
     private int[] tabIcons = {
@@ -54,24 +60,54 @@ public class MainActivity extends AppCompatActivity {
         // Set the content view (XML file to render what the user sees) to activity_main.xml
         setContentView(R.layout.activity_main);
         // Instantiated the toolbar object to the one defined in the XML
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         // Assign the support action bar (the toolbar) to the object we just instantiated
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         // Setting this to true makes it such that if selecting whatever we determine a "home" button to be
         // will make the UI go up ONE level as opposed to going all the way to the front page.
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // Disables the label defined in AndroidManifest.xml from being displayed on the toolbar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Instantiate the ViewPager
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-        viewPager.setAdapter(adapter);
-        setupViewPager(viewPager);
+        mViewPager.setAdapter(adapter);
+        setupViewPager(mViewPager);
         // Instantiate the TabLayout object
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
         // by swiping left and right (which is what we want)
-        tabLayout.setupWithViewPager(viewPager);
+        mTabLayout.setupWithViewPager(mViewPager);
+        // Prevents the keyboard from opening right when the app opens
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        // Crisis Button
+        ImageButton imageButtonCrisis = (ImageButton) findViewById(R.id.crisisButton);
+        imageButtonCrisis.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog  = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("CRISIS");
+                alertDialog.setMessage("CrisisLink Regional Hotlink \n " + "(703) 527-4077\n\n"+
+                        "Crisis Texting \n" + "\b\bText NEEDHELP to 85511\n\n"+
+                        "Dominion Hospital Emergency Room \b" + "\b\b(703) 536-200\n\n"+
+                        "Inova Emergency Services \n" + "\b\b(703) 289-7560\n\n"+
+                        "Mobile Crisis Unit \n" + "\b\b1-844-627-4747\n\n"+
+                        "National Suicide Prevention Hotline \n" + "\b\b1-800-273-TALK and \n\b\b1-800-SUICIDE\n\n"+
+                        "Merrifield Center Emergency Services \n" + "\b\b(703) 573-5769\n\n"+
+                        "Fairfax County Police Department \n" + "\b\b(703) 691-2131\n\n"+
+                        "Fairfax County Sheriff Department \n" + "\b\b(703) 360-8404\n\n"+
+                        "TTY Dial: 711 \n" +
+                        "Life-Threatening Emergencies: 911");
+                alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
 
         // Assign the icons to the tabs
         setupTabIcons();
@@ -79,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
     // Assigns the tabs the correct icon from the tabIcons array
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
+        mTabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        mTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        mTabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        mTabLayout.getTabAt(3).setIcon(tabIcons[3]);
+        mTabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     @Override
@@ -111,10 +147,14 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
+<<<<<<< HEAD
         vpa.addFrag(new CalendarFragment(), ""); // Placeholder
+=======
+>>>>>>> origin/master
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new ClubsFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
@@ -160,5 +200,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,19 +8,36 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * The type Announcements fragment.
  */
 public class AnnouncementsFragment extends Fragment {
 
-    private ArrayList<Announcement> data;
+    private ArrayList<Announcement> data;                       // List of announcements to be displayed
 
-    private static final String TAG = "AnnouncementsFragment";
+    private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
+
+    private final String defaultServerAddress = "192.168.0.4";  // Default IP address for the server/database
+    private final String defaultServerPort = "8080";            // Default port for the server/database
+
+    private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
+    private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
+
+    private static final String TAG = "AnnouncementsFragment";  // TAG
 
     /**
      * Instantiates a new Announcements fragment.
@@ -32,7 +50,6 @@ public class AnnouncementsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -41,36 +58,68 @@ public class AnnouncementsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         // Create object reference to the RecyclerView created in fragment_announcements.xml
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        mAnimatedRecyclerView = ( AnimatedRecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         // Ensure that its size is fixed (unchanging)
-        rv.setHasFixedSize(true);
-        // Populate the data ArrayList. We currently do not utilize the boolean return type
-        populateData();
+        mAnimatedRecyclerView.setHasFixedSize(true);
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(data);
-        // Set the RecyclerView's adapater to the one we just created
-        rv.setAdapter(adapter);
+        mAdapter = new AnnouncementsRecyclerViewAdapter(data);
+        // Populate the data ArrayList. We currently do not utilize the boolean return type
+        populateData(defaultServerAddress, defaultServerPort);
+        // Set the RecyclerView's adapter to the one we just created
+        mAnimatedRecyclerView.setAdapter(mAdapter);
+        // Instantiate the references to the IP Address and Port EditText fields
+        // Notice we are calling rootView.findViewById(), not rv.findViewById().
+        // This is because the EditText fields are NOT a part of the recycler view (rv). They are
+        // a part of the actual announcements fragment, so we use the rootView object.
+        mEditIPAddress = (EditText) rootView.findViewById(R.id.ip_address_field);
+        mEditPort = (EditText) rootView.findViewById(R.id.port_field);
+        // Instantiate a reference to the button that refreshes the announcements and add an
+        // onClick listener to that button. Eventually, we will refresh by scrolling or some
+        // other nicer implementation but this works for now. Notice we are calling rootView.findViewById(),
+        // not rv.findViewById(). This is because the button is NOT a part of the recycler view (rv). It is
+        // a part of the actual announcements fragment, so we use the rootView object.
+        final Button refreshAnnouncementsButton = (Button) rootView.findViewById(R.id.button_refresh_connection);
+        refreshAnnouncementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the IP and the port entered in the text fields and pass
+                // them to the populateData() method. Notice we are calling toString() after
+                // we call getText(). This is because getText() in this case returns an Editable,
+                // as we are calling getText() on EditText fields. In order to convert the Editable
+                // to a String, we must call toString() after we call getText().
+                String IPAddress = mEditIPAddress.getText().toString();
+                String port = mEditPort.getText().toString();
 
+                // Currently, Ben has it set up such that if NO IP address or port is specified, the
+                // app will assume the default addresses are to be used. This is only really for ease
+                // of testing when Ben is at his home. This code checks if the fields are empty. If only
+                // one field is empty, the app will notify the user that one field needs to be filled out.
+                if (IPAddress.equals("") && port.equals("")) {
+                    populateData(defaultServerAddress, defaultServerPort);
+                } else if (IPAddress.equals("")) {
+                    Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
+                } else if (port.equals("")){
+                    Toast.makeText(getActivity(), "Please specify a port", Toast.LENGTH_SHORT).show();
+                } else {
+                    populateData(IPAddress, port);
+                }
+            }
+        });
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
         // implementation which provides similar functionality to ListView.
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
-
+        mAnimatedRecyclerView.setLayoutManager(llm);
         return rootView;
     }
-
 
     /* This will populate the data ArrayList with the data we want to display. This may
      eventually get more complicated (if we require lots of different data other than
      text to be shown. Additionally, this will eventually grab the information from a server.
-     */
-    private boolean populateData() {
-        /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
-         fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
-         add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
-         things up of the String is only one line though, so we'll see what happens.
-         */
 
+     This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
+     It may eventually be removed due to said redundancy but for now, I'm leaving it.
+     */
+    private boolean populateData(String... args) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -78,55 +127,18 @@ public class AnnouncementsFragment extends Fragment {
          null to avoid a NullPointerException), there will be duplicated data in the ArrayList. Android
          obviously doesn't know any better than to create extra Cards out of this duplicated data, resulting
          in lots and lots of cards with the exact same data. Clearing the ArrayList each time the populateData()
-         method is called ensures that there aren't any duplicates. Whether or not tghere's a better way to do this
+         method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
          is beyond me at the moment, but this works currently and I'm fine with that.
          */
         if (data != null) {
             data.clear();
+            mAdapter.notifyDataSetChanged();
         }
 
-        // Add each new announcement to the ArrayList. We are creating the Announcements when we pass them.
-        data.add(new Announcement("Test Announcement #1",
-                "Now. Slice beautifully. Good. The chicken is raw. It's fucking raw! Fuck! Fuck!" +
-                    "Fuck! Fuck! I like to swear a lot on TV because it gets me views!" + "\n",
-                Integer.MIN_VALUE,
-                new Date()));
-        data.add(new Announcement("Test Announcement #2",
-                "Computer Science rules! Go CVHS Robotics! I like dogs! Mountain Dew is the best soda!" +
-                        "Remember: scraped melon tastes best when peeled in a frying pan varnished with dog meat." + "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
-        data.add(new Announcement("Test Announcement #3",
-                "After warming the chickpeas, enamel avocado, rhubarb and maple syrup " +
-                "in a plastic bag, toast two chocolates, rice, and marmalade in a large " +
-                "frying pan over medium heat, cook for a dozen minutes and soak with some " +
-                "memes that are dank."+ "\n",
-                    Integer.MIN_VALUE,
-                        new Date()));
-        data.add(new Announcement("Test Announcement #4",
-               "All children like pressed raspberries in peanut sauce and socialism." +
-                    "Try draining anti-capitalist memes with gold tequila, enameled with corn syrup." +
-                        "My opponent is taking donations from overpaid CEOs, biased media insiders and Rupert Murdoch yes-men." +
-                            "Unlike myself, my opponent wants an America where highly-paid lobbyists and overseas manufacturers can undermine our American workforce." + "\n",
-                Integer.MIN_VALUE,
-                new Date()));
-        data.add(new Announcement("Test Announcement #5",
-                "I will work for an America where Mexican drug mules and oil cartels can't corrupt our love for Jesus." +
-                    "I refuse to support an America where al-Qaeda insurgents and Hollywood liberals can take away our Christian values." +
-                        "Unlike my opponent, I believe in our innocent children, our job creators and our iPhones." +
-                            "Know this: that I will protect our love for the Bible, our McMansions and our heroes of 9/11." +
-                                "My opponent is conspiring with terrorists, communists and angry chefs." + "\n",
-                        Integer.MIN_VALUE,
-                            new Date()));
+        // Offload the network connection to the AsyncTask
+        new RetrieveAnnouncementsTask().execute(args);
 
-        // Because I am too lazy to add this into each constructor...
-        data.get(0).setAuthor("Gordon Ramsay");
-        data.get(1).setAuthor("Oliver Small");
-        data.get(2).setAuthor("Ozodbek Kurbonov");
-        data.get(3).setAuthor("Bernie Sanders #EnoughIsEnough");
-        data.get(4).setAuthor("The One, the Only: Donald Trump");
-
-        return true; // May eventually return false if unable to pull data from server
+        return true;
     }
 
 
@@ -212,6 +224,22 @@ public class AnnouncementsFragment extends Fragment {
         public Announcement(String text, int source, Date date) {
             this.text = text;
             imageSource = source;
+            announcementDate = date;
+        }
+
+        /**
+         * Instantiates a new Announcement with text, an image, and a date.
+         *
+         * @param text   the text-based information for the Announcement
+         * @param title  the title of the announcement
+         * @param author the author of the announcement
+         * @param date   the date of the announcement
+         */
+
+        public Announcement(String title, String author, String text, Date date) {
+            this.text = text;
+            this.title = title;
+            this.author = author;
             announcementDate = date;
         }
 
@@ -412,6 +440,104 @@ public class AnnouncementsFragment extends Fragment {
                     return text; // The text is already short enough.
                 }
             }
+        }
+    }
+
+    class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Void> {
+
+        /**
+         *
+         * @param URLInformation An Array of information to build the URL. URLInformation[0]
+         *                       is the IP Address while URLInformation[1] is the port to use.
+         *
+         */
+        @Override
+        protected Void doInBackground(String... URLInformation) {
+            try {
+                // Create a URL for the desired document/page/etc.
+                URL url = new URL("http://" + URLInformation[0] + ":" + URLInformation[1] + "/announcements.txt");
+                Log.i(TAG, "URL: " + url.toString());
+                // Read all the text returned by the Server
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+
+                String line;               // Currently in the form: title*author*message*date
+                                           // The date is in the format MMDDYYYY
+                String delim = "[*]+";     // Delimiter for parsing the String
+
+                // Assign line to the next line from the file and check if it's null. If it isn't,
+                // we will do something with it. If it is, that's the end of all the announcements.
+                while((line = in.readLine()) != null) {
+                    // Split up the line into sections and store each section in the tokens Array
+                    String[] tokens = line.split(delim);
+                    int day = Integer.parseInt(tokens[3].substring(0, 2));      // Grab the day portion of the date
+                    int month = Integer.parseInt(tokens[3].substring(2,4));     // Grab the month portion of the date
+                    int year = Integer.parseInt(tokens[3].substring(4));        // Grab the year portion of the date
+                    // Create a GregorianCalendar object for the date. We create a GregorianCalender instead of a Date because
+                    // much of the date code is depricated. We can, however, call .getTime() on the GregorianCalender object, which
+                    // will return a date. We can pass the returned date an announcement, which knows how to properly handle and display dates.
+                    GregorianCalendar gregorianDate = new GregorianCalendar(year, month, day);
+                    Announcement a = new Announcement(tokens[0], tokens[1], tokens[2], gregorianDate.getTime());
+                    Log.i(TAG, a.toString());
+                    data.add(a);
+                }
+
+                in.close();
+
+            } catch (MalformedURLException e) {
+                Log.e(TAG, "MalformedURLException", e);
+                /*
+                Because we are not in the main UI thread but instead are in an AsyncTask, we cannot
+                call Toast.makeText() like normal. Instead, if we have to get the current activity
+                and tell Android to run this on the UI thread. We do this by calling getActivity() to
+                get the activity and then runOnUiThread(), passing a new Runnable() to the runOnUiThread()
+                method. We define the Runnable's run method, telling it to create a Toast message for us.
+                 */
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Invalid IP address", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (IOException e) {
+                Log.e(TAG, "IOException", e);
+                /*
+                Because we are not in the main UI thread but instead are in an AsyncTask, we cannot
+                call Toast.makeText() like normal. Instead, if we have to get the current activity
+                and tell Android to run this on the UI thread. We do this by calling getActivity() to
+                get the activity and then runOnUiThread(), passing a new Runnable() to the runOnUiThread()
+                method. We define the Runnable's run method, telling it to create a Toast message for us.
+                 */
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Error reading data from the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            return null;
+        }
+
+        // Called after the AsyncTask finishes executing the doInBackground() method
+        @Override
+        protected void onPostExecute(Void v) {
+            /*
+            Similar to the above methods in which we were creating Toast messages, we have to go back to
+            the UI thread for this. Whenever we modify the data set the RecyclerView is using, we have to
+            notify its adapater that the data has changed. We do this by calling mAdapater.notifyDataSetChanged().
+            In order for this to take effect, however, it has to be done from the main UI thread, so we get the activity,
+            tell Android to run this on the UI thread, create a new Runnable, and define the run method to do as we'd like.
+
+            We also create a Toast message stating that the new data has been pulled (refreshed).
+             */
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
+                    mAnimatedRecyclerView.setmDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
+
+                    Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
