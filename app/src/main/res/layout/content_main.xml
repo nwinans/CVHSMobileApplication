@@ -23,14 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/MyActionBarLogo"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <android.support.v7.widget.AppCompatImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/hospital_selected"
+                android:background="@drawable/drawable_wellness_button"
                 android:id="@+id/crisisButton" />
 
             <!-- Displays the title of the application -->

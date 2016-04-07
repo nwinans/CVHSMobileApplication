@@ -66,7 +66,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
 
         // Expand the CardView
         private boolean expand(View cardView) {
-            // Make the intro text invisible and make the full text visible
+            // Make the shortened ("intro") text invisible and make the full text visible
             mIntroTextView.setVisibility(View.GONE);
             mExpandableIndicator.setVisibility(View.GONE);
             mCollapseIndicator.setVisibility(View.VISIBLE);
@@ -76,7 +76,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
 
         // Collapse the CardView
         private boolean collapse(View cardView) {
-            // Make the intro text visible and make the full text invisible
+            // Make the shortened ("iRntro") text visible and make the full text invisible
             mInfoTextView.setVisibility(View.GONE);
             mCollapseIndicator.setVisibility(View.GONE);
             mExpandableIndicator.setVisibility(View.VISIBLE);

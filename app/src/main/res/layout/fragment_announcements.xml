@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f2f2f2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -60,11 +61,14 @@
     </LinearLayout>
 
     <!-- The RecyclerView -->
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/layout_networking_container"/>
+        android:layout_below="@id/layout_networking_container">
+        <com.benrcarvergmail.cvhsmobileapplication.AnimatedRecyclerView
+            android:id="@+id/rv_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -10,7 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,19 +27,17 @@ import java.util.GregorianCalendar;
  */
 public class AnnouncementsFragment extends Fragment {
 
-    private ArrayList<Announcement> data;
+    private ArrayList<Announcement> data;                       // List of announcements to be displayed
 
-    // References to the IP Address EditText field and the Port EditText field
-    private EditText mEditIPAddress, mEditPort;
+    private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
 
-    // These are, for now, the default address of
-    // Ben's phone's server when it's at Ben's house
-    private final String defaultServerAddress = "192.168.0.4";
-    private final String defaultServerPort = "8080";//
+    private final String defaultServerAddress = "192.168.0.4";  // Default IP address for the server/database
+    private final String defaultServerPort = "8080";            // Default port for the server/database
 
-    private AnnouncementsRecyclerViewAdapter adapter;
+    private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
+    private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
 
-    private static final String TAG = "AnnouncementsFragment";
+    private static final String TAG = "AnnouncementsFragment";  // TAG
 
     /**
      * Instantiates a new Announcements fragment.
@@ -59,15 +58,15 @@ public class AnnouncementsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         // Create object reference to the RecyclerView created in fragment_announcements.xml
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        mAnimatedRecyclerView = ( AnimatedRecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         // Ensure that its size is fixed (unchanging)
-        rv.setHasFixedSize(true);
+        mAnimatedRecyclerView.setHasFixedSize(true);
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
-        adapter = new AnnouncementsRecyclerViewAdapter(data);
+        mAdapter = new AnnouncementsRecyclerViewAdapter(data);
         // Populate the data ArrayList. We currently do not utilize the boolean return type
         populateData(defaultServerAddress, defaultServerPort);
-        // Set the RecyclerView's adapater to the one we just created
-        rv.setAdapter(adapter);
+        // Set the RecyclerView's adapter to the one we just created
+        mAnimatedRecyclerView.setAdapter(mAdapter);
         // Instantiate the references to the IP Address and Port EditText fields
         // Notice we are calling rootView.findViewById(), not rv.findViewById().
         // This is because the EditText fields are NOT a part of the recycler view (rv). They are
@@ -90,14 +89,26 @@ public class AnnouncementsFragment extends Fragment {
                 // to a String, we must call toString() after we call getText().
                 String IPAddress = mEditIPAddress.getText().toString();
                 String port = mEditPort.getText().toString();
-                populateData(IPAddress, port);
+
+                // Currently, Ben has it set up such that if NO IP address or port is specified, the
+                // app will assume the default addresses are to be used. This is only really for ease
+                // of testing when Ben is at his home. This code checks if the fields are empty. If only
+                // one field is empty, the app will notify the user that one field needs to be filled out.
+                if (IPAddress.equals("") && port.equals("")) {
+                    populateData(defaultServerAddress, defaultServerPort);
+                } else if (IPAddress.equals("")) {
+                    Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
+                } else if (port.equals("")){
+                    Toast.makeText(getActivity(), "Please specify a port", Toast.LENGTH_SHORT).show();
+                } else {
+                    populateData(IPAddress, port);
+                }
             }
         });
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
         // implementation which provides similar functionality to ListView.
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
-
+        mAnimatedRecyclerView.setLayoutManager(llm);
         return rootView;
     }
 
@@ -116,19 +127,18 @@ public class AnnouncementsFragment extends Fragment {
          null to avoid a NullPointerException), there will be duplicated data in the ArrayList. Android
          obviously doesn't know any better than to create extra Cards out of this duplicated data, resulting
          in lots and lots of cards with the exact same data. Clearing the ArrayList each time the populateData()
-         method is called ensures that there aren't any duplicates. Whether or not tghere's a better way to do this
+         method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
          is beyond me at the moment, but this works currently and I'm fine with that.
          */
         if (data != null) {
             data.clear();
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
 
         // Offload the network connection to the AsyncTask
         new RetrieveAnnouncementsTask().execute(args);
 
         return true;
-
     }
 
 
@@ -433,7 +443,7 @@ public class AnnouncementsFragment extends Fragment {
         }
     }
 
-    class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Announcement> {
+    class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Void> {
 
         /**
          *
@@ -442,12 +452,11 @@ public class AnnouncementsFragment extends Fragment {
          *
          */
         @Override
-        protected Announcement doInBackground(String... URLInformation) {
+        protected Void doInBackground(String... URLInformation) {
             try {
-                Log.i(TAG, "Connection successful!");
                 // Create a URL for the desired document/page/etc.
                 URL url = new URL("http://" + URLInformation[0] + ":" + URLInformation[1] + "/announcements.txt");
-                Log.i(TAG, url.toString());
+                Log.i(TAG, "URL: " + url.toString());
                 // Read all the text returned by the Server
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
@@ -458,10 +467,14 @@ public class AnnouncementsFragment extends Fragment {
                 // Assign line to the next line from the file and check if it's null. If it isn't,
                 // we will do something with it. If it is, that's the end of all the announcements.
                 while((line = in.readLine()) != null) {
+                    // Split up the line into sections and store each section in the tokens Array
                     String[] tokens = line.split(delim);
-                    int day = Integer.parseInt(tokens[3].substring(0, 2));
-                    int month = Integer.parseInt(tokens[3].substring(2,4));
-                    int year = Integer.parseInt(tokens[3].substring(4));
+                    int day = Integer.parseInt(tokens[3].substring(0, 2));      // Grab the day portion of the date
+                    int month = Integer.parseInt(tokens[3].substring(2,4));     // Grab the month portion of the date
+                    int year = Integer.parseInt(tokens[3].substring(4));        // Grab the year portion of the date
+                    // Create a GregorianCalendar object for the date. We create a GregorianCalender instead of a Date because
+                    // much of the date code is depricated. We can, however, call .getTime() on the GregorianCalender object, which
+                    // will return a date. We can pass the returned date an announcement, which knows how to properly handle and display dates.
                     GregorianCalendar gregorianDate = new GregorianCalendar(year, month, day);
                     Announcement a = new Announcement(tokens[0], tokens[1], tokens[2], gregorianDate.getTime());
                     Log.i(TAG, a.toString());
@@ -472,14 +485,59 @@ public class AnnouncementsFragment extends Fragment {
 
             } catch (MalformedURLException e) {
                 Log.e(TAG, "MalformedURLException", e);
+                /*
+                Because we are not in the main UI thread but instead are in an AsyncTask, we cannot
+                call Toast.makeText() like normal. Instead, if we have to get the current activity
+                and tell Android to run this on the UI thread. We do this by calling getActivity() to
+                get the activity and then runOnUiThread(), passing a new Runnable() to the runOnUiThread()
+                method. We define the Runnable's run method, telling it to create a Toast message for us.
+                 */
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Invalid IP address", Toast.LENGTH_SHORT).show();
+                    }
+                });
             } catch (IOException e) {
                 Log.e(TAG, "IOException", e);
+                /*
+                Because we are not in the main UI thread but instead are in an AsyncTask, we cannot
+                call Toast.makeText() like normal. Instead, if we have to get the current activity
+                and tell Android to run this on the UI thread. We do this by calling getActivity() to
+                get the activity and then runOnUiThread(), passing a new Runnable() to the runOnUiThread()
+                method. We define the Runnable's run method, telling it to create a Toast message for us.
+                 */
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Error reading data from the server", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             return null;
         }
 
-        protected void onPostExecute() {
-            adapter.notifyDataSetChanged();
+        // Called after the AsyncTask finishes executing the doInBackground() method
+        @Override
+        protected void onPostExecute(Void v) {
+            /*
+            Similar to the above methods in which we were creating Toast messages, we have to go back to
+            the UI thread for this. Whenever we modify the data set the RecyclerView is using, we have to
+            notify its adapater that the data has changed. We do this by calling mAdapater.notifyDataSetChanged().
+            In order for this to take effect, however, it has to be done from the main UI thread, so we get the activity,
+            tell Android to run this on the UI thread, create a new Runnable, and define the run method to do as we'd like.
+
+            We also create a Toast message stating that the new data has been pulled (refreshed).
+             */
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
+                    mAnimatedRecyclerView.setmDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
+
+                    Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.app.AlertDialog;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
@@ -24,19 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Object to represent the toolbar. The toolbar is the element
     // labeled "CVHS Mobile Application" with the back arrow
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
 
     // Object to represent the tabLayout. TabLayout is an XML layout used for creating tabbed
     // interfaces. It is best to use this methodology for our current target API and supported APIs
-    private TabLayout tabLayout;
+    private TabLayout mTabLayout;
 
     // Object for the ViewPager. ViewPagers are layout managers that allow the user to flip left
     // and right through pages of data. This is what allows us to swipe left and right to go through
     // tabs in addition to tapping the specific tab that we want.
-    private ViewPager viewPager;
+    private ViewPager mViewPager;
 
     // If true, tabs will be given an icon AND text. If false, tabs will only be given an icon.
-    private boolean both = false;
+    private boolean mBoth = false;
 
     // Hard-coded icons for the tabs
     private int[] tabIcons = {
@@ -59,25 +60,27 @@ public class MainActivity extends AppCompatActivity {
         // Set the content view (XML file to render what the user sees) to activity_main.xml
         setContentView(R.layout.activity_main);
         // Instantiated the toolbar object to the one defined in the XML
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         // Assign the support action bar (the toolbar) to the object we just instantiated
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         // Setting this to true makes it such that if selecting whatever we determine a "home" button to be
         // will make the UI go up ONE level as opposed to going all the way to the front page.
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         // Disables the label defined in AndroidManifest.xml from being displayed on the toolbar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Instantiate the ViewPager
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-        viewPager.setAdapter(adapter);
-        setupViewPager(viewPager);
+        mViewPager.setAdapter(adapter);
+        setupViewPager(mViewPager);
         // Instantiate the TabLayout object
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
         // Assign the ViewPager object to the TabLayout object so our tabs are able to be navigated
         // by swiping left and right (which is what we want)
-        tabLayout.setupWithViewPager(viewPager);
-
+        mTabLayout.setupWithViewPager(mViewPager);
+        // Prevents the keyboard from opening right when the app opens
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        // Crisis Button
         ImageButton imageButtonCrisis = (ImageButton) findViewById(R.id.crisisButton);
         imageButtonCrisis.setOnClickListener(new View.OnClickListener() {
 
@@ -112,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
     // Assigns the tabs the correct icon from the tabIcons array
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
-        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
+        mTabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        mTabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        mTabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        mTabLayout.getTabAt(3).setIcon(tabIcons[3]);
+        mTabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     @Override
