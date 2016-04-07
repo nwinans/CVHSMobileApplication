@@ -22,8 +22,11 @@
 
     <CalendarView
         android:id="@+id/calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:showWeekNumber="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/calendar_title_frame_layout"
+        android:layout_marginTop="25dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
