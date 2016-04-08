@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +30,8 @@ public class AnnouncementsFragment extends Fragment {
 
     private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
 
-    private final String defaultServerAddress = "192.168.0.4";  // Default IP address for the server/database
-    private final String defaultServerPort = "8080";            // Default port for the server/database
+    private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
+    private final String defaultServerPort = "";            // Default port for the server/database
 
     private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
     private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
@@ -91,16 +90,12 @@ public class AnnouncementsFragment extends Fragment {
                 String port = mEditPort.getText().toString();
 
                 // Currently, Ben has it set up such that if NO IP address or port is specified, the
-                // app will assume the default addresses are to be used. This is only really for ease
-                // of testing when Ben is at his home. This code checks if the fields are empty. If only
-                // one field is empty, the app will notify the user that one field needs to be filled out.
+                // app will assume the default addresses are to be used.
                 if (IPAddress.equals("") && port.equals("")) {
                     populateData(defaultServerAddress, defaultServerPort);
                 } else if (IPAddress.equals("")) {
                     Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
-                } else if (port.equals("")){
-                    Toast.makeText(getActivity(), "Please specify a port", Toast.LENGTH_SHORT).show();
-                } else {
+                }  else {
                     populateData(IPAddress, port);
                 }
             }
@@ -454,8 +449,13 @@ public class AnnouncementsFragment extends Fragment {
         @Override
         protected Void doInBackground(String... URLInformation) {
             try {
-                // Create a URL for the desired document/page/etc.
-                URL url = new URL("http://" + URLInformation[0] + ":" + URLInformation[1] + "/announcements.txt");
+                URL url;
+                // If the user did not specify a port, connect directly to whatever they specified. Otherwise, build the URL with their components.
+                if(URLInformation[1].equals("")) {
+                    url = new URL("http://" + URLInformation[0]);
+                } else {
+                    url = new URL("http://" + URLInformation[0] + ":" + URLInformation[1] + "/announcements.txt");
+                }
                 Log.i(TAG, "URL: " + url.toString());
                 // Read all the text returned by the Server
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -498,6 +498,7 @@ public class AnnouncementsFragment extends Fragment {
                         Toast.makeText(getActivity(), "Invalid IP address", Toast.LENGTH_SHORT).show();
                     }
                 });
+
             } catch (IOException e) {
                 Log.e(TAG, "IOException", e);
                 /*
@@ -533,7 +534,7 @@ public class AnnouncementsFragment extends Fragment {
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
-                    mAnimatedRecyclerView.setmDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
+                    mAnimatedRecyclerView.setDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
 
                     Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
                 }
