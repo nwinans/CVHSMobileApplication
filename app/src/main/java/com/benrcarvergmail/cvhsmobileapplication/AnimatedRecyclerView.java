@@ -2,6 +2,7 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ public class AnimatedRecyclerView extends RecyclerView {
     public AnimatedRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mScrollable = false;
+        // ((SimpleItemAnimator) this.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class AnimatedRecyclerView extends RecyclerView {
         return mDoAnimate;
     }
 
-    public void setmDoAnimate(boolean bool) {
+    public void setDoAnimate(boolean bool) {
         mDoAnimate = bool;
     }
 
@@ -70,6 +72,6 @@ public class AnimatedRecyclerView extends RecyclerView {
         view.animate().cancel();
         view.setTranslationY(100);
         view.setAlpha(0);
-        view.animate().alpha(1.0f).translationY(0).setDuration(500).setStartDelay(pos * 100);
+        view.animate().alpha(1.0f).translationY(0).setDuration(750).setStartDelay(pos * 100);
     }
 }

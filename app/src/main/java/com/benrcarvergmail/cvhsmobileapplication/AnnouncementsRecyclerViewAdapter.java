@@ -1,17 +1,23 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<AnnouncementsRecyclerViewAdapter.MyViewHolder> {
+
     private List<AnnouncementsFragment.Announcement> mDataset; // ArrayList implementation to hold data
 
     private static final String TAG = "AnnRecyclerViewAdapter";
@@ -29,11 +35,15 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         public ImageView mExpandableIndicator;      // The indicator for expanding
         public ImageView mCollapseIndicator;        // The indicator for collapsing
         public ImageView mCardViewIcon;             // The announcement's icon
+        public RelativeLayout mLayout;              // The linear layout surrounding the card
 
-        private boolean isExpanded = false;
+        private boolean isExpanded = false;         // Boolean for whether or not card is expanded
+        private int cardHeightCollapsed;            // Int to keep track of collapsed card height
+
+        private final AnnouncementsRecyclerViewAdapter outer;
 
         // References to all of the elements of the CardView
-        public MyViewHolder(View v) {
+        public MyViewHolder(View v, final AnnouncementsRecyclerViewAdapter outer) {
             super(v); // Call the super() constructor
             mCardView = (CardView) v.findViewById(R.id.card_view);                  // The CardView
             mIntroTextView = (TextView) v.findViewById(R.id.intro_text_view);       // The intro text
@@ -41,9 +51,12 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title
             mDateTextView = (TextView) v.findViewById(R.id.date_text_view);         // The date
             mCardViewIcon = (ImageView) v.findViewById(R.id.card_view_icon);        // The icon
-            mAuthorTextView = (TextView) v.findViewById(R.id.text_view_announcement_author);
-            mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_indictaor);
-            mCollapseIndicator = (ImageView) v.findViewById(R.id.image_view_collapse_indictaor);
+            mAuthorTextView = (TextView) v.findViewById(R.id.text_view_announcement_author);        // The author
+            mExpandableIndicator = (ImageView) v.findViewById(R.id.image_view_expand_indictaor);    // The expand indicator
+            mCollapseIndicator = (ImageView) v.findViewById(R.id.image_view_collapse_indictaor);    // The collapse indicator
+            mLayout = (RelativeLayout) v.findViewById(R.id.card_data_container);                      // The linear layout around the card(s)
+
+            this.outer = outer;
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,27 +73,46 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
                         Log.i(TAG, "isExpanded: " + isExpanded);
                         isExpanded = expand(v); // returns True
                     }
+
                 }
             });
         }
 
         // Expand the CardView
         private boolean expand(View cardView) {
-            // Make the shortened ("intro") text invisible and make the full text visible
-            mIntroTextView.setVisibility(View.GONE);
             mExpandableIndicator.setVisibility(View.GONE);
             mCollapseIndicator.setVisibility(View.VISIBLE);
-            mInfoTextView.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mLayout.getLayoutParams();
+            cardHeightCollapsed = params.height;
+            params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+
+            mLayout.setLayoutParams(params);
+
+            // outer.notifyItemChanged(getAdapterPosition());
+            outer.notifyDataSetChanged();
+
+            Log.i(TAG, "Expand called");
+
             return true;
         }
 
         // Collapse the CardView
         private boolean collapse(View cardView) {
-            // Make the shortened ("iRntro") text visible and make the full text invisible
-            mInfoTextView.setVisibility(View.GONE);
             mCollapseIndicator.setVisibility(View.GONE);
             mExpandableIndicator.setVisibility(View.VISIBLE);
-            mIntroTextView.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mLayout.getLayoutParams();
+
+            params.height = cardHeightCollapsed;
+
+            mLayout.setLayoutParams(params);
+
+            // outer.notifyItemChanged(getAdapterPosition());
+            outer.notifyDataSetChanged();
+
+            Log.i(TAG, "Collapse called");
+
             return false;
         }
     }
@@ -117,17 +149,22 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        MyViewHolder vh = new MyViewHolder(v);
+        MyViewHolder vh = new MyViewHolder(v, this);
 
         return vh;
     }
 
     @Override
+    public boolean onFailedToRecycleView (MyViewHolder holder) {
+        return true;
+    }
+
     /*
     This method internally calls onBindViewHolder(ViewHolder, int) to update
     the RecyclerView.ViewHolder contents with the item at the given position
     and also sets up some private fields to be used by RecyclerView.
      */
+    @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         /* Get the proper Announcement's author and assign it to the appropriate TextView. */

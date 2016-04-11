@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/ip_address_hint"
-            android:maxLength="15"
+            android:maxLength="150"
             android:inputType="text"
             android:background="#00aeff" />
 
