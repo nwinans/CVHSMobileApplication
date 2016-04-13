@@ -1,12 +1,12 @@
-/*.iml
+*.iml
 
-/.setting.gradle
-./LICENSE
-./gradlew
+setting.gradle
+LICENSE
+gradlew
+build.gradle
 
-./app/app.iml
-./app/build.gradle
-./app/progruard-rules.pro
-./app/build/*
+app/build.gradle
+app/progruard-rules.pro
+app/build/
 
-./.idea/*
+.idea/
