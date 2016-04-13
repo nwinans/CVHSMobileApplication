@@ -1,11 +1,13 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         vpa.addFrag(new BluetoothFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new InformationFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
@@ -151,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
         // Adds a Fragment (effectively a tab). Takes in a Fragment and a title.
         public void addFrag(Fragment fragment, String title) {
             mFragmentList.add(fragment);
+            notifyDataSetChanged();
+            mFragmentTitleList.add(title);
+        }
+
+        public void addFrag(ListFragment fragment, String title){
+            mFragmentList.add((Fragment)fragment);
             notifyDataSetChanged();
             mFragmentTitleList.add(title);
         }

@@ -62,7 +62,7 @@ public class AnnouncementsFragment extends Fragment {
 
     /* This will populate the data ArrayList with the data we want to display. This may
      eventually get more complicated (if we require lots of different data other than
-     text to be shown. Additionally, this will eventually grab the information from a server.
+     text to be shown. Additionally, this will eventually grab the InformationFragment from a server.
      */
     private boolean populateData() {
         /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
@@ -142,7 +142,7 @@ public class AnnouncementsFragment extends Fragment {
     class Announcement {
 
         private String title;           // The announcement's title
-        private String text;            // The announcement's textual information
+        private String text;            // The announcement's textual InformationFragment
         private String author;          // The announcement's author/poster
         private int iconSource;         // The source for the announcement's icon in format R.id.XYZ
         private int imageSource;        // In the format R.id.XYZ
@@ -172,7 +172,7 @@ public class AnnouncementsFragment extends Fragment {
          * Instantiates a new Announcement with a title, text, an image, and a date.
          *
          * @param title  the announcement's title
-         * @param text   the text-based information for the Announcement
+         * @param text   the text-based InformationFragment for the Announcement
          * @param source the source for the (optional) image in the format R.id.XYZ
          * @param date   the date of the announcement
          */
@@ -190,7 +190,7 @@ public class AnnouncementsFragment extends Fragment {
          * be something that we can check for and that won't be used automatically by accident.
          *
          * @param title  the announcement's title
-         * @param text   the text-based information for the Announcement
+         * @param text   the text-based InformationFragment for the Announcement
          * @param date   the date of the announcement
          */
 
@@ -204,7 +204,7 @@ public class AnnouncementsFragment extends Fragment {
         /**
          * Instantiates a new Announcement with text, an image, and a date.
          *
-         * @param text   the text-based information for the Announcement
+         * @param text   the text-based InformationFragment for the Announcement
          * @param source the source for the (optional) image in the format R.id.XYZ
          * @param date   the date of the announcement
          */
@@ -219,7 +219,7 @@ public class AnnouncementsFragment extends Fragment {
          * Instantiates a new Announcement with just the text and a date.
          * This also will assign imageSource to Integer.MIN_VALUE so it will
          * be something that we can check for and that won't be used automatically by accident.
-         * @param text the text-based information for the Announcement
+         * @param text the text-based InformationFragment for the Announcement
          * @param date the date of the announcement
          */
         public Announcement(String text, Date date) {
