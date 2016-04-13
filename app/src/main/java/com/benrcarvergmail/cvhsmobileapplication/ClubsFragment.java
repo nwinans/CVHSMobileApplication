@@ -1,13 +1,13 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,11 +15,13 @@ import java.util.Date;
 /**
  * Created by cvillerobotics on 3/14/2016.
  */
-public class ClubsFragment extends ListFragment {
+public class ClubsFragment extends Fragment {
 
     private ArrayList<Club> data;
+    private ListView mListView;
 
     private static final String TAG = "ClubsFragment";
+
 
     /**
      * Instantiates a new Club fragment.
@@ -38,23 +40,20 @@ public class ClubsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_clubs, container, false);
-        // Create object reference to the RecyclerView created in fragment_clubs.xml
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
-        // Ensure that its size is fixed (unchanging)
-        rv.setHasFixedSize(true);
+        // Create object reference to the RecyclerView created in fragment_clubs.xml// Ensure that its size is fixed (unchanging)
         // Populate the data ArrayList. We currently do not utilize the boolean return type
         populateData();
-        // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
-        ClubRecyclerViewAdapter adapter = new ClubRecyclerViewAdapter(data);
-        // Set the RecyclerView's adapater to the one we just created
-        rv.setAdapter(adapter);
+        mListView = (ListView) rootView.findViewById(R.id.listview);
+        ArrayAdapter<Club> ld= new ArrayAdapter<Club>(getActivity(), R.layout.clubs_list, data);
+        mListView.setAdapter(ld);
+        // Create an adapter for the RecyclerView, passing the ArrayList of text we want displaye
+        // Set the RecyclerView's adapater to the one we just creat
 
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
-        // implementation which provides similar functionality to ListView.
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
+        // implementation which provides similar functionality to ListView
 
         return rootView;
     }
@@ -71,7 +70,7 @@ public class ClubsFragment extends ListFragment {
          things up of the String is only one line though, so we'll see what happens.
          */
 
-        /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
+        /* populateData() is called every time onCreateView() is called by an ClubFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
          is re-added to the data ArrayList. If I neglect to clear the ArrayList (I ensure that it isn't
@@ -86,227 +85,221 @@ public class ClubsFragment extends ListFragment {
         }
 
         // Add each new club to the ArrayList. We are creating the Club when we pass them.
-        data.add(new Club("America's Leaders of Engineering Interest",
-                "Club for people interested in engineering" + "\n",
+        data.add(new Club("America's Leaders of Engineering Interest:" + "\n",
+                "Club for people interested in engineering" + "\n"+
                 Integer.MIN_VALUE));
-        data.add(new Club("Amnesty International Club",
+        data.add(new Club("Amnesty International Club:" + "\n",
                 "Support human rights in a peaceful manner" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Animal Welfare Club",
+        data.add(new Club("Animal Welfare Club:" + "\n",
                 "All animal lovers can come and participate in helping our furry friends"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Art Honor Society",
+        data.add(new Club("Art Honor Society:" + "\n",
                 "For students who excel in art and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Best Buddies",
+        data.add(new Club("Best Buddies:" + "\n",
                 "A social club for building friendship with students with physical and intellectual impairments" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Business Honor Society",
+        data.add(new Club("Business Honor Society:" + "\n",
                 "For students who excel in the business field and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Catholic Students Assocation",
+        data.add(new Club("Catholic Students Assocation:"+ "\n",
                 "Examines the Catholic traditions and practices" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Chess Club",
+        data.add(new Club("Chess Club:"+ "\n",
                 "Come and enjoy the game of chess" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Class of 2016",
+        data.add(new Club("Class of 2016:" + "\n",
                 "For current seniors" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Class of 2017",
+        data.add(new Club("Class of 2017:" + "\n",
                 "For current juniors" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Class of 2018",
+        data.add(new Club("Class of 2018:" + "\n",
                 "For current sophomores" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Class of 2019",
+        data.add(new Club("Class of 2019:" + "\n",
                 "For current freshmeat" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Coalition of Young Conservatives",
+        data.add(new Club("Coalition of Young Conservatives:" + "\n",
                 "Examine the Conservative political agenda and help students participate in it " +
                         "more meaningfully" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("College Partnership Program",
+        data.add(new Club("College Partnership Program:" + "\n",
                 "College and career readiness activities, trips, and workshops for aspiring " +
                         "college students who are eligible for acceptance to the program" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Computer Programming",
-                " " + "\n",
+        data.add(new Club("Computer Programming:" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Dance Team",
+        data.add(new Club("Dance Team:" + "\n",
                 "Performs routines and jazz, pop, kick, and hip hop at home football games and " +
                         "competes in regional dance team competitions during fall and winter" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("DECA",
+        data.add(new Club("DECA:" + "\n",
                 "Exposed students to business in work situations in marketing " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Discussion",
-                " " + "\n",
+        data.add(new Club("Discussion:" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Eastern Anime and Culture Club",
+        data.add(new Club("Eastern Anime and Culture Club:" + "\n",
                 "Watch and complete project games of eastern culture animation" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Edge",
+        data.add(new Club("Edge:" + "\n",
                 "A fellowship organization enabling students to discuss questions and challenges" +
                         "of life" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("English Honor Society",
+        data.add(new Club("English Honor Society:" + "\n",
                 "For students who excel in english and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Environmental Impact Club",
+        data.add(new Club("Environmental Impact Club:" + "\n",
                 "To make students aware of our environmental impact " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("FBLA",
-                "To develop business and technology skills for careers"
-                        +"in business"
-                        +"Meets first Monday of each month RM 113"+ "\n",
+        data.add(new Club("FBLA:" + "\n",
+                "To develop business and technology skills for careers in business" + "\n"
+                        + "Meets first Monday of each month RM 113"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Fellowship of Christian Athletes",
-                "To share the gospel and grow as followers "
+        data.add(new Club("Fellowship of Christian Athletes:" + "\n",
+                "To share the gospel and grow as followers " + "\n"
                         +"Students do not have to be athletes to attend"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("First Response Club",
+        data.add(new Club("First Response Club:" + "\n",
                 "Learn about how first response works " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("French Club",
+        data.add(new Club("French Club:" + "\n",
                 "To give students an opportunity to learn more about the culture "
                         +"of the French speaking world" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("French Honor Society",
+        data.add(new Club("French Honor Society:" + "\n",
                 "For students who excel in french and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Future Medical Leaders of America",
+        data.add(new Club("Future Medical Leaders of America:" + "\n",
                 "Students interested in the medical field " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Gay Straight Alliance",
+        data.add(new Club("Gay Straight Alliance:"+ "\n",
                 "To advocate acceptance and tolerance in the community " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("German Club",
+        data.add(new Club("German Club:"+ "\n",
                 "Students who are interested in German culture " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("German Honor Society",
-                "For students who excel in german and take interest in the subject"+ "\n",
+        data.add(new Club("German Honor Society:"+ "\n",
+                "For students who excel in German and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("G.I.R.L.S.",
+        data.add(new Club("G.I.R.L.S.:"+ "\n",
                 "Club to empower, motivate, and provide opportunities for all students "
                         +"with an emphasis on females"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("G.O.A.T.",
+        data.add(new Club("G.O.A.T.:"+ "\n",
                 "Learn the art of music, production, performing, and recording " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Hispanic Leadership Club",
+        data.add(new Club("Hispanic Leadership Club:"+ "\n",
                 "Bringing Hispanic students for fellowship, leadership, and scholarship " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Ice Hockey Club",
+        data.add(new Club("Ice Hockey Club:"+ "\n",
                 "Organizes skating competition and discusses ice skating " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("International Culinary",
+        data.add(new Club("International Culinary:"+ "\n",
                 "Introduce and make food from all parts of the world " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("It's Academic",
+        data.add(new Club("It's Academic:"+ "\n",
                 "Group of students who participate in trivia challenges in competitive environment " + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Key Club",
+        data.add(new Club("Key Club:"+ "\n",
                 "Student organization that focuses on community service" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Korean Club",
+        data.add(new Club("Korean Club:"+ "\n",
                 "Student organization that focuses on the Korean culture" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Latin Club",
+        data.add(new Club("Latin Club:"+ "\n",
                 "Organization to support Latin students and enrich the classroom experience" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Latin Honor Society",
+        data.add(new Club("Latin Honor Society:"+ "\n",
                 "For students who excel in latin and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Locking Arms Group",
+        data.add(new Club("Locking Arms Group:"+ "\n",
                 "Students discuss social issues and possible solutions" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Math Honor Society",
+        data.add(new Club("Math Honor Society:"+ "\n",
                 "For students who excel in math and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Mazza Club",
-                " " + "\n",
+        data.add(new Club("Mazza Club:"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Military support Club",
+        data.add(new Club("Military Support Club:"+ "\n",
                 "Support soldiers and their families" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Modal Judiciary",
+        data.add(new Club("Modal Judiciary:"+ "\n",
                 "Prepares students to compete in mock trials and moot courts" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Model UN",
+        data.add(new Club("Model UN:"+ "\n",
                 "Organization that competes in diplomatic debating and compromising" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Muslim Student Association",
+        data.add(new Club("Muslim Student Association:"+ "\n",
                 "Support Muslim students and friends with enrichment and fellowship activities" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("National Honor Society",
-                "For students who excel in academics"+
-                        "To qualify for NHS membership, students must be in grades 11 or 12 " +
+        data.add(new Club("National Honor Society:"+ "\n",
+                "For students who excel in academics" + "\n"
+                        + "To qualify for NHS membership, students must be in grades 11 or 12 " +
                         "and have a cumulative GPA of 3.5 or higher" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Pinterest Club",
-                "Students come together to express their creativity " +
-                        "through projects found on Pinterest" + "\n",
+        data.add(new Club("Pinterest Club:" + "\n",
+                "Students come together to express their creativity through projects found on Pinterest" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Red Cross Club",
+        data.add(new Club("Red Cross Club:"+ "\n",
                 "Volunteer in donation drives and participate in disaster relief activites" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Robotics",
+        data.add(new Club("Robotics:"+ "\n",
                 "STEM development in robotics making and competition" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Rubik's Cube Club",
+        data.add(new Club("Rubik's Cube Club:"+ "\n",
                 "Club dedicated to the Rubik's Cube" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Science Honor Society",
+        data.add(new Club("Science Honor Society:"+ "\n",
                 "For students who excel in science and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Science Olympiad Club",
+        data.add(new Club("Science Olympiad Club:"+ "\n",
                 "Students participate in competitions testing the knowledge of all sciences" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Soap Making Club",
+        data.add(new Club("Soap Making Club:"+ "\n",
                 "Join us to make nice smelling soap" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Social Studies Honor Society",
+        data.add(new Club("Social Studies Honor Society:"+ "\n",
                 "For students who excel in social studies and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Spanish Honor Society",
+        data.add(new Club("Spanish Honor Society:"+ "\n",
                 "For students who excel in spanish and take interest in the subject"+ "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Step Team",
+        data.add(new Club("Step Team:"+ "\n",
                 "Join us to make rhythmic dance" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Speech and Debate",
+        data.add(new Club("Speech and Debate:"+ "\n",
                 "For students interested in speech and debate" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Students Helping India",
+        data.add(new Club("Students Helping India:"+ "\n",
                 "To educate about the societal disaster in India that deals with poverty" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Team Tutors",
-                "Students tutor athletes while working around their unique " +
-                        "and challenging schedules" + "\n",
+        data.add(new Club("Team Tutors:"+ "\n",
+                "Students tutor athletes while working around their unique and challenging schedules" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Thespians Society",
+        data.add(new Club("Thespians Society:" + "\n",
                 "Theater and honor society support" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Tri-M",
+        data.add(new Club("Tri-M:" + "\n",
                 "Music Honor Society" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("The Sentinel",
+        data.add(new Club("The Sentinel:" + "\n",
                 "Centreville High School newspaper" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("UNICEF Club",
+        data.add(new Club("UNICEF Club:"+ "\n",
                 "Helps impoverished women and children around the world" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Warhammer",
+        data.add(new Club("Warhammer:"+ "\n",
                 "Helps impoverished women and children around the world" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Wildcat Writing Center",
+        data.add(new Club("Wildcat Writing Center:" + "\n",
                 "Student run, peer tutoring organization" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("Women in Math Honor Society",
+        data.add(new Club("Women in Math Honor Society:" + "\n",
                 "For girls who show an interest in math and want to advance in the field" + "\n",
                 Integer.MIN_VALUE));
-        data.add(new Club("ZOIC",
+        data.add(new Club("ZOIC:"+ "\n",
                 "Literary Magazine" + "\n",
                 Integer.MIN_VALUE));
 
@@ -401,13 +394,13 @@ public class ClubsFragment extends ListFragment {
 
         /**
          * Full (or almost full if more fields are added and I forget to change this comment) constructor
-         * for an announcement
+         * for an club
          *
-         * @param title the announcement's title
-         * @param text the body informational text of the announcement
-         * @param sponsor the sponsor/poster of the announcement
-         * @param iconSource source for the announcement's icon's source in the format R.id.XYZ
-         * @param imageSource source for the announcement's image's source in the format R.id.XYZ
+         * @param title the club's name
+         * @param text the body informational text about the club
+         * @param sponsor the sponsor/poster of the club
+         * @param iconSource source for the club's icon's source in the format R.id.XYZ
+         * @param imageSource source for the club's image's source in the format R.id.XYZ
          */
         public Club(String title, String text, String sponsor, int iconSource, int imageSource) {
             this.title = title;
@@ -420,8 +413,8 @@ public class ClubsFragment extends ListFragment {
         /**
          * Instantiates a new club with a title, text, and image.
          *
-         * @param title  the announcement's title
-         * @param text   the text-based information for the Announcement
+         * @param title  the club's name
+         * @param text   the text-based information about the club
          * @param source the source for the (optional) image in the format R.id.XYZ
          */
 
@@ -432,12 +425,12 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Instantiates a new Announcement with a title, text.
+         * Instantiates a new Club with a title, text.
          * This also will assign imageSource to Integer.MIN_VALUE so it will
          * be something that we can check for and that won't be used automatically by accident.
          *
-         * @param title  the announcement's title
-         * @param text   the text-based information for the Announcement
+         * @param title  the club's name
+         * @param text   the text-based information about the club
          */
 
         public Club(String title, String text) {
@@ -447,9 +440,9 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Instantiates a new Announcement with text, an image.
+         * Instantiates a new club with text, an image.
          *
-         * @param text   the text-based information for the Announcement
+         * @param text   the text-based information about the club
          * @param source the source for the (optional) image in the format R.id.XYZ
          */
 
@@ -459,11 +452,11 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Instantiates a new Announcement with just the text.
+         * Instantiates a new Club with just the text.
          * This also will assign imageSource to Integer.MIN_VALUE so it will
          * be something that we can check for and that won't be used automatically by accident.
-         * @param text the text-based information for the Announcement
-         * @param date the date of the announcement
+         * @param text the text-based information about the club
+         * @param date the date of the club
          */
         public Club(String text, Date date) {
             this.text = text;
@@ -471,17 +464,17 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Instantiates a new Announcement with just an image and a date.
+         * Instantiates a new Club with just an image and a date.
          *
          * @param source the source for the (optional) image in the format R.id.XYZ
-         * @param date   the date of the announcement
+         * @param date   the date of the club
          */
         public Club(int source, Date date) {
             imageSource = source;
         }
 
         /**
-         * Instantiates a new Announcement with just an image.
+         * Instantiates a new Club with just an image.
          *
          * @param source the source for the (optional) image in the format R.id.XYZ
          */
@@ -490,10 +483,10 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Instantiates a new Announcement with just text.
+         * Instantiates a new Club with just text.
          * This also will assign imageSource to Integer.MIN_VALUE so it will
          * be something that we can check for and that won't be used automatically by accident.
-         * @param text the text for the Announcement.
+         * @param text the text for the Clubs.
          */
         public Club(String text) {
             this.text = text;
@@ -503,7 +496,7 @@ public class ClubsFragment extends ListFragment {
         /**
          * Gets image source.
          *
-         * @return the Announcement's image source
+         * @return the Clubs's image source
          */
         public int getImageSource() {
             return imageSource;
@@ -521,7 +514,7 @@ public class ClubsFragment extends ListFragment {
         /**
          * Gets text.
          *
-         * @return the Announcement's text
+         * @return the club's text
          */
         public String getText() {
             return text;
@@ -539,7 +532,7 @@ public class ClubsFragment extends ListFragment {
         /**
          * Gets title.
          *
-         * @return the Announcement's title
+         * @return the club's title
          */
         public String getTitle() {
             return title;
@@ -548,25 +541,25 @@ public class ClubsFragment extends ListFragment {
         /**
          * Sets title.
          *
-         * @param title the new Announcement title
+         * @param title the new Club title
          */
         public void setTitle(String title) {
             this.title = title;
         }
 
         /**
-         * Get method for the announcement's sponsor.
+         * Get method for the club's sponsor.
          *
-         * @return the sponsor of the announcement
+         * @return the sponsor of the club
          */
         public String getSponsor() {
             return sponsor;
         }
 
         /**
-         * Setter for the announcement's sponsor
+         * Setter for the club's sponsor
          *
-         * @param newSponsor new sponsor for announcement
+         * @param newSponsor new sponsor for club
          */
         public void setSponsor(String newSponsor) {
             sponsor = newSponsor;
@@ -600,21 +593,21 @@ public class ClubsFragment extends ListFragment {
         }
 
         /**
-         * Converts Announcement to String form in the format
-         * Announcement: ANNOUNCEMENT_TITLE, ANNOUNCEMENT_TEXT, ANNOUNCEMENT_IMAGE_SOURCE
+         * Converts Club to String form in the format
+         * Club: CLUB_TITLE, CLUB_TEXT, CLUB_IMAGE_SOURCE
          */
         @Override
         public String toString() {
-            return "Club: " + title + ", " + text + ", " + ", " + imageSource;
+            return title + text + "\n" + "Sponsor: " + sponsor;
         }
 
         /**
-         * This method creates a substring from the announcement's text to be used as a intro of
+         * This method creates a substring from the club's text to be used as a intro of
          * sorts. Basically, this generated String can be used to display on each CardView when
          * the CardView isn't expanded. Upon expansion, the CardView will display the full text
-         * of the announcement.
+         * of the clubs.
          *
-         * @return a substring of the announcement
+         * @return a substring of the clubs
          */
         public String generateIntro() {
             Log.i(TAG, "generateIntro() called!");
