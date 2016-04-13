@@ -1,12 +1,17 @@
 *.iml
 
-setting.gradle
+settings.gradle
 LICENSE
 gradlew
 build.gradle
+gradlew.bat
+gradle.properties
+
+gradle/wrapper
 
 app/build.gradle
 app/progruard-rules.pro
 app/build/
+build/
 
 .idea/
