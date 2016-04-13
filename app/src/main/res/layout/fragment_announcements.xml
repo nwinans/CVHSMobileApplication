@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f2f2f2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,10 +21,54 @@
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_networking_container"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/announcements_title_frame_layout"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/ip_address_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/ip_address_hint"
+            android:maxLength="150"
+            android:inputType="text"
+            android:background="#00aeff" />
+
+        <EditText
+            android:id="@+id/port_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/port_hint"
+            android:inputType="number"
+            android:background="#00aef0"
+            android:maxLength="5"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/ip_address_field" />
+
+        <Button
+            android:id="@+id/button_refresh_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/port_field"
+            android:layout_marginLeft="10dp"
+            android:text="@string/refresh_connection_button"/>
+
+    </LinearLayout>
+
     <!-- The RecyclerView -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/announcements_title_frame_layout"/>
+        android:layout_below="@id/layout_networking_container">
+        <com.benrcarvergmail.cvhsmobileapplication.AnimatedRecyclerView
+            android:id="@+id/rv_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 </RelativeLayout>

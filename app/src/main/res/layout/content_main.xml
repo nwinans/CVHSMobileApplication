@@ -1,9 +1,11 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:theme="@style/MyMaterialTheme">
+    android:theme="@style/MyMaterialTheme"
+    tools:showIn="@layout/activity_main">
 
     <!--
     content_main.xml is to contain XML that describes the layout of the MAIN interface of the
@@ -21,9 +23,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/MyActionBarLogo"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/drawable_wellness_button"
+                android:id="@+id/crisisButton" />
 
             <!-- Displays the title of the application -->
             <TextView

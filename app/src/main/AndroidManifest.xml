@@ -3,6 +3,7 @@
     package="com.benrcarvergmail.cvhsmobileapplication">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -21,11 +22,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".BluetoothActivity"
-            android:label="Bluetooth Activity">
-
-        </activity>
     </application>
 
 </manifest>

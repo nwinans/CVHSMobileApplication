@@ -6,10 +6,12 @@
     <color name="colorPrimaryWellness">#005899</color>
     <color name="colorPlusButton">#2dcfff</color>
     <color name="colorAnnouncementsTitle">#e7f6ff</color>
+    <color name="colorCalendarTitle">#e7f6ff</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorWindowBackground">#FFFFFF</color>
     <color name="colorNavigationBar">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
     <color name="colorDivider">#1165a1</color>
     <color name="colorHyperlink">#0000EE</color>
+    <color name="colorClubsTitle">#e7f6ff</color>
 </resources>
