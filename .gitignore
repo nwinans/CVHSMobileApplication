@@ -1,39 +1,5 @@
 /*.iml
 
-<<<<<<< fce247a633190ec04b44ea5e02810e745da6a687
-/gradle
-/.gradle
-/gradle.properties
-/gradlew.*
-/local.properties
-/build.gradle
-/captures
-/.setting.gradle
-/LICENSE
-/gradlew
-
-/app/app.iml
-/app/build.gradle
-/app/progruard-rules.pro
-/app/build/*
-
-/.idea/.name
-/.idea/compiler
-/.idea/encodings
-/.idea/gradle
-/.idea/misc
-/.idea/modules
-/.idea/runConfigurations
-/.idea/vcs
-/.idea/workspace.xml
-/.idea/copyright
-=======
-./gradle
-./gradle.properties
-./gradlew.*
-/local.properties
-./build.gradle
-/captures
 /.setting.gradle
 ./LICENSE
 ./gradlew
@@ -43,14 +9,4 @@
 ./app/progruard-rules.pro
 ./app/build/*
 
-./.idea/.name
-./.idea/compiler
-./.idea/encodings
-./.idea/gradle
-./.idea/misc
-./.idea/modules
-./.idea/runConfigurations
-./.idea/vcs
-./.idea/workspace.xml
-./.idea/copyright
->>>>>>> Fixed the git ignore
+./.idea/*
