@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.app.AlertDialog;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+
+import com.roomorama.caldroid.CaldroidFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,14 +150,10 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
-<<<<<<< HEAD
-        vpa.addFrag(new CalendarFragment(), ""); // Placeholder
-=======
->>>>>>> origin/master
+        vpa.addFrag(new CaldroidFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new ClubsFragment(), ""); // Clubs Fragment
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
-        vpa.addFrag(new ClubsFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that

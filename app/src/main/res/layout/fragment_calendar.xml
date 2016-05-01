@@ -1,35 +1,33 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.benrcarvergmail.cvhsmobileapplication.CalendarFragment">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/calendar_title_frame_layout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorCalendarTitle"
-        android:elevation="8dp">
-        <TextView
-            android:id="@+id/calendar_title_text_view"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/calendar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/calendar_tab"
-            android:textSize="36sp"
-            android:layout_gravity="center_horizontal" />
-    </FrameLayout>
+            android:orientation="vertical">
 
-    <CalendarView
-        android:id="@+id/calendar"
-        android:showWeekNumber="false"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/calendar_title_frame_layout"
-        android:layout_marginTop="25dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST"/>
 
-    </CalendarView>
+        </LinearLayout>
 
-</RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

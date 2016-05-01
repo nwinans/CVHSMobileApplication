@@ -21,9 +21,9 @@
     </FrameLayout>
 
     <!-- The RecyclerView -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_recycler_view"
+    <ExpandableListView
+        android:id="@+id/listview"
+        android:layout_marginTop="55dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/clubs_title_frame_layout"/>
+        android:layout_height="match_parent"/>
 </RelativeLayout>
