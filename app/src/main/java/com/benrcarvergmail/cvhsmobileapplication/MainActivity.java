@@ -1,5 +1,6 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,14 +13,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.app.AlertDialog;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.Button;
 import android.widget.ImageButton;
-
-import com.roomorama.caldroid.CaldroidFragment;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,22 +47,13 @@ public class MainActivity extends AppCompatActivity {
     // tabs in addition to tapping the specific tab that we want.
     private ViewPager mViewPager;
 
-    // If true, tabs will be given an icon AND text. If false, tabs will only be given an icon.
-    private boolean mBoth = false;
+    // Button responsible for handling the pop-up display for the plus schedule
+    private Button mPlusButton;
 
-    // Hard-coded icons for the tabs
-    private int[] tabIcons = {
-            R.drawable.tab1, // Newspaper. I am setting the drawable to an XML document that
-            // determines what icon to display based on whether or not the tab is active or not.
-            R.drawable.tab2, // Academics. I am setting the drawable to an XML document that
-            // determines what icon to display based on whether or not the tab is active or not.
-            R.drawable.tab3, // Box with cross. I am setting the drawable to an XML document that
-            // determines what icon to display based on whether or not the tab is active or not.
-            R.drawable.tab4, // Two silhouettes. I am setting the drawable to an XML document that
-            // determines what icon to display based on whether or not the tab is active or not.
-            R.drawable.tab5 // Gear. I am setting the drawable to an XML document that
-            // determines what icon to display based on whether or not the tab is active or not.
-    };
+    // Reference to the Relative Layout that displays the plus schedule
+    private LinearLayout mPlusLayout;
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +111,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mPlusButton = (Button) findViewById(R.id.button_plusSchedule);
+        mPlusLayout = (LinearLayout) findViewById(R.id.relativelayout_plusSchedule);
+
+        // The onClickListener for the plus button. When clicked, it causes the plus
+        // schedule to fade in, overlaying upon whatever is visible.
+        mPlusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlusLayout.setVisibility(View.VISIBLE);
+                runFadeInAnimationOn(MainActivity.this, mPlusLayout);
+            }
+        });
+
+        // When the user taps the plus layout (when its visible), it will fade back out.
+        mPlusLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runFadeOutAnimationOn(MainActivity.this, mPlusLayout);
+                mPlusLayout.setVisibility(View.GONE);
+            }
+        });
+
         // Assign the icons to the tabs
         setupTabIcons();
     }
+
+    public static Animation runFadeOutAnimationOn(Activity ctx, View target) {
+        Animation animation = AnimationUtils.loadAnimation(ctx,
+                android.R.anim.fade_out);
+        target.startAnimation(animation);
+        return animation;
+    }
+
+    public static Animation runFadeInAnimationOn(Activity ctx, View target) {
+        Animation animation = AnimationUtils.loadAnimation(ctx,
+                android.R.anim.fade_in);
+        target.startAnimation(animation);
+        return animation;
+    }
+
+    // Hard-coded icons for the tabs
+    private int[] tabIcons = {
+            R.drawable.tab1, // Newspaper. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab2, // Academics. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab3, // Box with cross. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab4, // Two silhouettes. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+            R.drawable.tab5 // Gear. I am setting the drawable to an XML document that
+            // determines what icon to display based on whether or not the tab is active or not.
+    };
 
     // Assigns the tabs the correct icon from the tabIcons array
     private void setupTabIcons() {
@@ -150,10 +199,10 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
-        vpa.addFrag(new CaldroidFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new AcademicsFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Clubs Fragment
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new SettingsFragment(), ""); // Placeholder
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that

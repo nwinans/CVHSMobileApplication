@@ -1,11 +1,14 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -15,6 +18,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+// ToDo: Thoroughly comment all of this code.
 
 /**
  * Started by Mr. Small's Advanced Computer Science AB/Data Structures class on 3/14/2016.

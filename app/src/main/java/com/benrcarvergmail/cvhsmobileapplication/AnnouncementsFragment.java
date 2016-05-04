@@ -57,7 +57,7 @@ public class AnnouncementsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         // Create object reference to the RecyclerView created in fragment_announcements.xml
-        mAnimatedRecyclerView = ( AnimatedRecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        mAnimatedRecyclerView = (AnimatedRecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         // Ensure that its size is fixed (unchanging)
         mAnimatedRecyclerView.setHasFixedSize(true);
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed

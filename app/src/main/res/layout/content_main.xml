@@ -50,7 +50,7 @@
             days and plus periods listed (by month).
             -->
             <Button
-                android:id="@+id/plus_period_button"
+                android:id="@+id/button_plusSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -72,11 +72,45 @@
             app:tabMode="fixed"
             app:tabBackground="@drawable/tab_background_selector"
             app:tabGravity="fill" />
-            </android.support.design.widget.AppBarLayout>
+        </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <LinearLayout
+            android:id="@+id/relativelayout_plusSchedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#41a6ff"
+            android:layout_margin="30dp"
+            android:elevation="4dp"
+            android:visibility="gone"
+            android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pluslayoutheader"
+                    android:textSize="36sp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_may_plus"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_june_plus"
+                    android:layout_weight="1" />
+
+        </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

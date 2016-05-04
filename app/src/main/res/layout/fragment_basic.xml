@@ -3,4 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/basic_title_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorAnnouncementsTitle"
+        android:elevation="8dp">
+        <TextView
+            android:id="@+id/basic_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_fragment"
+            android:textSize="36sp"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
 </LinearLayout>

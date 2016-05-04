@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_view_oliver_small"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_glowing_small"
+        android:padding="5dp"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/image_view_ryley_trahan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_ryley_trahan"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/image_view_neal_jarvis"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_neal_jarvis"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/image_view_barack_obama"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_obama"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

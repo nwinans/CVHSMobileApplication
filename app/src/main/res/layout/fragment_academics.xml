@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/academics_title_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAnnouncementsTitle"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp">
+        <TextView
+            android:id="@+id/academics_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/academics_tab"
+            android:textSize="36sp"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="6">
+
+        <Button
+            android:id="@+id/button_schedule"
+            android:text="@string/schedule_button"
+            android:drawableTop="@drawable/drawable_schedule_button"
+            style="@style/AcademicsButton"/>
+
+        <Button
+            android:id="@+id/button_teachers"
+            android:text="@string/teachers_button"
+            android:drawableTop="@drawable/drawable_teachers_button"
+            style="@style/AcademicsButton"/>
+
+        <Button
+            android:id="@+id/button_classes"
+            android:text="@string/classes_button"
+            android:drawableTop="@drawable/drawable_classes_button"
+            style="@style/AcademicsButton"/>
+
+    </LinearLayout>
+
+</LinearLayout>

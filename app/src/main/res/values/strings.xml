@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Wildcat Mobile</string>
     <string name="toolbar_title">Wildcat Mobile</string>
+    <string name="schedule_toolbar_title">Wildcat Mobile Calendar</string>
     <string name="action_settings">Settings</string>
     <string name="intro_text_view_temp">Intro text temp</string>
     <string name="announcements_tab">Announcements</string>
     <string name="academics_tab">Academics</string>
+    <string name="schedule_button">Schedule</string>
+    <string name="teachers_button">Teachers</string>
+    <string name="classes_button">Classes</string>
+    <string name="basic_fragment">Lorem Ipsum</string>
+    <string name="schedule_title">Calendar</string>
     <string name="wellness_tab">Wellness</string>
     <string name="extracurricular_tab">Extracurricular</string>
     <string name="settings_tab">Settings</string>
@@ -18,4 +24,11 @@
     <string name="ip_address_hint">IP Address</string>
     <string name="port_hint">Port</string>
     <string name="refresh_connection_button">Refresh</string>
+    <string name="pluslayoutheader">PLUS Schedule</string>
+    <string name="create_event">Create a New Event!</string>
+    <string name="delete_event">Delete an Existing Event!</string>
+    <string name="edit_event">Edit an Existing Event!</string>
+    <string name="back">Back</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>

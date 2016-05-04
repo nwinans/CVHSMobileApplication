@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
+// ToDo: Thoroughly comment all of this code.
+
 /**
  * Created by Benjamin on 5/1/2016.
  */
