@@ -82,7 +82,7 @@ public class AcademicsFragment extends Fragment {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
                 final View view = inflater.inflate(R.layout.easteregg_alerts_dialog, null);
                 alertAdd.setView(view);
-                alertAdd.setNeutralButton("Escape the Memes!", new DialogInterface.OnClickListener() {
+                alertAdd.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dlg, int integer) {
                         Log.i(TAG, "Easter Egg exited.");
                     }

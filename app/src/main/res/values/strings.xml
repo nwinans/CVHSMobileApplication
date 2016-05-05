@@ -25,10 +25,16 @@
     <string name="port_hint">Port</string>
     <string name="refresh_connection_button">Refresh</string>
     <string name="pluslayoutheader">PLUS Schedule</string>
-    <string name="create_event">Create a New Event!</string>
-    <string name="delete_event">Delete an Existing Event!</string>
-    <string name="edit_event">Edit an Existing Event!</string>
+    <string name="create_event">Create Event</string>
+    <string name="delete_event">Delete Event</string>
+    <string name="edit_event">Edit Event</string>
     <string name="back">Back</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="event_tools_title_create">Create an Event</string>
+    <string name="event_tools_title_delete">Delete an Event</string>
+    <string name="event_tools_title_edit">Edit an Event</string>
+    <string name="event_tools_edit_title">Enter the event\'s title</string>
+    <string name="event_tools_edit_desc">Enter the event\'s description</string>
+    <string name="event_tools_edit_date">Enter the event\'s date</string>
 </resources>

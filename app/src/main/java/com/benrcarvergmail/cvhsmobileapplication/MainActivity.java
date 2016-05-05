@@ -100,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
                         "Fairfax County Police Department \n" + "\b\b(703) 691-2131\n\n"+
                         "Fairfax County Sheriff Department \n" + "\b\b(703) 360-8404\n\n"+
                         "TTY Dial: 711 \n" +
-                        "Life-Threatening Emergencies: 911");
+                        "Life-Threatening Emergencies: 911 \n\n" +
+                        "SAMHSA Info: \nWebsit - www.samhsa.gov \n" +
+                        "Phone - 1-800-662-HELP (4357) \n" +
+                        "");
                 alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

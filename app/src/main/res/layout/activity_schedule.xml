@@ -54,45 +54,126 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/calendar_container"
+        <com.imanoweb.calendarview.CustomCalendarView
+            android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+        </com.imanoweb.calendarview.CustomCalendarView>
 
-            <com.imanoweb.calendarview.CustomCalendarView
-                android:id="@+id/calendar_view"
+        <FrameLayout
+            android:id="@+id/framelayout_calendarbuttoncontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_view"
+            android:background="#bfbfbf"
+            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff">
-            </com.imanoweb.calendarview.CustomCalendarView>
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_margin="15dp">
+
+                <Button
+                    android:id="@+id/button_create_calendar_event"
+                    android:text="@string/create_event"
+                    android:drawableBottom="@drawable/drawable_plus"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/CalendarToolButton"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_edit_calendar_event"
+                        android:visibility="visible"
+                        android:drawableBottom="@drawable/drawable_edit"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/CalendarToolButton"/>
+
+                    <Button
+                        android:id="@+id/button_delete_calendar_event"
+                        android:visibility="visible"
+                        android:drawableBottom="@drawable/drawable_trash"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        style="@style/CalendarToolButton"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#67c7ff"
+                android:layout_margin="10dp"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/layout_event_tools_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/text_view_event_tools_title_create"
+                        android:text="@string/event_tools_title_create"
+                        android:visibility="visible"
+                        style="@style/EventToolsTextView"/>
+
+                    <View
+                        android:id="@+id/view_event_tools_title_anchor"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/text_view_event_tools_title_edit"
+                        android:text="@string/event_tools_title_edit"
+                        android:visibility="gone"
+                        style="@style/EventToolsTextView"/>
+
+                    <EditText
+                        android:id="@+id/text_view_event_tools_title"
+                        android:hint="@string/event_tools_edit_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_below="@+id/view_event_tools_title_anchor"/>
+
+                    <EditText
+                        android:id="@+id/text_view_event_tools_desc"
+                        android:hint="@string/event_tools_edit_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_below="@+id/text_view_event_tools_title"/>
+
+                </RelativeLayout>
+
+            </ScrollView>
 
         </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:layout_below="@id/calendar_container">
-
-            <Button
-                android:id="@+id/button_create_calendar_event"
-                android:text="@string/create_event"
-                style="@style/CalendarToolButton"/>
-
-            <Button
-                android:id="@+id/button_edit_calendar_event"
-                android:text="@string/edit_event"
-                style="@style/CalendarToolButton"/>
-
-            <Button
-                android:id="@+id/button_delete_calendar_event"
-                android:text="@string/delete_event"
-                style="@style/CalendarToolButton"/>
-
-        </LinearLayout>
 
     </RelativeLayout>
 

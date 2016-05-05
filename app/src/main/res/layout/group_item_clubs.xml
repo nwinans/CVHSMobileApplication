@@ -8,8 +8,8 @@
         android:id="@+id/textview_clubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="25dp"
-        android:paddingStart="25dp"
+        android:paddingLeft="40dp"
+        android:paddingStart="40dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"/>
 
