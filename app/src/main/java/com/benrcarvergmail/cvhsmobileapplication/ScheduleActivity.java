@@ -2,9 +2,12 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -117,6 +120,9 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewEditEvent.setVisibility(View.VISIBLE);
 
                 runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+
+                mButtonEditEvent.setVisibility(View.GONE);
+                mButtonDeleteEvent.setVisibility(View.GONE);
 
                 // Toast.makeText(getApplicationContext(), "Press 'confirm' to confirm your changes. Press 'cancel' to discard them.",
                         // Toast.LENGTH_SHORT).show();
@@ -329,5 +335,43 @@ public class ScheduleActivity extends FragmentActivity
                 android.R.anim.fade_in);
         target.startAnimation(animation);
         return animation;
+    }
+
+    /**
+     * This is an override of the onKeyDown method of the Activity class.
+     * I am overriding this to provide back button functionality such that the
+     * user may use the back button to exit the event creation/editing dialog.
+     * @param keyCode the button's key code
+     * @param event the specific event the button triggered
+     * @return boolean
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (android.os.Build.VERSION.SDK_INT > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    /**
+     * Here I am overriding the onBackPressed() method to allow the user
+     * to use the back button to close the event creation/editing dialog.
+     */
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        if (mScrollView.getVisibility() == View.VISIBLE) {
+            runFadeOutAnimationOn(this, mScrollView);
+            mScrollView.setVisibility(View.GONE);
+            mButtonDeleteEvent.setVisibility(View.VISIBLE);
+            mButtonEditEvent.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
