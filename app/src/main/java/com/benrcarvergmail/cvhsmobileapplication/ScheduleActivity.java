@@ -66,8 +66,8 @@ public class ScheduleActivity extends FragmentActivity
     private ScrollView mScrollView;
 
     // Used for the creation of an event. Updated each time an event is created.
-    private String mNewestDateString;
-    private Date mNewestDateDate;
+    private String mNewestDateString = "";
+    private Date mNewestDateDate = new Date();
 
     private final static String TAG = "ScheduleActivity";
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
@@ -210,12 +210,14 @@ public class ScheduleActivity extends FragmentActivity
 
                 runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
 
-                String currentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date(SystemClock.currentThreadTimeMillis()));
+                String currentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
 
                 // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
                 // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz,
                                                 // boolean isBirthday, boolean isOther
-                ScheduledEvent newEvent = new ScheduledEvent("Title", "Desc", mNewestDateString, currentDate,
+                ScheduledEvent newEvent = new ScheduledEvent(mEditTextTitle.getText().toString(),
+                                                              mEditTextDesc.getText().toString(),
+                                                                  mNewestDateString, currentDate,
                                                             mCheckBoxHomework.isSelected(),
                                                                 mCheckBoxTest.isSelected(),
                                                              mCheckBoxProject.isSelected(),
