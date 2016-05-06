@@ -116,4 +116,25 @@ public class ScheduledEvent {
     public String getTitle() {
         return mTitle;
     }
+
+    @Override
+    public String toString() {
+        String type = "";
+        if (mIsBirthday) {
+            type = "Birthday";
+        } else if (mIsHomework) {
+            type = "Homework";
+        } else if (mIsProject) {
+            type = "Project";
+        } else if (mIsQuiz) {
+            type = "Quiz";
+        } else if (mIsTest) {
+            type = "Test";
+        } else if (mIsOther) {
+            type = "Other (misc.)";
+        }
+
+        return "Event[Title: " + mTitle + "], [Description: " + mDesc + "], [Date Created: " + mDateCreated
+                + "], [Date of Event: " + mDate + "], [Type: " + type + "]";
+    }
 }
