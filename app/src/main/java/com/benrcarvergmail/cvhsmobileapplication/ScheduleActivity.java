@@ -124,6 +124,11 @@ public class ScheduleActivity extends FragmentActivity
         mButtonCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mScrollView.getVisibility() == View.VISIBLE) {
+                    createEvent();
+                    return;
+                }
+
                 mScrollView.setVisibility(View.VISIBLE);
                 mTextViewCreateEvent.setVisibility(View.VISIBLE);
                 mTextViewEditEvent.setVisibility(View.GONE);
@@ -201,34 +206,7 @@ public class ScheduleActivity extends FragmentActivity
         mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mScrollView.setVisibility(View.GONE);
-                mTextViewCreateEvent.setVisibility(View.GONE);
-                mTextViewEditEvent.setVisibility(View.GONE);
-
-                mButtonEditEvent.setVisibility(View.VISIBLE);
-                mButtonDeleteEvent.setVisibility(View.VISIBLE);
-
-                runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
-
-                String currentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
-
-                // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
-                // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz,
-                                                // boolean isBirthday, boolean isOther
-                ScheduledEvent newEvent = new ScheduledEvent(mEditTextTitle.getText().toString(),
-                                                              mEditTextDesc.getText().toString(),
-                                                                  mNewestDateString, currentDate,
-                                                            mCheckBoxHomework.isSelected(),
-                                                                mCheckBoxTest.isSelected(),
-                                                             mCheckBoxProject.isSelected(),
-                                                                mCheckBoxQuiz.isSelected(),
-                                                            mCheckBoxBirthday.isSelected(),
-                                                              mCheckBoxOther.isSelected());
-
-                Toast.makeText(getApplicationContext(), "Event created.",
-                        Toast.LENGTH_SHORT).show();
-
-                Log.i(TAG, "New Event Created: " + newEvent.toString());
+                createEvent();
             }
         });
 
@@ -390,6 +368,39 @@ public class ScheduleActivity extends FragmentActivity
                 android.R.anim.fade_in);
         target.startAnimation(animation);
         return animation;
+    }
+
+    private ScheduledEvent createEvent() {
+        mScrollView.setVisibility(View.GONE);
+        mTextViewCreateEvent.setVisibility(View.GONE);
+        mTextViewEditEvent.setVisibility(View.GONE);
+
+        mButtonEditEvent.setVisibility(View.VISIBLE);
+        mButtonDeleteEvent.setVisibility(View.VISIBLE);
+
+        runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
+
+        String currentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date(System.currentTimeMillis()));
+
+        // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
+        // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz,
+        // boolean isBirthday, boolean isOther
+        ScheduledEvent newEvent = new ScheduledEvent(mEditTextTitle.getText().toString(),
+                mEditTextDesc.getText().toString(),
+                mNewestDateString, currentDate,
+                mCheckBoxHomework.isSelected(),
+                mCheckBoxTest.isSelected(),
+                mCheckBoxProject.isSelected(),
+                mCheckBoxQuiz.isSelected(),
+                mCheckBoxBirthday.isSelected(),
+                mCheckBoxOther.isSelected());
+
+        Toast.makeText(getApplicationContext(), "Event created.",
+                Toast.LENGTH_SHORT).show();
+
+        Log.i(TAG, "New Event Created: " + newEvent.toString());
+
+        return newEvent;
     }
 
     /**
