@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -206,6 +207,42 @@ public class MainActivity extends AppCompatActivity {
         vpa.addFrag(new AcademicsFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Clubs Fragment
         vpa.addFrag(new SettingsFragment(), ""); // Placeholder
+    }
+
+    /**
+     * This is an override of the onKeyDown method of the Activity class.
+     * I am overriding this to provide back button functionality such that the
+     * user may use the back button to exit the plus schedule.
+     * @param keyCode the button's key code
+     * @param event the specific event the button triggered
+     * @return boolean
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (android.os.Build.VERSION.SDK_INT > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    /**
+     * Here I am overriding the onBackPressed() method to allow the user
+     * to use the back button to close the plus schedule.
+     */
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        if (mPlusLayout.getVisibility() == View.VISIBLE) {
+            runFadeOutAnimationOn(this, mPlusLayout);
+            mPlusLayout.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that
