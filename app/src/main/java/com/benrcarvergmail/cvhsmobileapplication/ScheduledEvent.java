@@ -1,5 +1,7 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.widget.CheckBox;
+
 import java.text.SimpleDateFormat;
 
 /**
@@ -10,8 +12,8 @@ public class ScheduledEvent {
     private String mTitle;                      // The title of the event
     private String mDesc;                       // The description of the event
 
-    private SimpleDateFormat mDate;            // The date of the event
-    private SimpleDateFormat mDateCreated;     // The date the event was created
+    private SimpleDateFormat mDate;             // The date of the event
+    private SimpleDateFormat mDateCreated;      // The date the event was created
 
     private boolean mIsHomework;         // Indicates whether the event is a homework assignment
     private boolean mIsTest;             // Indicates whether the event is a test

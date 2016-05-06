@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -32,6 +36,14 @@ public class ScheduleActivity extends FragmentActivity
     private Button mButtonSelectDate;
     private Button mButtonConfirm;
     private Button mButtonCancel;
+
+    // References to check boxes
+    private CheckBox mCheckBoxHomework;         // The checkbox for homework
+    private CheckBox mCheckBoxProject;          // The checkbox for project
+    private CheckBox mCheckBoxBirthday;         // The checkbox for birthday
+    private CheckBox mCheckBoxTest;             // The checkbox for test
+    private CheckBox mCheckBoxQuiz;             // The checkbox for quiz
+    private CheckBox mCheckBoxOther;            // The checkbox for other
 
     // Reference to input text boxes
     private EditText mEditTextTitle;
@@ -64,6 +76,13 @@ public class ScheduleActivity extends FragmentActivity
         mButtonConfirm = (Button) findViewById(R.id.button_event_tools_confirm);
         mButtonCancel = (Button) findViewById(R.id.button_event_tools_cancel);
 
+        mCheckBoxHomework = (CheckBox) findViewById(R.id.checkbox_homework);
+        mCheckBoxBirthday = (CheckBox) findViewById(R.id.checkbox_birthday);
+        mCheckBoxOther = (CheckBox) findViewById(R.id.checkbox_other);
+        mCheckBoxProject = (CheckBox) findViewById(R.id.checkbox_project);
+        mCheckBoxQuiz = (CheckBox) findViewById(R.id.checkbox_quiz);
+        mCheckBoxTest = (CheckBox) findViewById(R.id.checkbox_test);
+
         mEditTextTitle = (EditText) findViewById(R.id.edit_text_event_tools_title);
         mEditTextDesc = (EditText) findViewById(R.id.edit_text_event_tools_desc);
 
@@ -81,6 +100,11 @@ public class ScheduleActivity extends FragmentActivity
                 mScrollView.setVisibility(View.VISIBLE);
                 mTextViewCreateEvent.setVisibility(View.VISIBLE);
                 mTextViewEditEvent.setVisibility(View.GONE);
+
+                runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+
+                mButtonEditEvent.setVisibility(View.GONE);
+                mButtonDeleteEvent.setVisibility(View.GONE);
             }
         });
 
@@ -91,6 +115,8 @@ public class ScheduleActivity extends FragmentActivity
                 mScrollView.setVisibility(View.VISIBLE);
                 mTextViewCreateEvent.setVisibility(View.GONE);
                 mTextViewEditEvent.setVisibility(View.VISIBLE);
+
+                runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
 
                 // Toast.makeText(getApplicationContext(), "Press 'confirm' to confirm your changes. Press 'cancel' to discard them.",
                         // Toast.LENGTH_SHORT).show();
@@ -141,6 +167,11 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewCreateEvent.setVisibility(View.GONE);
                 mTextViewEditEvent.setVisibility(View.GONE);
 
+                mButtonEditEvent.setVisibility(View.VISIBLE);
+                mButtonDeleteEvent.setVisibility(View.VISIBLE);
+
+                runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
+
                 Toast.makeText(getApplicationContext(), "Event created.",
                         Toast.LENGTH_SHORT).show();
             }
@@ -154,8 +185,109 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewCreateEvent.setVisibility(View.GONE);
                 mTextViewEditEvent.setVisibility(View.GONE);
 
+                mButtonEditEvent.setVisibility(View.VISIBLE);
+                mButtonDeleteEvent.setVisibility(View.VISIBLE);
+
+                runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
+
                 Toast.makeText(getApplicationContext(), "Event edit/creation canceled.",
                         Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Homework Checkbox
+        mCheckBoxHomework.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxTest.setChecked(false);
+                    mCheckBoxQuiz.setChecked(false);
+                    mCheckBoxProject.setChecked(false);
+                    mCheckBoxBirthday.setChecked(false);
+                    mCheckBoxOther.setChecked(false);
+                } else {
+
+                }
+            }
+        });
+
+        // Test Checkbox
+        mCheckBoxTest.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxHomework.setChecked(false);
+                    mCheckBoxQuiz.setChecked(false);
+                    mCheckBoxProject.setChecked(false);
+                    mCheckBoxBirthday.setChecked(false);
+                    mCheckBoxOther.setChecked(false);
+                } else {
+
+                }
+            }
+        });
+
+        // Quiz Checkbox
+        mCheckBoxQuiz.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxTest.setChecked(false);
+                    mCheckBoxHomework.setChecked(false);
+                    mCheckBoxProject.setChecked(false);
+                    mCheckBoxBirthday.setChecked(false);
+                    mCheckBoxOther.setChecked(false);
+                } else {
+
+                }
+            }
+        });
+
+        // Project Checkbox
+        mCheckBoxProject.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxTest.setChecked(false);
+                    mCheckBoxQuiz.setChecked(false);
+                    mCheckBoxHomework.setChecked(false);
+                    mCheckBoxBirthday.setChecked(false);
+                    mCheckBoxOther.setChecked(false);
+                } else {
+
+                }
+            }
+        });
+
+        // Birthday Checkbox
+        mCheckBoxBirthday.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxTest.setChecked(false);
+                    mCheckBoxQuiz.setChecked(false);
+                    mCheckBoxProject.setChecked(false);
+                    mCheckBoxHomework.setChecked(false);
+                    mCheckBoxOther.setChecked(false);
+                } else {
+
+                }
+            }
+        });
+
+        // Other Checkbox
+        mCheckBoxOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mCheckBoxTest.setChecked(false);
+                    mCheckBoxQuiz.setChecked(false);
+                    mCheckBoxProject.setChecked(false);
+                    mCheckBoxBirthday.setChecked(false);
+                    mCheckBoxHomework.setChecked(false);
+                } else {
+
+                }
             }
         });
     }
@@ -170,7 +302,8 @@ public class ScheduleActivity extends FragmentActivity
 
         // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
         // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz, boolean isBirthday
-        ScheduledEvent newEvent = new ScheduledEvent("Title", "Desc", null, null, false, false, false, false, false);
+        ScheduledEvent newEvent = new ScheduledEvent("Title", "Desc", null, null, false, false,
+                                                                    false, false, false, false);
     }
 
     @Override
@@ -182,5 +315,19 @@ public class ScheduleActivity extends FragmentActivity
         if (calendarDatePickerDialogFragment != null) {
             calendarDatePickerDialogFragment.setOnDateSetListener(this);
         }
+    }
+
+    private static Animation runFadeOutAnimationOn(Activity ctx, View target) {
+        Animation animation = AnimationUtils.loadAnimation(ctx,
+                android.R.anim.fade_out);
+        target.startAnimation(animation);
+        return animation;
+    }
+
+    private static Animation runFadeInAnimationOn(Activity ctx, View target) {
+        Animation animation = AnimationUtils.loadAnimation(ctx,
+                android.R.anim.fade_in);
+        target.startAnimation(animation);
+        return animation;
     }
 }

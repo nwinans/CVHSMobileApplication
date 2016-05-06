@@ -72,7 +72,7 @@
                 android:layout_height="match_parent"
                 android:background="#67c7ff"
                 android:layout_margin="10dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/layout_event_tools_container"
