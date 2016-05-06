@@ -15,6 +15,19 @@ Nunc tellus felis, suscipit a feugiat id, vehicula ac ante. In pharetra vulputat
 ## License 
 This application is licensed under the MIT license. Check the license file or visit the following website for additional details. https://opensource.org/licenses/MIT
 
+## Additional Libraries Used:
+###Custom Calendar View:
+
+Repository: https://github.com/npanigrahy/Custom-Calendar-View
+
+License (Apache License 2.0): http://www.apache.org/licenses/LICENSE-2.0
+
+###Android Better Pickers:
+
+Repository: https://github.com/code-troopers/android-betterpickers
+
+License (Apache License 2.0): http://www.apache.org/licenses/LICENSE-2.0
+
 
 ##### Further Information
 For more information, or if you have questions or comments, contact OASmall@fcps.edu
