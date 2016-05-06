@@ -1,10 +1,6 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
-<<<<<<< HEAD
-
-=======
 import android.app.Dialog;
->>>>>>> 30fb635d83327726485c350e4d44403658bf5cea
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -152,18 +148,12 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
-<<<<<<< HEAD
         vpa.addFrag(new CalendarFragment(), ""); // Placeholder
-=======
->>>>>>> origin/master
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
-<<<<<<< HEAD
         vpa.addFrag(new InformationFragment(), ""); // Placeholder
-=======
         vpa.addFrag(new BasicFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Placeholder
->>>>>>> 30fb635d83327726485c350e4d44403658bf5cea
     }
 
     // A FragmentPagerAdapter is an implementation of PagerAdapter that

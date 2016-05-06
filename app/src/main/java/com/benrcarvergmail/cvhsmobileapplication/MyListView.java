@@ -40,7 +40,7 @@ public class MyListView extends RecyclerView.Adapter<MyListView.MyViewHolder> {
         // References to all of the elements of the ListView
         public MyViewHolder(View v) {
             super(v); // Call the super() constructor
-            mListView = (ListView) v.findViewById(R.id.listView);                  // The ListView
+            mListView = (ListView) v.findViewById(R.id.listview_layout);                  // The ListView
             mIntroTextView = (TextView) v.findViewById(R.id.intro_text_view);       // The intro text
             mInfoTextView = (TextView) v.findViewById(R.id.info_text_view);         // The text
             mTitleTextView = (TextView) v.findViewById(R.id.title_text_view);       // The title

@@ -109,22 +109,9 @@ public class AnnouncementsFragment extends Fragment {
 
     /* This will populate the data ArrayList with the data we want to display. This may
      eventually get more complicated (if we require lots of different data other than
-<<<<<<< HEAD
      text to be shown. Additionally, this will eventually grab the InformationFragment from a server.
      */
-    private boolean populateData() {
-        /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
-         fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
-         add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
-         things up of the String is only one line though, so we'll see what happens.
-         */
-=======
-     text to be shown. Additionally, this will eventually grab the information from a server.
->>>>>>> 30fb635d83327726485c350e4d44403658bf5cea
 
-     This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
-     It may eventually be removed due to said redundancy but for now, I'm leaving it.
-     */
     private boolean populateData(String... args) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
