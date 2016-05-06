@@ -31,11 +31,6 @@ public class AcademicsFragment extends Fragment {
 
     private static final String TAG = "AcademicsFragment";
 
-    // Constructor
-    public AcademicsFragment() {
-
-    }
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

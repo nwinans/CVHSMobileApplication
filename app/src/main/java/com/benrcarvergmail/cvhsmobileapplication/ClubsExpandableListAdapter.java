@@ -21,7 +21,7 @@ import java.util.Map;
 public class ClubsExpandableListAdapter extends BaseExpandableListAdapter {
 
     // Having context objects is dangerous but the tutorial I am following uses one
-    private Activity mContext;
+    private final Activity mContext;
     private Map<String, List<String>> mClubsCollections;
     private List<String> mClubs;
 

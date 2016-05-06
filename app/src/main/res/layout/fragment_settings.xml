@@ -3,20 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/settings_title_frame_layout"
+    <TextView
+        android:id="@+id/settings_title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/settings_tab"
+        android:textSize="36sp"
+        android:layout_gravity="center_horizontal"
         android:background="@color/colorAnnouncementsTitle"
         android:layout_marginBottom="10dp"
-        android:elevation="8dp">
-        <TextView
-            android:id="@+id/settings_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_tab"
-            android:textSize="36sp"
-            android:layout_gravity="center_horizontal" />
-    </FrameLayout>
+        android:elevation="8dp"/>
 
 </LinearLayout>

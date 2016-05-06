@@ -43,12 +43,7 @@ public class AnnouncementsFragment extends Fragment {
      */
     public AnnouncementsFragment() {
         // Instantiate the data ArrayList so we may populate it during onCreateView()
-        data = new ArrayList<Announcement>();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        data = new ArrayList<>();
     }
 
     @Override
@@ -114,7 +109,7 @@ public class AnnouncementsFragment extends Fragment {
      This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
      It may eventually be removed due to said redundancy but for now, I'm leaving it.
      */
-    private boolean populateData(String... args) {
+    private void populateData(String... args) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -132,8 +127,6 @@ public class AnnouncementsFragment extends Fragment {
 
         // Offload the network connection to the AsyncTask
         new RetrieveAnnouncementsTask().execute(args);
-
-        return true;
     }
 
 
@@ -438,7 +431,7 @@ public class AnnouncementsFragment extends Fragment {
         }
     }
 
-    class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Void> {
+    private class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Void> {
 
         /**
          *

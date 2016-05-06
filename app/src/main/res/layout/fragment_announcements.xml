@@ -49,14 +49,14 @@
             android:background="#00aef0"
             android:maxLength="5"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/ip_address_field" />
+            android:layout_marginStart="10dp" />
 
         <Button
             android:id="@+id/button_refresh_connection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/port_field"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:text="@string/refresh_connection_button"/>
 
     </LinearLayout>

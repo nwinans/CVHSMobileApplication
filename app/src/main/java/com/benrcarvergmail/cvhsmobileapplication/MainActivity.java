@@ -140,14 +140,14 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
-    public static Animation runFadeOutAnimationOn(Activity ctx, View target) {
+    private static Animation runFadeOutAnimationOn(Activity ctx, View target) {
         Animation animation = AnimationUtils.loadAnimation(ctx,
                 android.R.anim.fade_out);
         target.startAnimation(animation);
         return animation;
     }
 
-    public static Animation runFadeInAnimationOn(Activity ctx, View target) {
+    private static Animation runFadeInAnimationOn(Activity ctx, View target) {
         Animation animation = AnimationUtils.loadAnimation(ctx,
                 android.R.anim.fade_in);
         target.startAnimation(animation);
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Hard-coded icons for the tabs
-    private int[] tabIcons = {
+    private final int[] tabIcons = {
             R.drawable.tab1, // Newspaper. I am setting the drawable to an XML document that
             // determines what icon to display based on whether or not the tab is active or not.
             R.drawable.tab2, // Academics. I am setting the drawable to an XML document that
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         // List of each title of each Fragment. The titles would be the String we pass in setupViewPager()
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        Context context;
+        final Context context;
 
         // Constructor. Calls the super constructor passing our FragmentManager object
         public ViewPagerAdapter(FragmentManager manager, Context context) {

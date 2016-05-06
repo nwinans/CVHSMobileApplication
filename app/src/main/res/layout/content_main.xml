@@ -22,10 +22,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
+            android:background="@color/colorPrimaryDark">
             <android.support.v7.widget.AppCompatImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,12 +53,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:textColor="#000000"
-                android:background="@color/colorPlusButton"
+                android:background="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="A+1"
+                android:text="@string/default_plus"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@anim/lift_on_touch"
+                android:stateListAnimator="@drawable/lift_on_touch"
                 style="?android:attr/borderlessButtonStyle"/>
 
         </android.support.v7.widget.Toolbar>

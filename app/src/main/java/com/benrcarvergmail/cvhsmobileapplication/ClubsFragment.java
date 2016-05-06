@@ -39,7 +39,7 @@ public class ClubsFragment extends Fragment {
      */
     public ClubsFragment() {
         // Instantiate the mData ArrayList so we may populate it during onCreateView()
-        mData = new ArrayList<Club>();
+        mData = new ArrayList<>();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +86,7 @@ public class ClubsFragment extends Fragment {
         // Preparing clubs collection (the children, I guess)
         String[] randomData = { "Dank Memes", "Click for more memes", "Club memes" };
         String[] defaultData = { "Mr. Small", "The robotics club is a club about robotics", "Memes are Great" };
-        mClubCollection = new LinkedHashMap<String, List<String>>();
+        mClubCollection = new LinkedHashMap<>();
 
         for (String club: mGroupList) {
             Log.i(TAG, "Club: " + club);
@@ -109,7 +109,7 @@ public class ClubsFragment extends Fragment {
      eventually get more complicated (if we require lots of different mData other than
      text to be shown. Additionally, this will eventually grab the information from a server.
      */
-    private boolean populateData() {
+    private void populateData() {
         /* This text was generated with an Android Studio plugin known as Insert Dummy Text. That
          fact is completely useless but nevertheless, it's a good plugin and I recommend it. I
          add a new line ( + "\n" to each String to ensure it doesn't get cut off. This may mess
@@ -427,7 +427,6 @@ public class ClubsFragment extends Fragment {
         mData.get(68).setSponsor("Susan Rigby");
         mData.get(69).setSponsor("Bridget Donoghue");
 
-        return true; // May eventually return false if unable to pull mData from server
     }
 
 

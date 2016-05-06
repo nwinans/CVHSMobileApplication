@@ -23,16 +23,16 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public CardView mCardView;                  // The CardView itself
-        public TextView mInfoTextView;              // The announcement's text
-        public TextView mIntroTextView;             // The announcement's intro text
-        public TextView mDateTextView;              // The announcement's date
-        public TextView mTitleTextView;             // The announcement's title
-        public TextView mAuthorTextView;            // The announcement's author
-        public ImageView mExpandableIndicator;      // The indicator for expanding
-        public ImageView mCollapseIndicator;        // The indicator for collapsing
-        public ImageView mCardViewIcon;             // The announcement's icon
-        public RelativeLayout mLayout;              // The linear layout surrounding the card
+        public final CardView mCardView;                  // The CardView itself
+        public final TextView mInfoTextView;              // The announcement's text
+        public final TextView mIntroTextView;             // The announcement's intro text
+        public final TextView mDateTextView;              // The announcement's date
+        public final TextView mTitleTextView;             // The announcement's title
+        public final TextView mAuthorTextView;            // The announcement's author
+        public final ImageView mExpandableIndicator;      // The indicator for expanding
+        public final ImageView mCollapseIndicator;        // The indicator for collapsing
+        public final ImageView mCardViewIcon;             // The announcement's icon
+        public final RelativeLayout mLayout;              // The linear layout surrounding the card
 
         private boolean isExpanded = false;         // Boolean for whether or not card is expanded
         private int cardHeightCollapsed;            // Int to keep track of collapsed card height
@@ -145,7 +145,7 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_item_announcements, parent, false);
-        // set the view's size, margins, paddings and layout parameters
+        // set the view's size, margins, padding and layout parameters
         MyViewHolder vh = new MyViewHolder(v, this);
 
         return vh;
@@ -199,10 +199,6 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
 
         Log.i(TAG, "onBindViewHolder() called");
 }
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
 
     @Override
     public long getItemId(int position) {

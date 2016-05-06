@@ -17,6 +17,9 @@ public class AnimatedRecyclerView extends RecyclerView {
     private boolean mScrollable;    // Used to prevent scrolling during initial animation
     private boolean mDoAnimate;     // Used to determine whether or not to animate its children
 
+    // Used when animating
+    private Runnable runner;
+
     public AnimatedRecyclerView(Context context) {
         super(context);
     }
@@ -28,6 +31,12 @@ public class AnimatedRecyclerView extends RecyclerView {
     public AnimatedRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mScrollable = false;
+        runner = new Runnable() {
+            @Override
+            public void run() {
+                mScrollable = true;
+            }
+        };
         // ((SimpleItemAnimator) this.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 
@@ -45,12 +54,7 @@ public class AnimatedRecyclerView extends RecyclerView {
                 animate(getChildAt(i), i);
 
                 if (i == getChildCount() - 1) {
-                    getHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mScrollable = true;
-                        }
-                    }, i * 100);
+                    getHandler().postDelayed(runner, i * 100);
                 }
             }
 
