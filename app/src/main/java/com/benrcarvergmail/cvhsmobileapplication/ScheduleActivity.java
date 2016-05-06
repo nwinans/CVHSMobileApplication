@@ -2,9 +2,9 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.AlertDialog;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,9 +22,10 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.imanoweb.calendarview.CustomCalendarView;
 
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Benjamin on 5/3/2016.
@@ -55,12 +56,16 @@ public class ScheduleActivity extends FragmentActivity
     // Reference to the headers for the create/edit event box
     private TextView mTextViewCreateEvent;
     private TextView mTextViewEditEvent;
+    private TextView mTextViewCurrentDate;
 
     // Reference to the custom calendar view itself
     private CustomCalendarView calendarView;
 
     // Reference to the ScrollView that holds the tools for creating/editing an event
     private ScrollView mScrollView;
+
+    // Used for the creation of an event. Updated each time an event is created.
+    private String mNewestDate;
 
     private final static String TAG = "ScheduleActivity";
     private static final String FRAG_TAG_DATE_PICKER = "fragment_date_picker_name";
@@ -91,10 +96,13 @@ public class ScheduleActivity extends FragmentActivity
 
         mTextViewCreateEvent = (TextView) findViewById(R.id.text_view_event_tools_title_create);
         mTextViewEditEvent = (TextView) findViewById(R.id.text_view_event_tools_title_edit);
+        mTextViewCurrentDate = (TextView) findViewById(R.id.text_view_event_tools_current_date);
 
         calendarView = (CustomCalendarView) findViewById(R.id.calendar_view);
 
         mScrollView = (ScrollView) findViewById(R.id.scroll_view_event_tools_container);
+
+        mNewestDate = getString(R.string.no_date_selected);
 
         // Create Event onClickListener
         mButtonCreateEvent.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +113,8 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewEditEvent.setVisibility(View.GONE);
 
                 runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+
+                mTextViewCurrentDate.setText("Current Date: " + mNewestDate);
 
                 mButtonEditEvent.setVisibility(View.GONE);
                 mButtonDeleteEvent.setVisibility(View.GONE);
@@ -177,6 +187,19 @@ public class ScheduleActivity extends FragmentActivity
                 mButtonDeleteEvent.setVisibility(View.VISIBLE);
 
                 runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
+
+                String currentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date(SystemClock.currentThreadTimeMillis()));
+
+                // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
+                // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz,
+                                                // boolean isBirthday, boolean isOther
+                ScheduledEvent newEvent = new ScheduledEvent("Title", "Desc", mNewestDate, currentDate,
+                                                            mCheckBoxHomework.isSelected(),
+                                                                mCheckBoxTest.isSelected(),
+                                                             mCheckBoxProject.isSelected(),
+                                                                mCheckBoxQuiz.isSelected(),
+                                                            mCheckBoxBirthday.isSelected(),
+                                                              mCheckBoxOther.isSelected());
 
                 Toast.makeText(getApplicationContext(), "Event created.",
                         Toast.LENGTH_SHORT).show();
@@ -306,10 +329,14 @@ public class ScheduleActivity extends FragmentActivity
         Toast.makeText(this, "Date Selected: " + (monthOfYear + 1) + "/" + dayOfMonth + "/" + year,
                                                                         Toast.LENGTH_SHORT).show();
 
-        // String title, String desc, SimpleDateFormat date, SimpleDateFormat dateCreated,
-        // boolean isHomework, boolean isTest, boolean isProj, boolean isQuiz, boolean isBirthday
-        ScheduledEvent newEvent = new ScheduledEvent("Title", "Desc", null, null, false, false,
-                                                                    false, false, false, false);
+        // Create a new date String formatted using that template
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        GregorianCalendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        mNewestDate = format.format(calendar.getTime());
+
+        mTextViewCurrentDate.setText("Current Date: " + mNewestDate);
+
+        Log.i(TAG, "Date Created: " + mNewestDate);
     }
 
     @Override

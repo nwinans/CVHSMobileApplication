@@ -2,7 +2,7 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.widget.CheckBox;
 
-import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Benjamin on 5/4/2016.
@@ -12,8 +12,15 @@ public class ScheduledEvent {
     private String mTitle;                      // The title of the event
     private String mDesc;                       // The description of the event
 
-    private SimpleDateFormat mDate;             // The date of the event
-    private SimpleDateFormat mDateCreated;      // The date the event was created
+    private String mDate;             // The date of the event
+    private String mDateCreated;      // The date the event was created
+
+    private CheckBox mCheckBoxHomework;         // The checkbox for homework
+    private CheckBox mCheckBoxProject;          // The checkbox for project
+    private CheckBox mCheckBoxBirthday;         // The checkbox for birthday
+    private CheckBox mCheckBoxTest;             // The checkbox for test
+    private CheckBox mCheckBoxQuiz;             // The checkbox for quiz
+    private CheckBox mCheckBoxOther;            // The checkbox for other
 
     private boolean mIsHomework;         // Indicates whether the event is a homework assignment
     private boolean mIsTest;             // Indicates whether the event is a test
@@ -22,8 +29,8 @@ public class ScheduledEvent {
     private boolean mIsBirthday;         // Indicates whether the event is a birthday
     private boolean mIsOther;            // Indicates whether the event is something else entirely.
 
-    public ScheduledEvent(String title, String desc, SimpleDateFormat date1,
-                          SimpleDateFormat date2, boolean bool1, boolean bool2,
+    public ScheduledEvent(String title, String desc, String date1,
+                          String date2, boolean bool1, boolean bool2,
                           boolean bool3, boolean bool4, boolean bool5, boolean bool6) {
         mTitle = title;
         mDesc = desc;
@@ -64,19 +71,19 @@ public class ScheduledEvent {
      * @param date the new date for the event
      * @return the old date for the date
      */
-    public SimpleDateFormat editDate(SimpleDateFormat date) {
-        SimpleDateFormat oldDate = mDate;
+    public String editDate(String date) {
+        String oldDate = mDate;
         mDate = date;
         return oldDate;
     }
 
     // Getter methods for all the variables...
 
-    public SimpleDateFormat getDate() {
+    public String getDate() {
         return mDate;
     }
 
-    public SimpleDateFormat getDateCreated() {
+    public String getDateCreated() {
         return mDateCreated;
     }
 
