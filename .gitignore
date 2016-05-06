@@ -1,28 +1,17 @@
-/*.iml
+*.iml
 
-/gradle
-/.gradle
-/gradle.properties
-/gradlew.*
-/local.properties
-/build.gradle
-/captures
-/.setting.gradle
-/LICENSE
-/gradlew
+settings.gradle
+LICENSE
+gradlew
+build.gradle
+gradlew.bat
+gradle.properties
 
-/app/app.iml
-/app/build.gradle
-/app/progruard-rules.pro
-/app/build/*
+gradle/wrapper
 
-/.idea/.name
-/.idea/compiler
-/.idea/encodings
-/.idea/gradle
-/.idea/misc
-/.idea/modules
-/.idea/runConfigurations
-/.idea/vcs
-/.idea/workspace.xml
-/.idea/copyright
+app/build.gradle
+app/progruard-rules.pro
+app/build/
+build/
+
+.idea/
