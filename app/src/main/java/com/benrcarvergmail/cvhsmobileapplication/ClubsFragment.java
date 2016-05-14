@@ -1,26 +1,20 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-=======
->>>>>>> master
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-=======
+
 import android.support.v4.app.Fragment;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
->>>>>>> master
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,19 +28,14 @@ import java.util.Map;
  * Started by Mr. Small's Advanced Computer Science AB/Data Structures class on 3/14/2016.
  */
 public class ClubsFragment extends Fragment {
-<<<<<<< HEAD
-
     private ArrayList<Club> mData;
 
     private List<String> mGroupList;
     private List<String> mChildList;
     private Map<String, List<String>> mClubCollection;
-=======
 
     private ArrayList<Club> data;
     private ListView mListView;
->>>>>>> master
-
     private static final String TAG = "ClubsFragment";
 
 
@@ -63,7 +52,6 @@ public class ClubsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_clubs, container, false);
-<<<<<<< HEAD
 
         // Create object reference to the RecyclerView created in fragment_clubs.xml
         // Populate the mData ArrayList. We currently do not utilize the boolean return type
@@ -88,7 +76,7 @@ public class ClubsFragment extends Fragment {
                 return true;
             }
         });
-=======
+/*=======
         // Create object reference to the RecyclerView created in fragment_clubs.xml// Ensure that its size is fixed (unchanging)
         // Populate the data ArrayList. We currently do not utilize the boolean return type
         populateData();
@@ -100,7 +88,7 @@ public class ClubsFragment extends Fragment {
 
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
         // implementation which provides similar functionality to ListView
->>>>>>> master
+>>>>>>> master*/
 
         return rootView;
     }
@@ -147,7 +135,7 @@ public class ClubsFragment extends Fragment {
          things up of the String is only one line though, so we'll see what happens.
          */
 
-<<<<<<< HEAD
+
         /* populateData() is called every time onCreateView() is called by an clubFragment.
 =======
         /* populateData() is called every time onCreateView() is called by an ClubFragment.
@@ -166,7 +154,7 @@ public class ClubsFragment extends Fragment {
         }
 
         // Add each new club to the ArrayList. We are creating the Club when we pass them.
-<<<<<<< HEAD
+/*<<<<<<< HEAD
         mData.add(new Club("America's Leaders of Engineering Interest",
                 "Club for people interested in engineering" + "\n",
                 Integer.MIN_VALUE));
@@ -388,7 +376,7 @@ public class ClubsFragment extends Fragment {
                 "For girls who show an interest in math and want to advance in the field" + "\n",
                 Integer.MIN_VALUE));
         mData.add(new Club("ZOIC",
-=======
+=======*/
         data.add(new Club("America's Leaders of Engineering Interest:" + "\n",
                 "Club for people interested in engineering" + "\n"+
                 Integer.MIN_VALUE));
@@ -604,7 +592,6 @@ public class ClubsFragment extends Fragment {
                 "For girls who show an interest in math and want to advance in the field" + "\n",
                 Integer.MIN_VALUE));
         data.add(new Club("ZOIC:"+ "\n",
->>>>>>> master
                 "Literary Magazine" + "\n",
                 Integer.MIN_VALUE));
 
