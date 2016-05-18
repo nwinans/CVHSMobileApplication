@@ -3,6 +3,7 @@
     <string name="toolbar_title">Wildcat Mobile</string>
     <string name="schedule_toolbar_title">Wildcat Mobile - Calendar</string>
     <string name="classes_toolbar_title">Wildcat Mobile - Classes</string>
+    <string name="none_specified">None specified</string>
     <string name="action_settings">Settings</string>
     <string name="intro_text_view_temp">Intro text temp</string>
     <string name="announcements_tab">Announcements</string>
@@ -33,6 +34,7 @@
     <string name="back">Back</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
     <string name="event_tools_title_create">Create an Event</string>
     <string name="event_tools_title_delete">Delete an Event</string>
     <string name="event_tools_title_edit">Edit an Event</string>
@@ -63,5 +65,9 @@
     <string name="classes_fifth_hint">Fifth period</string>
     <string name="classes_sixth_hint">Sixth period</string>
     <string name="classes_seventh_hint">Seventh period</string>
+    <string name="classes_warning">You have unsaved changes. Do you want your changes saved?</string>
+    <string name="classes_save_and_exit">Save changes and exit.</string>
+    <string name="classes_discard_and_exit">Discard changes and exit.</string>
+    <string name="classes_cancel">Cancel.</string>
 
 </resources>

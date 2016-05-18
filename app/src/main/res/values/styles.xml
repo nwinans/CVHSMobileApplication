@@ -65,9 +65,18 @@
     </style>
 
     <style name="ClassesEditText">
-        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_width">250dp</item>
         <item name="android:layout_height">35dp</item>
         <item name="android:background">#e7e7e7</item>
+    </style>
+
+    <style name="ClassesTrashButton">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:src">@drawable/drawable_trash24</item>
+        <item name="android:background">#e7e7e7</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginTop">13.5dp</item>
     </style>
 
 </resources>

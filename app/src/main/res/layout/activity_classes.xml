@@ -60,12 +60,17 @@
             <TextView
                 android:id="@+id/text_view_classes_one"
                 android:text="@string/classes_first"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_one"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_first_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_one"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -75,12 +80,17 @@
             <TextView
                 android:id="@+id/text_view_classes_two"
                 android:text="@string/classes_second"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_two"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_second_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_two"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -90,12 +100,17 @@
             <TextView
                 android:id="@+id/text_view_classes_three"
                 android:text="@string/classes_third"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_three"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_third_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_three"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -105,12 +120,17 @@
             <TextView
                 android:id="@+id/text_view_classes_four"
                 android:text="@string/classes_forth"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_four"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_forth_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_four"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -120,12 +140,17 @@
             <TextView
                 android:id="@+id/text_view_classes_five"
                 android:text="@string/classes_fifth"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_five"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_fifth_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_five"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -135,12 +160,17 @@
             <TextView
                 android:id="@+id/text_view_classes_six"
                 android:text="@string/classes_sixth"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_six"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_sixth_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_six"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -150,12 +180,17 @@
             <TextView
                 android:id="@+id/text_view_classes_seven"
                 android:text="@string/classes_seventh"
+                android:layout_marginRight="10dp"
                 style="@style/ClassesTextView"/>
 
             <EditText
                 android:id="@+id/edit_text_classes_seven"
                 style="@style/ClassesEditText"
                 android:hint="@string/classes_seventh_hint"/>
+
+            <ImageButton
+                android:id="@+id/button_classes_trash_seven"
+                style="@style/ClassesTrashButton"/>
 
         </LinearLayout>
 
@@ -166,7 +201,7 @@
             android:textStyle="bold"
             android:textSize="24sp"
             android:textColor="@drawable/button_text_color"
-            android:text="@string/confirm"
+            android:text="@string/save"
             android:layout_gravity="end"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"

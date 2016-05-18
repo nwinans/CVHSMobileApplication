@@ -1,36 +1,28 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.app.AlertDialog;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,21 +30,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Object to represent the toolbar. The toolbar is the element
-    // labeled "CVHS Mobile Application" with the back arrow
-    private Toolbar mToolbar;
-
     // Object to represent the tabLayout. TabLayout is an XML layout used for creating tabbed
     // interfaces. It is best to use this methodology for our current target API and supported APIs
     private TabLayout mTabLayout;
-
-    // Object for the ViewPager. ViewPagers are layout managers that allow the user to flip left
-    // and right through pages of data. This is what allows us to swipe left and right to go through
-    // tabs in addition to tapping the specific tab that we want.
-    private ViewPager mViewPager;
-
-    // Button responsible for handling the pop-up display for the plus schedule
-    private Button mPlusButton;
 
     // Reference to the Relative Layout that displays the plus schedule
     private LinearLayout mPlusLayout;
@@ -66,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Set the content view (XML file to render what the user sees) to activity_main.xml
         setContentView(R.layout.activity_main);
         // Instantiated the toolbar object to the one defined in the XML
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         // Assign the support action bar (the toolbar) to the object we just instantiated
         setSupportActionBar(mToolbar);
         // Setting this to true makes it such that if selecting whatever we determine a "home" button to be
@@ -75,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         // Disables the label defined in AndroidManifest.xml from being displayed on the toolbar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Instantiate the ViewPager
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
         mViewPager.setAdapter(adapter);
         setupViewPager(mViewPager);
@@ -98,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
 
                 // Create a view and inflate the custom dialog layout for the view
-                View dialogView = inflater.inflate(R.layout.custom_alert_dialog, null);
+                View dialogView = inflater.inflate(R.layout.custom_alert_dialog_easter_egg, null);
 
                 TextView dialogText = (TextView) dialogView.findViewById(R.id.text_view_dialog_text);
 
@@ -137,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mPlusButton = (Button) findViewById(R.id.button_plusSchedule);
+        Button mPlusButton = (Button) findViewById(R.id.button_plusSchedule);
         mPlusLayout = (LinearLayout) findViewById(R.id.relativelayout_plusSchedule);
 
         // The onClickListener for the plus button. When clicked, it causes the plus
