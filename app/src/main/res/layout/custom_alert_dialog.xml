@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:background="@drawable/linearlayout_border">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/crisis"
+        android:textStyle="bold"
+        android:textSize="36sp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:paddingTop="5dip"
+        android:gravity="center_horizontal"
+        style="?android:attr/listSeparatorTextViewStyle"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="350dp">
+
+        <TextView
+            android:id="@+id/text_view_dialog_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"/>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/alert_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/cancel"
+        android:layout_gravity="end"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"/>
+
+</LinearLayout>

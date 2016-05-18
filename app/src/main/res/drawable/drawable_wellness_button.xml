@@ -4,5 +4,5 @@
         android:state_pressed="true" />
     <item android:drawable="@drawable/ic_hospital_clicked"
         android:state_selected="true" />
-    <item android:drawable="@drawable/ic_hospital_unclicked" />
+    <item android:drawable="@drawable/hospital_36dp" />
 </selector>

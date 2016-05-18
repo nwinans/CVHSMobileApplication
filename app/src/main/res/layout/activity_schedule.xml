@@ -130,8 +130,23 @@
                         android:drawableEnd="@drawable/drawable_calendar24"
                         android:drawableRight="@drawable/drawable_calendar24"
                         android:drawablePadding="5dp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_below="@+id/edit_text_event_tools_desc"/>
+
+                    <TextView
+                        android:id="@+id/text_view_event_tools_current_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="@string/no_date_selected"
+                        android:layout_below="@id/edit_text_event_tools_desc"
+                        android:layout_toRightOf="@id/button_event_tools_pick_date"
+                        android:layout_toEndOf="@id/button_event_tools_pick_date"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"/>
 
                     <GridLayout
                         android:id="@+id/grid_layout_boolean_checkboxes"

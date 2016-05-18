@@ -2,6 +2,7 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.os.SystemClock;
@@ -22,11 +23,17 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.imanoweb.calendarview.CalendarListener;
 import com.imanoweb.calendarview.CustomCalendarView;
+import com.imanoweb.calendarview.DayDecorator;
+import com.imanoweb.calendarview.DayView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by Benjamin on 5/3/2016.
@@ -34,13 +41,8 @@ import java.util.Locale;
 public class ScheduleActivity extends FragmentActivity
         implements CalendarDatePickerDialogFragment.OnDateSetListener {
 
-    // References to buttons
-    private Button mButtonCreateEvent;
     private Button mButtonEditEvent;
     private Button mButtonDeleteEvent;
-    private Button mButtonSelectDate;
-    private Button mButtonConfirm;
-    private Button mButtonCancel;
 
     // References to check boxes
     private CheckBox mCheckBoxHomework;         // The checkbox for homework
@@ -79,12 +81,12 @@ public class ScheduleActivity extends FragmentActivity
         // Set the content view (XML file to render what the user sees) to activity_main.xml
         setContentView(R.layout.activity_schedule);
 
-        mButtonCreateEvent = (Button) findViewById(R.id.button_create_calendar_event);
+        Button mButtonCreateEvent = (Button) findViewById(R.id.button_create_calendar_event);
         mButtonEditEvent = (Button) findViewById(R.id.button_edit_calendar_event);
         mButtonDeleteEvent = (Button) findViewById(R.id.button_delete_calendar_event);
-        mButtonSelectDate = (Button) findViewById(R.id.button_event_tools_pick_date);
-        mButtonConfirm = (Button) findViewById(R.id.button_event_tools_confirm);
-        mButtonCancel = (Button) findViewById(R.id.button_event_tools_cancel);
+        Button mButtonSelectDate = (Button) findViewById(R.id.button_event_tools_pick_date);
+        Button mButtonConfirm = (Button) findViewById(R.id.button_event_tools_confirm);
+        Button mButtonCancel = (Button) findViewById(R.id.button_event_tools_cancel);
 
         mCheckBoxHomework = (CheckBox) findViewById(R.id.checkbox_homework);
         mCheckBoxBirthday = (CheckBox) findViewById(R.id.checkbox_birthday);
@@ -103,6 +105,10 @@ public class ScheduleActivity extends FragmentActivity
         mCalendarView = (CustomCalendarView) findViewById(R.id.calendar_view);
         mScrollView = (ScrollView) findViewById(R.id.scroll_view_event_tools_container);
         mNewestDateString = getString(R.string.no_date_selected);
+
+        final Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
+
+        mCalendarView.refreshCalendar(currentCalendar);
 
         //Handling custom calendar events
         mCalendarView.setCalendarListener(new CalendarListener() {
@@ -207,6 +213,10 @@ public class ScheduleActivity extends FragmentActivity
             @Override
             public void onClick(View v) {
                 createEvent();
+                List<DayDecorator> decorators = new ArrayList<>();
+                decorators.add(new ColorDecorator());
+                mCalendarView.setDecorators(decorators);
+                mCalendarView.refreshCalendar(currentCalendar);
             }
         });
 
@@ -395,6 +405,8 @@ public class ScheduleActivity extends FragmentActivity
                 mCheckBoxBirthday.isSelected(),
                 mCheckBoxOther.isSelected());
 
+
+
         Toast.makeText(getApplicationContext(), "Event created.",
                 Toast.LENGTH_SHORT).show();
 
@@ -438,6 +450,21 @@ public class ScheduleActivity extends FragmentActivity
             mButtonEditEvent.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private class ColorDecorator implements DayDecorator {
+
+        @Override
+        public void decorate(DayView cell) {
+            Random rnd = new Random();
+            int color = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                color = getResources().getColor(R.color.colorPrimary, null);
+            } else {
+                color = getResources().getColor(R.color.colorPrimary);
+            }
+            cell.setBackgroundColor(color);
         }
     }
 }

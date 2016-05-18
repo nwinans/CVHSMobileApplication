@@ -13,8 +13,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -29,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,13 +88,21 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         // Crisis Button
         ImageButton imageButtonCrisis = (ImageButton) findViewById(R.id.crisisButton);
+        assert imageButtonCrisis != null;
         imageButtonCrisis.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialog  = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setTitle("CRISIS");
-                alertDialog.setMessage("CrisisLink Regional Hotlink \n " + "(703) 527-4077\n\n"+
+                AlertDialog.Builder alertDialogBuilder  = new AlertDialog.Builder(MainActivity.this);
+                // Create a LayoutInflater to inflate our custom dialog layout
+                LayoutInflater inflater = getLayoutInflater();
+
+                // Create a view and inflate the custom dialog layout for the view
+                View dialogView = inflater.inflate(R.layout.custom_alert_dialog, null);
+
+                TextView dialogText = (TextView) dialogView.findViewById(R.id.text_view_dialog_text);
+
+                dialogText.setText("CrisisLink Regional Hotlink \n " + "(703) 527-4077\n\n"+
                         "Crisis Texting \n" + "\b\bText NEEDHELP to 85511\n\n"+
                         "Dominion Hospital Emergency Room \b" + "\b\b(703) 536-200\n\n"+
                         "Inova Emergency Services \n" + "\b\b(703) 289-7560\n\n"+
@@ -105,12 +116,23 @@ public class MainActivity extends AppCompatActivity {
                         "SAMHSA Info: \nWebsit - www.samhsa.gov \n" +
                         "Phone - 1-800-662-HELP (4357) \n" +
                         "");
-                alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+
+                // Assign the view to the Alert Dialog
+                alertDialogBuilder.setView(dialogView);
+
+                // After the dialog has been built, assign it to an AlertDialog object and show it
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // Give the cancel button functionality
+                Button cancelButton = (Button) dialogView.findViewById(R.id.alert_cancel);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    public void onClick(View v) {
+                        // Call the dismiss() method on the AlertDialog to close it
+                        alertDialog.dismiss();
                     }
                 });
+
                 alertDialog.show();
             }
         });

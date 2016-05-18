@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Wildcat Mobile</string>
     <string name="toolbar_title">Wildcat Mobile</string>
-    <string name="schedule_toolbar_title">Wildcat Mobile Calendar</string>
+    <string name="schedule_toolbar_title">Wildcat Mobile - Calendar</string>
+    <string name="classes_toolbar_title">Wildcat Mobile - Classes</string>
     <string name="action_settings">Settings</string>
     <string name="intro_text_view_temp">Intro text temp</string>
     <string name="announcements_tab">Announcements</string>
@@ -9,6 +10,7 @@
     <string name="schedule_button">Schedule</string>
     <string name="teachers_button">Teachers</string>
     <string name="classes_button">Classes</string>
+    <string name="library_button">Library</string>
     <string name="basic_fragment">Lorem Ipsum</string>
     <string name="schedule_title">Calendar</string>
     <string name="wellness_tab">Wellness</string>
@@ -45,4 +47,21 @@
     <string name="homework_general">Homework</string>
     <string name="homework_project">Project</string>
     <string name="other_general">Other</string>
+    <string name="no_date_selected">No date selected</string>
+    <string name="crisis">Crisis</string>
+    <string name="classes_first">1</string>
+    <string name="classes_second">2</string>
+    <string name="classes_third">3</string>
+    <string name="classes_forth">4</string>
+    <string name="classes_fifth">5</string>
+    <string name="classes_sixth">6</string>
+    <string name="classes_seventh">7</string>
+    <string name="classes_first_hint">First period</string>
+    <string name="classes_second_hint">Second period</string>
+    <string name="classes_third_hint">Third period</string>
+    <string name="classes_forth_hint">Forth period</string>
+    <string name="classes_fifth_hint">Fifth period</string>
+    <string name="classes_sixth_hint">Sixth period</string>
+    <string name="classes_seventh_hint">Seventh period</string>
+
 </resources>

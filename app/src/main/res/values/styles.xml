@@ -3,8 +3,7 @@
     <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>/build
-
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat">
@@ -27,10 +26,9 @@
         <item name="android:layout_margin">5dp</item>
         <item name="android:layout_weight">2</item>
         <item name="android:textColor">@drawable/button_text_color</item>
-        <item name="android:textSize">48sp</item>
+        <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">32sp</item>
-        <item name="android:drawablePadding">-15sp</item>
     </style>
 
     <style name="CalendarToolButton">
@@ -50,5 +48,26 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="ClassesTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">36dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ClassesLinearLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+    </style>
+
+    <style name="ClassesEditText">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:background">#e7e7e7</item>
+    </style>
 
 </resources>

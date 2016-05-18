@@ -2,6 +2,7 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,11 +25,6 @@ import java.util.Random;
  */
 public class AcademicsFragment extends Fragment {
 
-    // References to the buttons
-    private Button mButtonClasses;
-    private Button mButtonSchedule;
-    private Button mButtonTeachers;
-
     private static final String TAG = "AcademicsFragment";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,9 +35,11 @@ public class AcademicsFragment extends Fragment {
         // Translation animation
         final Animation animTranslate = AnimationUtils.loadAnimation(getActivity(), R.anim.button_translate);
 
-        mButtonClasses = (Button) rootView.findViewById(R.id.button_classes);
-        mButtonSchedule = (Button) rootView.findViewById(R.id.button_schedule);
-        mButtonTeachers = (Button) rootView.findViewById(R.id.button_teachers);
+        // References to the buttons
+        Button mButtonClasses = (Button) rootView.findViewById(R.id.button_classes);
+        Button mButtonSchedule = (Button) rootView.findViewById(R.id.button_schedule);
+        Button mButtonTeachers = (Button) rootView.findViewById(R.id.button_teachers);
+        Button mButtonLibrary = (Button) rootView.findViewById(R.id.button_library);
 
         /*
 
@@ -55,7 +53,18 @@ public class AcademicsFragment extends Fragment {
         mButtonClasses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), ClassesActivity.class);
+                startActivity(myIntent);
+            }
+        });
 
+        mButtonLibrary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Link to FCPS Library Catalogs
+                Uri uri = Uri.parse("http://libcat.fcps.edu/uhtbin/cgisirsi/?ps=niWwvVsnMv/305/113560215/60/1182/X");
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(myIntent);
             }
         });
 

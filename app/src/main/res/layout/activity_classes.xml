@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <!-- Displays the title of the application -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/classes_toolbar_title"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:paddingRight="25dp"
+                android:id="@+id/toolbar_title"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/classes_title_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAnnouncementsTitle"
+        android:elevation="8dp">
+        <TextView
+            android:id="@+id/classes_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/classes_button"
+            android:textSize="36sp"
+            android:gravity="center"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_one"
+                android:text="@string/classes_first"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_one"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_first_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_two"
+                android:text="@string/classes_second"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_two"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_second_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_three"
+                android:text="@string/classes_third"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_three"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_third_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_four"
+                android:text="@string/classes_forth"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_four"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_forth_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_five"
+                android:text="@string/classes_fifth"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_five"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_fifth_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_six"
+                android:text="@string/classes_sixth"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_six"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_sixth_hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ClassesLinearLayout">
+
+            <TextView
+                android:id="@+id/text_view_classes_seven"
+                android:text="@string/classes_seventh"
+                style="@style/ClassesTextView"/>
+
+            <EditText
+                android:id="@+id/edit_text_classes_seven"
+                style="@style/ClassesEditText"
+                android:hint="@string/classes_seventh_hint"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_classes_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@drawable/button_text_color"
+            android:text="@string/confirm"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
