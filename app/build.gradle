@@ -33,6 +33,17 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.github.npanigrahy:Custom-Calendar-View:v1.0'
     compile 'com.code-troopers.betterpickers:library:2.5.3'
+    compile 'com.google.android.gms:play-services-identity:9.0.0'
+    compile 'pub.devrel:easypermissions:0.1.5'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile('com.google.apis:google-api-services-sheets:v4-rev2-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }
+
+
+
 
 

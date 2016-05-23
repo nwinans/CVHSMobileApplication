@@ -33,6 +33,13 @@ public class ClubsExpandableListAdapter extends BaseExpandableListAdapter {
         this.mClubs = clubs;
     }
 
+    // Updates the data
+    public void updateData(List<String> clubs,
+                           Map<String, List<String>> clubsCollections) {
+        this.mClubsCollections = clubsCollections;
+        this.mClubs = clubs;
+    }
+
     @Override
     public int getGroupCount() {
         return mClubs.size();

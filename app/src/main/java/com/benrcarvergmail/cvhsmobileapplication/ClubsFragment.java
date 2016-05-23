@@ -1,17 +1,29 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,11 +38,17 @@ import java.util.Map;
  */
 public class ClubsFragment extends Fragment {
 
-    private ArrayList<Club> mData;
+    private ArrayList<Club> mClubData;
 
     private List<String> mGroupList;
     private List<String> mChildList;
     private Map<String, List<String>> mClubCollection;
+
+    private ClubsExpandableListAdapter mExpandableListAdapter;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private final String mDefaultSpreadsheetURL = "https://spreadsheets.google.com/tq?key=1Ujv343n_71WhNtozzc88SIm18ahy-Wfrh5lMmMFEsVs";
 
     private static final String TAG = "ClubsFragment";
 
@@ -38,8 +56,15 @@ public class ClubsFragment extends Fragment {
      * Instantiates a new Club fragment.
      */
     public ClubsFragment() {
-        // Instantiate the mData ArrayList so we may populate it during onCreateView()
-        mData = new ArrayList<>();
+        // Instantiate the mClubData ArrayList so we may populate it during onCreateView()
+        mClubData = new ArrayList<>();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceBundle) {
+        super.onCreate(savedInstanceBundle);
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,56 +72,70 @@ public class ClubsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_clubs, container, false);
 
+        // Set up the List Adapter prior to calling populateData()
+        mGroupList = new ArrayList<>();
+        mClubCollection = new LinkedHashMap<>();
+        mExpandableListAdapter = new ClubsExpandableListAdapter(getActivity(), mGroupList, mClubCollection);
+
         // Create object reference to the RecyclerView created in fragment_clubs.xml
-        // Populate the mData ArrayList. We currently do not utilize the boolean return type
+        // Populate the mClubData ArrayList. We currently do not utilize the boolean return type
         populateData();
-
-        createGroupList();
-
-        createCollection();
 
         ExpandableListView mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.listview);
 
-        final ClubsExpandableListAdapter expandableListAdapater = new ClubsExpandableListAdapter(getActivity(), mGroupList, mClubCollection);
 
-        mExpandableListView.setAdapter(expandableListAdapater);
+        mExpandableListView.setAdapter(mExpandableListAdapter);
 
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                final String selected = (String) expandableListAdapater.getChild(groupPosition, childPosition);
+                final String selected = (String) mExpandableListAdapter.getChild(groupPosition, childPosition);
                 Toast.makeText(getContext(), selected, Toast.LENGTH_SHORT).show();
 
                 return true;
             }
         });
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout)
+                rootView.findViewById(R.id.swipe_refresh_layout_clubs);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshContent();
+            }
+        });
+
         return rootView;
+    }
+
+    // Refreshes the Clubs by reconnecting to the server and pulling new data
+    private void refreshContent() {
+        populateData();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void createGroupList() {
         mGroupList = new ArrayList<>();
-        for (int i = 0; i < mData.size(); i++) {
-            // Log.i(TAG,(i + ": " + mData.get(i).getTitle()));
-            mGroupList.add(mData.get(i).getTitle());
+        Log.i(TAG, "OUTSIDE For-loop of createGroupList()");
+        for (int i = 0; i < mClubData.size(); i++) {
+            Log.i(TAG, "in For-loop of createGroupList()");
+            Log.i(TAG,(i + ": " + mClubData.get(i).getTitle()));
+            mGroupList.add(mClubData.get(i).getTitle());
         }
     }
 
     private void createCollection() {
         // Preparing clubs collection (the children, I guess)
-        String[] randomData = { "Dank Memes", "Click for more memes", "Club memes" };
-        String[] defaultData = { "Mr. Small", "The robotics club is a club about robotics", "Memes are Great" };
         mClubCollection = new LinkedHashMap<>();
 
-        for (String club: mGroupList) {
-            Log.i(TAG, "Club: " + club);
-            if (club.equals("Robotics")) {
-                loadChild(defaultData);
-            } else {
-                loadChild(randomData);
-            }
+        for (Club c: mClubData) {
+            String[] s = new String[2];
+            s[0] = "Sponsor(s): " + c.getSponsor();
+            s[1] = "Description: " + c.getText();
+            loadChild(s);
 
-            mClubCollection.put(club, mChildList);
+            mClubCollection.put(c.getTitle(), mChildList);
         }
     }
 
@@ -105,8 +144,8 @@ public class ClubsFragment extends Fragment {
         mChildList.addAll(Arrays.asList(clubsData));
     }
 
-    /* This will populate the mData ArrayList with the mData we want to display. This may
-     eventually get more complicated (if we require lots of different mData other than
+    /* This will populate the mClubData ArrayList with the mClubData we want to display. This may
+     eventually get more complicated (if we require lots of different mClubData other than
      text to be shown. Additionally, this will eventually grab the information from a server.
      */
     private void populateData() {
@@ -118,320 +157,24 @@ public class ClubsFragment extends Fragment {
 
         /* populateData() is called every time onCreateView() is called by an clubFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
-         a lot. That means that every single time populateData is called, all of this the mData below
-         is re-added to the mData ArrayList. If I neglect to clear the ArrayList (I ensure that it isn't
-         null to avoid a NullPointerException), there will be duplicated mData in the ArrayList. Android
-         obviously doesn't know any better than to create extra Cards out of this duplicated mData, resulting
-         in lots and lots of cards with the exact same mData. Clearing the ArrayList each time the populateData()
+         a lot. That means that every single time populateData is called, all of this the mClubData below
+         is re-added to the mClubData ArrayList. If I neglect to clear the ArrayList (I ensure that it isn't
+         null to avoid a NullPointerException), there will be duplicated mClubData in the ArrayList. Android
+         obviously doesn't know any better than to create extra Cards out of this duplicated mClubData, resulting
+         in lots and lots of cards with the exact same mClubData. Clearing the ArrayList each time the populateData()
          method is called ensures that there aren't any duplicates. Whether or not there's a better way to do this
          is beyond me at the moment, but this works currently and I'm fine with that.
          */
-        if (mData != null) {
-            mData.clear();
+        if (mClubData != null) {
+            mClubData.clear();
         }
 
-        // Add each new club to the ArrayList. We are creating the Club when we pass them.
-        mData.add(new Club("America's Leaders of Engineering Interest",
-                "Club for people interested in engineering" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Amnesty International Club",
-                "Support human rights in a peaceful manner" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Animal Welfare Club",
-                "All animal lovers can come and participate in helping our furry friends"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Art Honor Society",
-                "For students who excel in art and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Best Buddies",
-                "A social club for building friendship with students with physical and intellectual impairments" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Business Honor Society",
-                "For students who excel in the business field and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Catholic Students Assocation",
-                "Examines the Catholic traditions and practices" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Chess Club",
-                "Come and enjoy the game of chess" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Class of 2016",
-                "For current seniors" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Class of 2017",
-                "For current juniors" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Class of 2018",
-                "For current sophomores" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Class of 2019",
-                "For current freshmeat (huehuehue)" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Coalition of Young Conservatives",
-                "Examine the Conservative political agenda and help students participate in it " +
-                        "more meaningfully" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("College Partnership Program",
-                "College and career readiness activities, trips, and workshops for aspiring " +
-                        "college students who are eligible for acceptance to the program" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Computer Programming",
-                " " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Dance Team",
-                "Performs routines and jazz, pop, kick, and hip hop at home football games and " +
-                        "competes in regional dance team competitions during fall and winter" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("DECA",
-                "Exposed students to business in work situations in marketing " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Discussion",
-                " " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Eastern Anime and Culture Club",
-                "Watch and complete project games of eastern culture animation" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Edge",
-                "A fellowship organization enabling students to discuss questions and challenges" +
-                        "of life" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("English Honor Society",
-                "For students who excel in english and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Environmental Impact Club",
-                "To make students aware of our environmental impact " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("FBLA",
-                "To develop business and technology skills for careers"
-                        +"in business"
-                        +"Meets first Monday of each month RM 113"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Fellowship of Christian Athletes",
-                "To share the gospel and grow as followers "
-                        +"Students do not have to be athletes to attend"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("First Response Club",
-                "Learn about how first response works " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("French Club",
-                "To give students an opportunity to learn more about the culture "
-                        +"of the French speaking world" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("French Honor Society",
-                "For students who excel in french and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Future Medical Leaders of America",
-                "Students interested in the medical field " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Gay Straight Alliance",
-                "To advocate acceptance and tolerance in the community " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("German Club",
-                "Students who are interested in German culture " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("German Honor Society",
-                "For students who excel in german and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("G.I.R.L.S.",
-                "Club to empower, motivate, and provide opportunities for all students "
-                        +"with an emphasis on females"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("G.O.A.T.",
-                "Learn the art of music, production, performing, and recording " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Hispanic Leadership Club",
-                "Bringing Hispanic students for fellowship, leadership, and scholarship " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Ice Hockey Club",
-                "Organizes skating competition and discusses ice skating " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("International Culinary",
-                "Introduce and make food from all parts of the world " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("It's Academic",
-                "Group of students who participate in trivia challenges in competitive environment " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Key Club",
-                "Student organization that focuses on community service" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Korean Club",
-                "Student organization that focuses on the Korean culture" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Latin Club",
-                "Organization to support Latin students and enrich the classroom experience" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Latin Honor Society",
-                "For students who excel in latin and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Locking Arms Group",
-                "Students discuss social issues and possible solutions" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Math Honor Society",
-                "For students who excel in math and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Mazza Club",
-                " " + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Military support Club",
-                "Support soldiers and their families" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Modal Judiciary",
-                "Prepares students to compete in mock trials and moot courts" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Model UN",
-                "Organization that competes in diplomatic debating and compromising" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Muslim Student Association",
-                "Support Muslim students and friends with enrichment and fellowship activities" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("National Honor Society",
-                "For students who excel in academics"+
-                        "To qualify for NHS membership, students must be in grades 11 or 12 " +
-                        "and have a cumulative GPA of 3.5 or higher" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Pinterest Club",
-                "Students come together to express their creativity " +
-                        "through projects found on Pinterest" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Red Cross Club",
-                "Volunteer in donation drives and participate in disaster relief activites" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Robotics",
-                "STEM development in robotics making and competition" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Rubik's Cube Club",
-                "Club dedicated to the Rubik's Cube" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Science Honor Society",
-                "For students who excel in science and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Science Olympiad Club",
-                "Students participate in competitions testing the knowledge of all sciences" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Soap Making Club",
-                "Join us to make nice smelling soap" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Social Studies Honor Society",
-                "For students who excel in social studies and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Spanish Honor Society",
-                "For students who excel in spanish and take interest in the subject"+ "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Step Team",
-                "Join us to make rhythmic dance" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Speech and Debate",
-                "For students interested in speech and debate" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Students Helping India",
-                "To educate about the societal disaster in India that deals with poverty" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Team Tutors",
-                "Students tutor athletes while working around their unique " +
-                        "and challenging schedules" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Thespians Society",
-                "Theater and honor society support" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Tri-M",
-                "Music Honor Society" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("The Sentinel",
-                "Centreville High School newspaper" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("UNICEF Club",
-                "Helps impoverished women and children around the world" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Warhammer",
-                "Helps impoverished women and children around the world" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Wildcat Writing Center",
-                "Student run, peer tutoring organization" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("Women in Math Honor Society",
-                "For girls who show an interest in math and want to advance in the field" + "\n",
-                Integer.MIN_VALUE));
-        mData.add(new Club("ZOIC",
-                "Literary Magazine" + "\n",
-                Integer.MIN_VALUE));
-
-        // Because I am too lazy to add this into each constructor...
-        mData.get(0).setSponsor("Paige Clark");
-        mData.get(1).setSponsor("Kathryn Mayhew");
-        mData.get(2).setSponsor("Michelle Neer");
-        mData.get(3).setSponsor("Katharine Search");
-        mData.get(4).setSponsor("Tommy Lamb, Kathleen McGuire");
-        mData.get(5).setSponsor("Leah Stowers");
-        mData.get(6).setSponsor("David Campbell");
-        mData.get(7).setSponsor("J.H. Novak");
-        mData.get(8).setSponsor("Sarah Pevner, Caitlin Rock");
-        mData.get(9).setSponsor("Kalli Chaney, Ashley Saccamando");
-        mData.get(10).setSponsor("Amy Balint, Dawn Barham");
-        mData.get(11).setSponsor("Jennifer Filsinger, Mary Lewis");
-        mData.get(12).setSponsor("David Campbell");
-        mData.get(13).setSponsor("Nancy Scheider, David Bausman, Donna Thompson, Sinitra DeHaven");
-        mData.get(14).setSponsor("Oliver Small");
-        mData.get(15).setSponsor("Jackie Cipolla");
-        mData.get(16).setSponsor("Michael Carfang, Miranda Schick");
-        mData.get(17).setSponsor("Jennie Hwangpo");
-        mData.get(18).setSponsor("Lauren White");
-        mData.get(19).setSponsor("Megan Lee");
-        mData.get(20).setSponsor("Jennifer Filsinger");
-        mData.get(21).setSponsor("Jean Cole Kleitz");
-        mData.get(22).setSponsor("Leah Stowers");
-        mData.get(23).setSponsor("Joshua Culver");
-        mData.get(24).setSponsor("Sean Scott");
-        mData.get(25).setSponsor("Sophie Turpin");
-        mData.get(26).setSponsor("Sophie Turpin");
-        mData.get(27).setSponsor("Judy Martin");
-        mData.get(28).setSponsor("Kathleen Willmann");
-        mData.get(29).setSponsor("Melissa Rife, Katherine Shepard");
-        mData.get(30).setSponsor("Melissa Rife");
-        mData.get(31).setSponsor("Sinitra DeHaven");
-        mData.get(32).setSponsor("Bill Burke");
-        mData.get(33).setSponsor("John O'Rourke");
-        mData.get(34).setSponsor("Catherine Ruffing");
-        mData.get(35).setSponsor("Susan Reese");
-        mData.get(36).setSponsor("David Campbell");
-        mData.get(37).setSponsor("Mariana Taboada");
-        mData.get(38).setSponsor("Jean No");
-        mData.get(39).setSponsor("Kathryn Mayhew, David Campbell");
-        mData.get(40).setSponsor("Kathryn Mayhew");
-        mData.get(41).setSponsor("Gordon Person");
-        mData.get(42).setSponsor("Kathy Beatty, Susan Rigby");
-        mData.get(43).setSponsor("Heather Fehr, Claudia DaBose");
-        mData.get(44).setSponsor("Maria Marris");
-        mData.get(45).setSponsor("Catherine Ruffing");
-        mData.get(46).setSponsor("Jackie Golodolinski, Michelle Pillor");
-        mData.get(47).setSponsor("Maliha Malik, David Bausman");
-        mData.get(48).setSponsor("Noel Miller, Alex Morrison");
-        mData.get(49).setSponsor("Jessica Berg");
-        mData.get(50).setSponsor("Mary Rubin");
-        mData.get(51).setSponsor("Oliver Small");
-        mData.get(52).setSponsor("Mary Rubin");
-        mData.get(53).setSponsor("Heather Fehr");
-        mData.get(54).setSponsor("Kathleen Waterfall");
-        mData.get(55).setSponsor("Christina Lee");
-        mData.get(56).setSponsor("Gary Baird");
-        mData.get(57).setSponsor("Barbara Haber, Judy Martin");
-        mData.get(58).setSponsor("Dana Doss");
-        mData.get(59).setSponsor("Terry Angelotti");
-        mData.get(60).setSponsor("Michelle Neer");
-        mData.get(61).setSponsor("Katherin Strobl");
-        mData.get(62).setSponsor("Mike Hudson");
-        mData.get(63).setSponsor("Melissa Hall, Lynne Babcock");
-        mData.get(64).setSponsor("Marissa D'Orazio");
-        mData.get(65).setSponsor("Caitlin Rock");
-        mData.get(66).setSponsor("David Bausman");
-        mData.get(67).setSponsor("Alison Hughes");
-        mData.get(68).setSponsor("Susan Rigby");
-        mData.get(69).setSponsor("Bridget Donoghue");
-
+        new DownloadClubs().execute(mDefaultSpreadsheetURL);
     }
 
 
     /**
-     * Club class to store all mData pertaining to what might be
+     * Club class to store all mClubData pertaining to what might be
      * displayed or associated with any given Club. This implementation
      * is subject to change at any point, as a better methodology may be discovered.
      */
@@ -651,26 +394,161 @@ public class ClubsFragment extends Fragment {
         public String toString() {
             return "Club: " + title + ", " + text + ", " + ", " + imageSource;
         }
+    }
 
-        /**
-         * This method creates a substring from the club's text to be used as a intro of
-         * sorts. Basically, this generated String can be used to display on each CardView when
-         * the CardView isn't expanded. Upon expansion, the CardView will display the full text
-         * of the club.
-         *
-         * @return a substring of the club
-         */
-        public String generateIntro() {
-            Log.i(TAG, "generateIntro() called!");
-            if (text.length() == 0) {
-                return "...";
-            } else {
-                // Ensure that the text is long to generate an 80-character substring
-                if (text.length() >= 80) {
-                    return text.substring(0, 80) + "...";
-                } else {
-                    return text; // The text is already short enough.
+    /**
+     * Created by Benjamin on 5/22/2016.
+     */
+    public class DownloadClubs extends AsyncTask<String, Void, String> {
+
+        public DownloadClubs() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // params[0] is the url
+            try {
+                return downloadContent(params[0]);
+            } catch (IOException e) {
+                return "Unable to download the requested page...";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            /*
+            Remove the unneeded parts of the download and construct a JSON object. If we don't do this
+            part, we would have a bunch of unnecessary data around the data we want. We have to cut
+            that out so we can actually parse everything.
+             */
+            Log.d(TAG, result);
+            int start = result.indexOf("{", result.indexOf("{") + 1);
+            int end = result.lastIndexOf("}");
+
+            String resultFromSub = result.substring(start, end);
+
+            try {
+                JSONObject table = new JSONObject(resultFromSub);
+                parseDownload(table);
+            } catch (JSONException e) {
+                Log.e(TAG, "JSONException caught onPostExecute", e);
+            }
+
+            createGroupList();
+            createCollection();
+            mExpandableListAdapter.updateData(mGroupList, mClubCollection);
+            mExpandableListAdapter.notifyDataSetChanged();
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mExpandableListAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
+
+                    Toast.makeText(getActivity(), "Clubs loaded successfully (probably)", Toast.LENGTH_SHORT).show();
                 }
+            });
+        }
+
+        private String downloadContent(String urlStr) throws IOException {
+            InputStream inputStream = null;
+
+            try {
+                // Create a URL object with the URL of the spreadsheet as a parameter passed to this method.
+                URL url = new URL(urlStr);
+                // Create a new HTTPUrlConnection with the URL.
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // The following two methods' parameters are in milliseconds. The first method defines
+                // how long we shall try to read the data before timing out. The second is how long we should
+                // try to actually connect before timing out.
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(15000);
+
+                /*
+                We are going to use an HTTP GET request. GET requests data from a specified resource.
+                You may have heard of "POST". POST submits data to be processed to a specified resource,
+                 which obviously isn't really what we're wanting to do here.
+                */
+                connection.setRequestMethod("GET");
+                // This sets the value of the doInputField for the URLConnection to what we specify.
+                // A URL can be used for input or output. We're using it for input.
+                connection.setDoInput(true);
+
+                // Connect! Hooray!
+                connection.connect();
+                // Grab the response code.
+                int responseCode = connection.getResponseCode();
+                // Assign our InputStream object to the connect as an input stream so we can process the data.
+                inputStream = connection.getInputStream();
+
+                return convertStreamToString(inputStream);
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }
+        }
+
+        private String convertStreamToString(InputStream is) {
+            // Convert the input to a String with a buffered reader.
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            // Go line-by-line until we've been through the whole thing.
+            String line = null;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return sb.toString();
+        }
+
+        private void parseDownload(JSONObject results) {
+            try {
+                JSONArray rows = results.getJSONArray("rows");
+
+                for (int i = 0; i < rows.length(); i++) {
+                    JSONObject row = rows.getJSONObject(i);
+                    JSONArray columns = row.getJSONArray("c");
+
+                    /*
+                    Parse the JSONArray. Basically, we have rows and columns. The data in the
+                    spreadsheet is organized by column. At the time that Ben is writing this comment,
+                    the columns are position, author, date, show_flag, title, and contents in that
+                    order. Therefore, we can just grab the data we want by going to the column its
+                    stored in, since we know the columns. We are going through each row of the spreadsheet
+                    with the for-loop above. Each iteration of the for-loop goes to the next row, ensuring we
+                    get all of the data stored in the spreadsheet.
+                     */
+                    String sponsors = columns.getJSONObject(0).getString("v");
+                    String clubName = columns.getJSONObject(1).getString("v");
+                    String clubDesc = columns.getJSONObject(2).getString("v");
+                    int show_flag = columns.getJSONObject(3).getInt("v");
+
+                    // Parameters for constructor are:
+                    // String title, String text, String author, int iconSource, int imageSource, Date announcementDate
+                    Club club = new Club(clubName, clubDesc, sponsors, -1, -1);
+
+                    // Log.i(TAG, "Club created: " + club.toString());
+
+                    // If we want to show this announcement, add it to the data ArrayList.
+                    if (1 == 1) {
+                        mClubData.add(club);
+                    }
+                }
+
+            } catch (JSONException e) {
+                Log.e(TAG, "JSONException caught whilst parsing", e);
             }
         }
     }

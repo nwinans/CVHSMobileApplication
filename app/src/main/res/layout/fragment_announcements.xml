@@ -61,16 +61,26 @@
 
     </LinearLayout>
 
-    <!-- The RecyclerView -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_networking_container"
         android:layout_marginTop="10dp">
-        <com.benrcarvergmail.cvhsmobileapplication.AnimatedRecyclerView
-            android:id="@+id/rv_recycler_view"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout_announcements"
+            android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content">
+
+            <!-- The RecyclerView -->
+            <com.benrcarvergmail.cvhsmobileapplication.AnimatedRecyclerView
+                android:id="@+id/rv_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

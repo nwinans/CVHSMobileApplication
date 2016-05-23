@@ -2,6 +2,8 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Reference to the Relative Layout that displays the plus schedule
     private LinearLayout mPlusLayout;
+
+    // GoogleAPI Client
+    private GoogleApiClient mGoogleApiClient;
 
     private static final String TAG = "MainActivity";
 
@@ -143,6 +150,11 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private static Animation runFadeOutAnimationOn(Activity ctx, View target) {
         Animation animation = AnimationUtils.loadAnimation(ctx,
                 android.R.anim.fade_out);
@@ -205,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         // Does not pass any text to the addFrag method, so the tabs do not have any text titles
         ViewPagerAdapter vpa = (ViewPagerAdapter) viewPager.getAdapter();
         vpa.addFrag(new AnnouncementsFragment(), ""); // Announcements
-        vpa.addFrag(new BasicFragment(), ""); // Placeholder
+        vpa.addFrag(new ArticlesVideosFragment(), ""); // Placeholder
         vpa.addFrag(new AcademicsFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Clubs Fragment
         vpa.addFrag(new SettingsFragment(), ""); // Placeholder

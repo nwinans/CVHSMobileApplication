@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/articlesvideos_title_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorClubsTitle"
+        android:elevation="8dp">
+        <TextView
+            android:id="@+id/articlesvideos_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articlesvideos_tab"
+            android:textSize="36sp"
+            android:layout_gravity="center_horizontal" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button_articles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@drawable/button_text_color_green"
+            android:text="@string/articles"
+            android:background="?android:attr/selectableItemBackground"/>
+
+        <Button
+            android:id="@+id/button_videos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@drawable/button_text_color_green"
+            android:text="@string/videos"
+            android:background="?android:attr/selectableItemBackground"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_articles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/articles"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_videos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/videos"/>
+    </LinearLayout>
+
+</LinearLayout>

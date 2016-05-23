@@ -78,6 +78,6 @@ public class AnimatedRecyclerView extends RecyclerView {
         view.animate().cancel();
         view.setTranslationY(100);
         view.setAlpha(0);
-        view.animate().alpha(1.0f).translationY(0).setDuration(750).setStartDelay(pos * 100);
+        view.animate().alpha(1.0f).translationY(0).setDuration(1000).setStartDelay(pos * 100);
     }
 }

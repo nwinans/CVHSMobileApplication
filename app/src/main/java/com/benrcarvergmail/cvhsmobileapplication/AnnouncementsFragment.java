@@ -1,8 +1,12 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +16,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * The type Announcements fragment.
@@ -32,9 +45,12 @@ public class AnnouncementsFragment extends Fragment {
 
     private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
     private final String defaultServerPort = "";            // Default port for the server/database
+    private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=15norrPRiVtM1vVSmCtSTzDQhxrSpSX6QrruIvNOCeS0";
 
     private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
     private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;              // Swipe Refresh Layout for Announcements
 
     private static final String TAG = "AnnouncementsFragment";  // TAG
 
@@ -47,8 +63,16 @@ public class AnnouncementsFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView() for AnnouncementsFragment called.");
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_announcements, container, false);
         // Create object reference to the RecyclerView created in fragment_announcements.xml
@@ -58,7 +82,7 @@ public class AnnouncementsFragment extends Fragment {
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
         mAdapter = new AnnouncementsRecyclerViewAdapter(data);
         // Populate the data ArrayList. We currently do not utilize the boolean return type
-        populateData(defaultServerAddress, defaultServerPort);
+        populateData(false, defaultServerAddress, defaultServerPort);
         // Set the RecyclerView's adapter to the one we just created
         mAnimatedRecyclerView.setAdapter(mAdapter);
         // Instantiate the references to the IP Address and Port EditText fields
@@ -87,11 +111,11 @@ public class AnnouncementsFragment extends Fragment {
                 // Currently, Ben has it set up such that if NO IP address or port is specified, the
                 // app will assume the default addresses are to be used.
                 if (IPAddress.equals("") && port.equals("")) {
-                    populateData(defaultServerAddress, defaultServerPort);
+                    populateData(true, defaultServerAddress, defaultServerPort);
                 } else if (IPAddress.equals("")) {
                     Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
                 }  else {
-                    populateData(IPAddress, port);
+                    populateData(true, IPAddress, port);
                 }
             }
         });
@@ -99,7 +123,28 @@ public class AnnouncementsFragment extends Fragment {
         // implementation which provides similar functionality to ListView.
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         mAnimatedRecyclerView.setLayoutManager(llm);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)
+                rootView.findViewById(R.id.swipe_refresh_layout_announcements);
+
+        // The refresh loading icon will cycle thru these colors
+        // mSwipeRefreshLayout.setColorSchemeColors(R.color.refreshBlue, R.color.refreshYellow, R.color.refreshRed);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshContent();
+            }
+        });
+
         return rootView;
+    }
+
+    // Refreshes the Announcements by reconnecting to the server and pulling new data
+    private void refreshContent() {
+        populateData(true, defaultServerAddress, defaultServerPort);
+        // ToDo: Potentially figure out a way to make this last a little longer because the refresh animation stops too soon so it appears something isn't working for ~1 second.
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /* This will populate the data ArrayList with the data we want to display. This may
@@ -109,7 +154,7 @@ public class AnnouncementsFragment extends Fragment {
      This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
      It may eventually be removed due to said redundancy but for now, I'm leaving it.
      */
-    private void populateData(String... args) {
+    private void populateData(boolean doAnimate, String... args) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -126,7 +171,15 @@ public class AnnouncementsFragment extends Fragment {
         }
 
         // Offload the network connection to the AsyncTask
-        new RetrieveAnnouncementsTask().execute(args);
+        // new RetrieveAnnouncementsTask().execute(args);
+        new DownloadAnnouncements().execute(defaultSpreadsheetUrl);
+
+        // Only animate if we actually want to animate
+        if (doAnimate) {
+            mAnimatedRecyclerView.setDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
+        } else {
+            mAnimatedRecyclerView.setDoAnimate(false);      // Notify the AnimatedRecyclerView that it is okay to animate
+        }
     }
 
 
@@ -417,7 +470,7 @@ public class AnnouncementsFragment extends Fragment {
          * @return a substring of the announcement
          */
         public String generateIntro() {
-            Log.i(TAG, "generateIntro() called!");
+            // Log.i(TAG, "generateIntro() called!");
             if (text.length() == 0) {
                 return "...";
             } else {
@@ -431,6 +484,7 @@ public class AnnouncementsFragment extends Fragment {
         }
     }
 
+    // This probably won't be used much anymore, if ever.
     private class RetrieveAnnouncementsTask extends AsyncTask<String, Void, Void> {
 
         /**
@@ -527,11 +581,174 @@ public class AnnouncementsFragment extends Fragment {
                 @Override
                 public void run() {
                     mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
-                    mAnimatedRecyclerView.setDoAnimate(true);      // Notify the AnimatedRecyclerView that it is okay to animate
 
                     Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
+    /**
+     * Created by Benjamin on 5/22/2016.
+     */
+    public class DownloadAnnouncements extends AsyncTask<String, Void, String> {
+
+        public DownloadAnnouncements() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // params[0] is the url
+            try {
+                return downloadContent(params[0]);
+            } catch (IOException e) {
+                return "Unable to download the requested page...";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            /*
+            Remove the unneeded parts of the download and construct a JSON object. If we don't do this
+            part, we would have a bunch of unnecessary data around the data we want. We have to cut
+            that out so we can actually parse everything.
+             */
+            Log.d(TAG, result);
+            int start = result.indexOf("{", result.indexOf("{") + 1);
+            int end = result.lastIndexOf("}");
+
+            String resultFromSub = result.substring(start, end);
+
+            try {
+                JSONObject table = new JSONObject(resultFromSub);
+                parseDownload(table);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
+
+                    Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private String downloadContent(String urlStr) throws IOException {
+            InputStream inputStream = null;
+
+            try {
+                // Create a URL object with the URL of the spreadsheet as a parameter passed to this method.
+                URL url = new URL(urlStr);
+                // Create a new HTTPUrlConnection with the URL.
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // The following two methods' parameters are in milliseconds. The first method defines
+                // how long we shall try to read the data before timing out. The second is how long we should
+                // try to actually connect before timing out.
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(15000);
+
+                /*
+                We are going to use an HTTP GET request. GET requests data from a specified resource.
+                You may have heard of "POST". POST submits data to be processed to a specified resource,
+                 which obviously isn't really what we're wanting to do here.
+                */
+                connection.setRequestMethod("GET");
+                // This sets the value of the doInputField for the URLConnection to what we specify.
+                // A URL can be used for input or output. We're using it for input.
+                connection.setDoInput(true);
+
+                // Connect! Hooray!
+                connection.connect();
+                // Grab the response code.
+                int responseCode = connection.getResponseCode();
+                // Assign our InputStream object to the connect as an input stream so we can process the data.
+                inputStream = connection.getInputStream();
+
+                return convertStreamToString(inputStream);
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }
+        }
+
+        private String convertStreamToString(InputStream is) {
+            // Convert the input to a String with a buffered reader.
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            // Go line-by-line until we've been through the whole thing.
+            String line = null;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return sb.toString();
+        }
+
+        private void parseDownload(JSONObject results) {
+            try {
+                JSONArray rows = results.getJSONArray("rows");
+
+                for (int i = 0; i < rows.length(); i++) {
+                    JSONObject row = rows.getJSONObject(i);
+                    JSONArray columns = row.getJSONArray("c");
+
+                    /*
+                    Parse the JSONArray. Basically, we have rows and columns. The data in the
+                    spreadsheet is organized by column. At the time that Ben is writing this comment,
+                    the columns are position, author, date, show_flag, title, and contents in that
+                    order. Therefore, we can just grab the data we want by going to the column its
+                    stored in, since we know the columns. We are going through each row of the spreadsheet
+                    with the for-loop above. Each iteration of the for-loop goes to the next row, ensuring we
+                    get all of the data stored in the spreadsheet.
+                     */
+                    int position = columns.getJSONObject(0).getInt("v");
+                    String author = columns.getJSONObject(1).getString("v");
+                    String date = columns.getJSONObject(2).getString("v");
+                    int show_flag = columns.getJSONObject(3).getInt("v");
+                    String title = columns.getJSONObject(4).getString("v");
+                    String content = columns.getJSONObject(5).getString("v");
+
+                    /*
+                     We construct a date object utilizing a SimpleDateFormat object. The date is
+                     stored in the spreadsheet in the form of MonthMonth/DayDay/YearYearYearYear,
+                     such as 04/20/2015. Knowing this, we create a date object with the format
+                     MM/dd/YYYY and use that to parse the dates we pulled from the spreadsheet.
+                     We have to parse the dates because they're stored as Strings, basically.
+                     */
+
+                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+                    Date parsedDate = format.parse(date);
+
+                    // Parameters for constructor are:
+                    // String title, String text, String author, int iconSource, int imageSource, Date announcementDate
+                    Announcement announcement = new Announcement(title, content, author, -1, -1, parsedDate);
+
+                    // If we want to show this announcement, add it to the data ArrayList.
+                    if (show_flag == 1) {
+                        data.add(announcement);
+                    }
+                }
+
+            } catch (JSONException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
