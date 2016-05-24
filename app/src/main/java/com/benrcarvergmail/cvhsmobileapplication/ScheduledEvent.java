@@ -15,13 +15,6 @@ public class ScheduledEvent {
     private String mDate;             // The date of the event
     private String mDateCreated;      // The date the event was created
 
-    private CheckBox mCheckBoxHomework;         // The checkbox for homework
-    private CheckBox mCheckBoxProject;          // The checkbox for project
-    private CheckBox mCheckBoxBirthday;         // The checkbox for birthday
-    private CheckBox mCheckBoxTest;             // The checkbox for test
-    private CheckBox mCheckBoxQuiz;             // The checkbox for quiz
-    private CheckBox mCheckBoxOther;            // The checkbox for other
-
     private boolean mIsHomework;         // Indicates whether the event is a homework assignment
     private boolean mIsTest;             // Indicates whether the event is a test
     private boolean mIsProject;          // Indicates whether the event is a project

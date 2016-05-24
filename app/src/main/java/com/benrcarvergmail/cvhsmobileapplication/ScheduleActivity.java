@@ -12,10 +12,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +70,7 @@ public class ScheduleActivity extends FragmentActivity
     // Reference to the ScrollView that holds the tools for creating/editing an event
     private ScrollView mScrollView;
 
+    private ListView mListView;
     // Used for the creation of an event. Updated each time an event is created.
     private String mNewestDateString = "";
     private Date mNewestDateDate = new Date();
@@ -109,6 +113,9 @@ public class ScheduleActivity extends FragmentActivity
         final Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
 
         mCalendarView.refreshCalendar(currentCalendar);
+
+        mListView = (ListView) findViewById(R.id.class_list_view);
+        initListView();
 
         //Handling custom calendar events
         mCalendarView.setCalendarListener(new CalendarListener() {
@@ -248,6 +255,8 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxProject.setChecked(false);
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
+                    setListViewVisible();
+
                 } else {
 
                 }
@@ -264,6 +273,7 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxProject.setChecked(false);
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
+                    setListViewVisible();
                 } else {
 
                 }
@@ -280,6 +290,7 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxProject.setChecked(false);
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
+                    setListViewVisible();
                 } else {
 
                 }
@@ -296,6 +307,7 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxHomework.setChecked(false);
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
+                    setListViewVisible();
                 } else {
 
                 }
@@ -312,6 +324,7 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxProject.setChecked(false);
                     mCheckBoxHomework.setChecked(false);
                     mCheckBoxOther.setChecked(false);
+                    setListViewVisible();
                 } else {
 
                 }
@@ -328,6 +341,7 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxProject.setChecked(false);
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxHomework.setChecked(false);
+                    setListViewVisible();
                 } else {
 
                 }
@@ -341,7 +355,7 @@ public class ScheduleActivity extends FragmentActivity
         // We add 1 to monthOfYear when displaying the Toast message because monthOfYear begins at 0
         // for January, meaning we need to add 1 to the value so it represents the month normally
         Toast.makeText(this, "Date Selected: " + (monthOfYear + 1) + "/" + dayOfMonth + "/" + year,
-                                                                        Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT).show();
 
         Log.i(TAG, "onDateSet() called!");
 
@@ -466,5 +480,39 @@ public class ScheduleActivity extends FragmentActivity
             }
             cell.setBackgroundColor(color);
         }
+    }
+    private void initListView(){
+        String[] classes = new String[]{
+                "Period 1: ", "Period 2: " ,"Period 3: ", "Period 4: ",
+                "Period 5: ", "Period 6", "Period 7: ", "Cancel"
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,classes);
+        mListView.setAdapter(adapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                switch((int)id){
+                    case 7: setListViewInvisible();
+                        break;
+                    default:
+                }
+            }
+        });
+
+    }
+    private void setListViewVisible(){
+        mScrollView.setVisibility(View.GONE);
+        mTextViewCreateEvent.setVisibility(View.GONE);
+        mTextViewEditEvent.setVisibility(View.GONE);
+        mButtonEditEvent.setVisibility(View.GONE);
+        mButtonDeleteEvent.setVisibility(View.GONE);
+        mListView.setVisibility(View.VISIBLE);
+    }
+    private void setListViewInvisible(){
+        mScrollView.setVisibility(View.VISIBLE);
+        mTextViewEditEvent.setVisibility(View.VISIBLE);
+        runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
     }
 }
