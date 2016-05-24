@@ -5,7 +5,15 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+<<<<<<< 9ebc76fb6ab4aec97e55c4412de7be8e98227152
         <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.10" />
+=======
+
+        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.10" />
+
+        <option name="gradleJvm" value="1.8" />
+
+>>>>>>> Worke on teacher fragment
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
