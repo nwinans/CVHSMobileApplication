@@ -18,16 +18,19 @@ import java.util.Map;
 public class TeacherExpandableListAdapter extends BaseExpandableListAdapter {
     // Having context objects is dangerous but the tutorial I am following uses one
     private final Activity mContext;
-    private Map<String, List<String>> myTeacherCollection;
+    private Map<String, List<Teacher>> myTeacherCollection;
     private List<String> myTeachers;
 
     // Constructor
-    public TeacherExpandableListAdapter(Activity context, List<String> clubs, Map<String, List<String>> teacherCollections) {
+    public TeacherExpandableListAdapter(Activity context, List<String> teachers, Map<String, List<Teacher>> teacherCollections) {
         this.mContext = context;
         this.myTeacherCollection = teacherCollections;
-        this.myTeachers = clubs;
+        this.myTeachers = teachers;
     }
-
+    public void updateData(List<String> teachers, Map<String, List<Teacher>> teachersCollections){
+        myTeacherCollection = teachersCollections;
+        myTeachers = teachers;
+    }
     @Override
     public int getGroupCount() {
         return myTeachers.size();

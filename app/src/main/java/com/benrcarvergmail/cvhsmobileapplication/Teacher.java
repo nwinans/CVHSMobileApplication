@@ -1,14 +1,12 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
-import java.util.ArrayList;
-
 /**
- * Created by 3Robotics on 5/20/2016.
+ * Created by 3Robotics on 5/31/2016.
  */
-public class Teacher{
+public class Teacher {
     private String name;
     private String email;
-    private ArrayList<String> course;
+    private String department;
     public Teacher(String a){
         name = a;
     }
@@ -16,10 +14,11 @@ public class Teacher{
         name = a;
         email = b;
     }
-    public Teacher(String a, String b, ArrayList<String> c){
+
+    public Teacher(String a, String b, String d){
         name = a;
         email = b;
-        course = c;
+        department = d;
     }
     public String getName(){
         return name;
@@ -27,16 +26,12 @@ public class Teacher{
     public String getEmail(){
         return email;
     }
-    public ArrayList<String> getCourse(){
-        return course;
+
+    public String getDepartment(){
+        return department;
     }
     public String toString(){
-        String a = "Name: " + name + " Email: " + email + "Courses:";
-        for(int i = 0; i < course.size(); i++){
-            a += " " + course.get(i);
-        }
+        String a = "Name: " + name + " Email: " + email  +"Departmnt:" + department;
         return a;
     }
-
-
 }
