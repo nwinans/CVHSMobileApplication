@@ -14,44 +14,10 @@
             android:id="@+id/articlesvideos_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/articlesvideos_tab"
+            android:text="@string/articles"
             android:textSize="36sp"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/button_articles"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="@drawable/button_text_color_green"
-            android:text="@string/articles"
-            android:background="?android:attr/selectableItemBackground"/>
-
-        <Button
-            android:id="@+id/button_videos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="@drawable/button_text_color_green"
-            android:text="@string/videos"
-            android:background="?android:attr/selectableItemBackground"/>
-
-    </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
@@ -63,25 +29,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:weightSum="1">
 
         <TextView
+            android:id="@+id/educator_toolkit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/articles"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear_layout_videos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
+            android:layout_marginTop="30sp"
+            android:layout_marginBottom="15sp"
+            android:textSize="20sp"
+            android:drawableTop="@drawable/educator_toolkit_medium"
+            android:layout_gravity="center_horizontal"
+            android:text="http://www.nationaleatingdisorders.org/sites/default/files/Toolkits/EducatorToolkit.pdf"
+            android:layout_weight="0" />
         <TextView
+            android:id="@+id/general_statistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/videos"/>
+            android:layout_margin="15sp"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:text="http://www.nationaleatingdisorders.org/general-statistics"
+            android:layout_weight="0" />
+        <TextView
+            android:id="@+id/what_should_i_say"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:text="http://www.nationaleatingdisorders.org/what-should-i-say"
+            android:layout_weight="0" />
+        <TextView
+            android:id="@+id/what_body_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15sp"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:text="http://www.nationaleatingdisorders.org/what-body-image"
+            android:layout_weight="0" />
+
     </LinearLayout>
 
 </LinearLayout>
