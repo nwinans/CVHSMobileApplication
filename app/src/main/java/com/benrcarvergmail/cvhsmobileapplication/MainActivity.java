@@ -2,8 +2,14 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.Context;
+<<<<<<< a2be8148d6d31e4e9ba68b738fa2e1a970c6ec20
 import android.content.Intent;
 import android.content.IntentSender;
+=======
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+>>>>>>> updated crisis menu to use minilayout
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,6 +32,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -73,54 +80,53 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
         // Prevents the keyboard from opening right when the app opens
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         // Crisis Button
         ImageButton imageButtonCrisis = (ImageButton) findViewById(R.id.crisisButton);
         assert imageButtonCrisis != null;
+        String tel = "";
+
+        final CharSequence crisis[] = new CharSequence[] {
+                "CrisisLink Regional Hotlink","Dominion Hospital Emergency Room","Inova Emergency Services",
+                "Mobile Crisis Unit","National Suicide Prevention Hotline","Merrifield Center Emergency Services",
+                "Fairfax County Police Department","Fairfax County Sheriff Department","Life Threating Emergencies (911)"
+        };
+
+        final String numbers[] = new String[] {
+                "tel:7035274077","tel:7035362000","tel:7032897560","tel:18446274747","tel:1800273TALK","tel:7035735769","tel:7036912131",
+                "tel:7033608404","tel:911"
+        };
+
         imageButtonCrisis.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alertDialogBuilder  = new AlertDialog.Builder(MainActivity.this);
-                // Create a LayoutInflater to inflate our custom dialog layout
-                LayoutInflater inflater = getLayoutInflater();
-
-                // Create a view and inflate the custom dialog layout for the view
-                View dialogView = inflater.inflate(R.layout.custom_alert_dialog_easter_egg, null);
-
-                TextView dialogText = (TextView) dialogView.findViewById(R.id.text_view_dialog_text);
-
-                dialogText.setText("CrisisLink Regional Hotlink \n " + "(703) 527-4077\n\n"+
-                        "Crisis Texting \n" + "\b\bText NEEDHELP to 85511\n\n"+
-                        "Dominion Hospital Emergency Room \b" + "\b\b(703) 536-200\n\n"+
-                        "Inova Emergency Services \n" + "\b\b(703) 289-7560\n\n"+
-                        "Mobile Crisis Unit \n" + "\b\b1-844-627-4747\n\n"+
-                        "National Suicide Prevention Hotline \n" + "\b\b1-800-273-TALK and \n\b\b1-800-SUICIDE\n\n"+
-                        "Merrifield Center Emergency Services \n" + "\b\b(703) 573-5769\n\n"+
-                        "Fairfax County Police Department \n" + "\b\b(703) 691-2131\n\n"+
-                        "Fairfax County Sheriff Department \n" + "\b\b(703) 360-8404\n\n"+
-                        "TTY Dial: 711 \n" +
-                        "Life-Threatening Emergencies: 911 \n\n" +
-                        "SAMHSA Info: \nWebsit - www.samhsa.gov \n" +
-                        "Phone - 1-800-662-HELP (4357) \n" +
-                        "");
-
-                // Assign the view to the Alert Dialog
-                alertDialogBuilder.setView(dialogView);
-
-                // After the dialog has been built, assign it to an AlertDialog object and show it
-                final AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // Give the cancel button functionality
-                Button cancelButton = (Button) dialogView.findViewById(R.id.alert_cancel);
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Call the dismiss() method on the AlertDialog to close it
-                        alertDialog.dismiss();
+                AlertDialog.Builder builder  = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Crisis Numbers");
+                /* setNegativeButton is an easter-egg message */
+                builder.setNegativeButton(" ",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String easteregg[] = new String[]{
+                                        "snafuPop","Jick","When the Meme is so Supreme, you let out a scream!"
+                                        ,"He may be #Small, but his money is #BIG.","GRAND DAD??","muck","Ban Daniel Lies"};
+                                double eggnum = Math.random() * easteregg.length;
+                                Toast.makeText(MainActivity.this, easteregg[(int)eggnum], Toast.LENGTH_LONG).show();
+                            }
+                        });
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                     }
                 });
+                builder.setItems(crisis, new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialConfirm(numbers[which], crisis[which]);
+                            }
+                        });
+                // After the dialog has been built, assign it to an AlertDialog object and show it
+                final AlertDialog alertDialog = builder.show();
 
-                alertDialog.show();
             }
         });
 
@@ -150,9 +156,23 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
+<<<<<<< a2be8148d6d31e4e9ba68b738fa2e1a970c6ec20
     @Override
     protected void onStart() {
         super.onStart();
+=======
+    /* Sends a confirmation message, then sends the user to their dialer with the number automatically inputted */
+    private void dialConfirm(final String dial, CharSequence name){
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage("Are you sure you want to call " + name + "? You will be taken to your phone's dialer.")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse(dial));
+                        startActivity(callIntent);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+>>>>>>> updated crisis menu to use minilayout
     }
 
     private static Animation runFadeOutAnimationOn(Activity ctx, View target) {
@@ -308,3 +328,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* wew lad */
