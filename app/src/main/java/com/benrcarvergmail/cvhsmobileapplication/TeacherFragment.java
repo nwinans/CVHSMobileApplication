@@ -119,8 +119,7 @@ public class TeacherFragment extends Fragment {
 
     private void createCollection() {
         // Preparing clubs collection (the children, I guess)
-        String[] randomData = {"Dank Memes", "Click for more memes", "Club memes"};
-        String[] defaultData = {"Mr. Small", "The robotics club is a club about robotics", "Memes are Great"};
+
         mTeacherCollection = new LinkedHashMap<>();
         ArrayList<Teacher> mathTeachers = new ArrayList<Teacher>();
         ArrayList<Teacher> scienceTeachers = new ArrayList<Teacher>();
