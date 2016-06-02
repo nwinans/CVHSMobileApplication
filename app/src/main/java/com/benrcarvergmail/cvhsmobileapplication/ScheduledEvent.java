@@ -8,6 +8,8 @@ import java.util.Date;
  * Created by Benjamin on 5/4/2016.
  */
 public class ScheduledEvent {
+    private long id;
+    private static long num=0;
 
     private String mTitle;                      // The title of the event
     private String mDesc;                       // The description of the event
@@ -35,8 +37,39 @@ public class ScheduledEvent {
         mIsQuiz = bool4;
         mIsBirthday = bool5;
         mIsOther = bool6;
+        id = num;
+        num++;
     }
-
+    public ScheduledEvent() {
+        mTitle = null;
+        mDesc = null;
+        mDate = null;
+        mDateCreated = null;
+        mIsHomework = false;
+        mIsTest = false;
+        mIsProject = false;
+        mIsQuiz = false;
+        mIsBirthday = false;
+        mIsOther = false;
+        id = num;
+        num++;
+    }
+    public ScheduledEvent(String title, String desc, String date1,
+                          boolean bool1, boolean bool2,
+                          boolean bool3, boolean bool4, boolean bool5, boolean bool6) {
+        mTitle = title;
+        mDesc = desc;
+        mDate = date1;
+        mDateCreated = date1;
+        mIsHomework = bool1;
+        mIsTest = bool2;
+        mIsProject = bool3;
+        mIsQuiz = bool4;
+        mIsBirthday = bool5;
+        mIsOther = bool6;
+        id = num;
+        num++;
+    }
     /**
      * Changes the event's title
      * @param title the new title for the event
@@ -110,6 +143,10 @@ public class ScheduledEvent {
         return mTitle;
     }
 
+    public long getId(){
+        return id;
+    }
+    public void setId(long d){ id = d;}
     @Override
     public String toString() {
         String type = "";
@@ -130,4 +167,5 @@ public class ScheduledEvent {
         return "Event[Title: " + mTitle + "], [Description: " + mDesc + "], [Date Created: " + mDateCreated
                 + "], [Date of Event: " + mDate + "], [Type: " + type + "]";
     }
+
 }

@@ -2,10 +2,12 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,17 +20,21 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.imanoweb.calendarview.CalendarListener;
 import com.imanoweb.calendarview.CustomCalendarView;
 import com.imanoweb.calendarview.DayDecorator;
 import com.imanoweb.calendarview.DayView;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,12 +43,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by Benjamin on 5/3/2016.
  */
 public class ScheduleActivity extends FragmentActivity
         implements CalendarDatePickerDialogFragment.OnDateSetListener {
+    private ScheduleEventDatabase EventDB = new ScheduleEventDatabase(this);
 
     private Button mButtonEditEvent;
     private Button mButtonDeleteEvent;
@@ -66,13 +74,13 @@ public class ScheduleActivity extends FragmentActivity
 
     // Reference to the custom calendar view itself
     private CustomCalendarView mCalendarView;
-
     // Reference to the ScrollView that holds the tools for creating/editing an event
     private ScrollView mScrollView;
 
-    private ListView mListView;
+    private ListView mClassListView;
+    private ListView mEventListView;
     // Used for the creation of an event. Updated each time an event is created.
-    private String mNewestDateString = "";
+    private String mNewestDateString = "";//AUSTIN: MEMBER VARIABLES THAT ARE BASED ON OTHER VARIBALES SHOULD BE METHODS NOT VARIABLES
     private Date mNewestDateDate = new Date();
 
     private final static String TAG = "ScheduleActivity";
@@ -114,8 +122,10 @@ public class ScheduleActivity extends FragmentActivity
 
         mCalendarView.refreshCalendar(currentCalendar);
 
-        mListView = (ListView) findViewById(R.id.class_list_view);
-        initListView();
+        mClassListView = (ListView) findViewById(R.id.class_list_view);
+        initClassesListView();
+        mEventListView = (ListView) findViewById(R.id.ExpandableList_CalanderList);
+        initScheduleListView();
 
         //Handling custom calendar events
         mCalendarView.setCalendarListener(new CalendarListener() {
@@ -123,6 +133,7 @@ public class ScheduleActivity extends FragmentActivity
             public void onDateSelected(Date date) {
                 SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
                 mNewestDateDate = date;
+                initScheduleListView();
                 Toast.makeText(getApplicationContext(), df.format(date), Toast.LENGTH_SHORT).show();
             }
 
@@ -148,16 +159,15 @@ public class ScheduleActivity extends FragmentActivity
 
                 runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
 
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+                String newestDateString = getNewestDateString();
 
-                mNewestDateString = simpleDateFormat.format(mNewestDateDate);
+                Log.i(TAG, "[CreateEvent] Newest Date: " + newestDateString);
 
-                Log.i(TAG, "[CreateEvent] Newest Date: " + mNewestDateString);
-
-                mTextViewCurrentDate.setText("Current Date: " + mNewestDateString);
+                mTextViewCurrentDate.setText("Current Date: " + newestDateString);
 
                 mButtonEditEvent.setVisibility(View.GONE);
                 mButtonDeleteEvent.setVisibility(View.GONE);
+       //         mEventListView.setVisibility(View.GONE);
             }
         });
 
@@ -170,6 +180,7 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewEditEvent.setVisibility(View.VISIBLE);
 
                 runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+                mTextViewCurrentDate.setText("Current Date: " + getNewestDateString());
 
                 mButtonEditEvent.setVisibility(View.GONE);
                 mButtonDeleteEvent.setVisibility(View.GONE);
@@ -193,6 +204,7 @@ public class ScheduleActivity extends FragmentActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "Event deleted",
                                         Toast.LENGTH_SHORT).show();
+                                //removeEvent(getNewestDateString());
                             }
 
                         })
@@ -223,7 +235,7 @@ public class ScheduleActivity extends FragmentActivity
                 List<DayDecorator> decorators = new ArrayList<>();
                 decorators.add(new ColorDecorator());
                 mCalendarView.setDecorators(decorators);
-                mCalendarView.refreshCalendar(currentCalendar);
+                mCalendarView.refreshCalendar(currentCalendar);//PROBLEM HERE: ALL GET COLORED
             }
         });
 
@@ -400,6 +412,7 @@ public class ScheduleActivity extends FragmentActivity
         mTextViewEditEvent.setVisibility(View.GONE);
 
         mButtonEditEvent.setVisibility(View.VISIBLE);
+        mEventListView.setVisibility(View.VISIBLE);
         mButtonDeleteEvent.setVisibility(View.VISIBLE);
 
         runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
@@ -411,7 +424,7 @@ public class ScheduleActivity extends FragmentActivity
         // boolean isBirthday, boolean isOther
         ScheduledEvent newEvent = new ScheduledEvent(mEditTextTitle.getText().toString(),
                 mEditTextDesc.getText().toString(),
-                mNewestDateString, currentDate,
+                getNewestDateString(), currentDate,
                 mCheckBoxHomework.isSelected(),
                 mCheckBoxTest.isSelected(),
                 mCheckBoxProject.isSelected(),
@@ -419,11 +432,12 @@ public class ScheduleActivity extends FragmentActivity
                 mCheckBoxBirthday.isSelected(),
                 mCheckBoxOther.isSelected());
 
-
+        EventDB.insertEvent(newEvent);
 
         Toast.makeText(getApplicationContext(), "Event created.",
                 Toast.LENGTH_SHORT).show();
-
+        Log.i(TAG, currentDate);
+        Log.i(TAG, getNewestDateString());
         Log.i(TAG, "New Event Created: " + newEvent.toString());
 
         return newEvent;
@@ -481,19 +495,58 @@ public class ScheduleActivity extends FragmentActivity
             cell.setBackgroundColor(color);
         }
     }
-    private void initListView(){
-        String[] classes = new String[]{
-                "Period 1: ", "Period 2: " ,"Period 3: ", "Period 4: ",
-                "Period 5: ", "Period 6", "Period 7: ", "Cancel"
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,classes);
-        mListView.setAdapter(adapter);
+    private void initScheduleListView(){
+        ArrayList<ScheduledEvent> events = EventDB.getEventsOnDate(getNewestDateString());
+        String[] values = new String[events.size()];
+                for(int x = 0; x <values.length;x++){
+                    values[x] = events.get(x).getTitle() + "\n" + events.get(x).getDesc();
+        }
+        Log.i(TAG,events.toString());
+        Log.i(TAG,getNewestDateString());
+       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.calenderlistlayout,R.id.TextView_CalanderList,values);
+        mEventListView.setAdapter(adapter);
+    }
+    private void initClassesListView(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        final Gson gson = new Gson();
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        String[] classes = new String[8];
+        classes[0]= "Period 1: "+ sharedPreferences.getString("period_one", "Period 1: ");
+        classes[1]= "Period 2: "+sharedPreferences.getString("period_two", "Period 2: ");
+        classes[2] = "Period 3: "+sharedPreferences.getString("period_three", "Period 3: ");
+        classes[3] = "Period 4: "+sharedPreferences.getString("period_four", "Period 4: ");
+        classes[4] = "Period 5: "+sharedPreferences.getString("period_five", "Period 5: ");
+        classes[5] = "Period 6: "+sharedPreferences.getString("period_six", "Period 6: ");
+        classes[6] = "Period 7: "+sharedPreferences.getString("period_seven", "Period 7: ");
+        classes[7] = "cancel";
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,classes);
+        mClassListView.setAdapter(adapter);
+        mClassListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 switch((int)id){
+                    case 0:
+
+                        break;
+                    case 1:
+
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
                     case 7: setListViewInvisible();
                         break;
                     default:
@@ -508,11 +561,18 @@ public class ScheduleActivity extends FragmentActivity
         mTextViewEditEvent.setVisibility(View.GONE);
         mButtonEditEvent.setVisibility(View.GONE);
         mButtonDeleteEvent.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
+        mEventListView.setVisibility(View.GONE);
+        mClassListView.setVisibility(View.VISIBLE);
     }
     private void setListViewInvisible(){
         mScrollView.setVisibility(View.VISIBLE);
         mTextViewEditEvent.setVisibility(View.VISIBLE);
         runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+        mClassListView.setVisibility(View.GONE);
+        mEventListView.setVisibility(View.VISIBLE);
+    }
+    private String getNewestDateString(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        return simpleDateFormat.format(mNewestDateDate);
     }
 }

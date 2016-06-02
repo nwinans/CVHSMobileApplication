@@ -295,13 +295,13 @@ public class ClassesActivity extends Activity {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        mEditTextClassesOne.setText(sharedPreferences.getString("period_one", getString(R.string.none_specified)));
-        mEditTextClassesTwo.setText(sharedPreferences.getString("period_two", getString(R.string.none_specified)));
-        mEditTextClassesThree.setText(sharedPreferences.getString("period_three", getString(R.string.none_specified)));
-        mEditTextClassesFour.setText(sharedPreferences.getString("period_four", getString(R.string.none_specified)));
-        mEditTextClassesFive.setText(sharedPreferences.getString("period_five", getString(R.string.none_specified)));
-        mEditTextClassesSix.setText(sharedPreferences.getString("period_six", getString(R.string.none_specified)));
-        mEditTextClassesSeven.setText(sharedPreferences.getString("period_seven", getString(R.string.none_specified)));
+        mEditTextClassesOne.setText(sharedPreferences.getString("period_one", "Period 1: "));
+        mEditTextClassesTwo.setText(sharedPreferences.getString("period_two", "Period 2: "));
+        mEditTextClassesThree.setText(sharedPreferences.getString("period_three", "Period 3: "));
+        mEditTextClassesFour.setText(sharedPreferences.getString("period_four", "Period 4: "));
+        mEditTextClassesFive.setText(sharedPreferences.getString("period_five", "Period 5: " ));
+        mEditTextClassesSix.setText(sharedPreferences.getString("period_six", "Period 6: "));
+        mEditTextClassesSeven.setText(sharedPreferences.getString("period_seven", "Period 7: "));
     }
 }
 
