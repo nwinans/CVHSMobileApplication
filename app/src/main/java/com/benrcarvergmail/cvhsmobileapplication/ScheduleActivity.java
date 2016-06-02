@@ -9,9 +9,12 @@ import android.app.AlertDialog;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -20,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -52,9 +56,6 @@ public class ScheduleActivity extends FragmentActivity
         implements CalendarDatePickerDialogFragment.OnDateSetListener {
     private ScheduleEventDatabase EventDB = new ScheduleEventDatabase(this);
 
-    private Button mButtonEditEvent;
-    private Button mButtonDeleteEvent;
-
     // References to check boxes
     private CheckBox mCheckBoxHomework;         // The checkbox for homework
     private CheckBox mCheckBoxProject;          // The checkbox for project
@@ -79,6 +80,7 @@ public class ScheduleActivity extends FragmentActivity
 
     private ListView mClassListView;
     private ListView mEventListView;
+    private int mPeriod;
     // Used for the creation of an event. Updated each time an event is created.
     private String mNewestDateString = "";//AUSTIN: MEMBER VARIABLES THAT ARE BASED ON OTHER VARIBALES SHOULD BE METHODS NOT VARIABLES
     private Date mNewestDateDate = new Date();
@@ -94,8 +96,6 @@ public class ScheduleActivity extends FragmentActivity
         setContentView(R.layout.activity_schedule);
 
         Button mButtonCreateEvent = (Button) findViewById(R.id.button_create_calendar_event);
-        mButtonEditEvent = (Button) findViewById(R.id.button_edit_calendar_event);
-        mButtonDeleteEvent = (Button) findViewById(R.id.button_delete_calendar_event);
         Button mButtonSelectDate = (Button) findViewById(R.id.button_event_tools_pick_date);
         Button mButtonConfirm = (Button) findViewById(R.id.button_event_tools_confirm);
         Button mButtonCancel = (Button) findViewById(R.id.button_event_tools_cancel);
@@ -115,14 +115,15 @@ public class ScheduleActivity extends FragmentActivity
         mTextViewCurrentDate = (TextView) findViewById(R.id.text_view_event_tools_current_date);
 
         mCalendarView = (CustomCalendarView) findViewById(R.id.calendar_view);
-        mScrollView = (ScrollView) findViewById(R.id.scroll_view_event_tools_container);
         mNewestDateString = getString(R.string.no_date_selected);
 
         final Calendar currentCalendar = Calendar.getInstance(Locale.getDefault());
 
         mCalendarView.refreshCalendar(currentCalendar);
+        mScrollView = (ScrollView) findViewById(R.id.scroll_view_event_tools_container);
 
         mClassListView = (ListView) findViewById(R.id.class_list_view);
+        mPeriod = 0;
         initClassesListView();
         mEventListView = (ListView) findViewById(R.id.ExpandableList_CalanderList);
         initScheduleListView();
@@ -165,13 +166,11 @@ public class ScheduleActivity extends FragmentActivity
 
                 mTextViewCurrentDate.setText("Current Date: " + newestDateString);
 
-                mButtonEditEvent.setVisibility(View.GONE);
-                mButtonDeleteEvent.setVisibility(View.GONE);
        //         mEventListView.setVisibility(View.GONE);
             }
         });
 
-        // Edit Event onClickListener
+/*        // Edit Event onClickListener
         mButtonEditEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,9 +187,9 @@ public class ScheduleActivity extends FragmentActivity
                 // Toast.makeText(getApplicationContext(), "Press 'confirm' to confirm your changes. Press 'cancel' to discard them.",
                         // Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
-        // Delete Event onClickListener
+/*        // Delete Event onClickListener
         mButtonDeleteEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,6 +203,7 @@ public class ScheduleActivity extends FragmentActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "Event deleted",
                                         Toast.LENGTH_SHORT).show();
+
                                 //removeEvent(getNewestDateString());
                             }
 
@@ -211,7 +211,7 @@ public class ScheduleActivity extends FragmentActivity
                         .setNegativeButton("No, nevermind", null)
                         .show();
             }
-        });
+        });*/
 
         // Date Select Event onClickListener
         mButtonSelectDate.setOnClickListener(new View.OnClickListener() {
@@ -247,8 +247,6 @@ public class ScheduleActivity extends FragmentActivity
                 mTextViewCreateEvent.setVisibility(View.GONE);
                 mTextViewEditEvent.setVisibility(View.GONE);
 
-                mButtonEditEvent.setVisibility(View.VISIBLE);
-                mButtonDeleteEvent.setVisibility(View.VISIBLE);
 
                 runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
 
@@ -410,10 +408,7 @@ public class ScheduleActivity extends FragmentActivity
         mScrollView.setVisibility(View.GONE);
         mTextViewCreateEvent.setVisibility(View.GONE);
         mTextViewEditEvent.setVisibility(View.GONE);
-
-        mButtonEditEvent.setVisibility(View.VISIBLE);
         mEventListView.setVisibility(View.VISIBLE);
-        mButtonDeleteEvent.setVisibility(View.VISIBLE);
 
         runFadeOutAnimationOn(ScheduleActivity.this, mScrollView);
 
@@ -430,7 +425,8 @@ public class ScheduleActivity extends FragmentActivity
                 mCheckBoxProject.isSelected(),
                 mCheckBoxQuiz.isSelected(),
                 mCheckBoxBirthday.isSelected(),
-                mCheckBoxOther.isSelected());
+                mCheckBoxOther.isSelected(),
+                mPeriod);
 
         EventDB.insertEvent(newEvent);
 
@@ -474,8 +470,6 @@ public class ScheduleActivity extends FragmentActivity
         if (mScrollView.getVisibility() == View.VISIBLE) {
             runFadeOutAnimationOn(this, mScrollView);
             mScrollView.setVisibility(View.GONE);
-            mButtonDeleteEvent.setVisibility(View.VISIBLE);
-            mButtonEditEvent.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }
@@ -531,21 +525,32 @@ public class ScheduleActivity extends FragmentActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 switch((int)id){
                     case 0:
-
+                        mPeriod =1;
+                        setListViewInvisible();
                         break;
                     case 1:
-
-
+                        mPeriod =2;
+                        setListViewInvisible();
                         break;
                     case 2:
+                        mPeriod =3;
+                        setListViewInvisible();
                         break;
                     case 3:
+                        mPeriod =4;
+                        setListViewInvisible();
                         break;
                     case 4:
+                        mPeriod = 5;
+                        setListViewInvisible();
                         break;
                     case 5:
+                        mPeriod = 6;
+                        setListViewInvisible();
                         break;
                     case 6:
+                        mPeriod = 7;
+                        setListViewInvisible();
                         break;
                     case 7: setListViewInvisible();
                         break;
@@ -559,8 +564,6 @@ public class ScheduleActivity extends FragmentActivity
         mScrollView.setVisibility(View.GONE);
         mTextViewCreateEvent.setVisibility(View.GONE);
         mTextViewEditEvent.setVisibility(View.GONE);
-        mButtonEditEvent.setVisibility(View.GONE);
-        mButtonDeleteEvent.setVisibility(View.GONE);
         mEventListView.setVisibility(View.GONE);
         mClassListView.setVisibility(View.VISIBLE);
     }
@@ -574,5 +577,68 @@ public class ScheduleActivity extends FragmentActivity
     private String getNewestDateString(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         return simpleDateFormat.format(mNewestDateDate);
+    }
+
+    public class EventArrayAdapter extends ArrayAdapter<ScheduledEvent>{
+        private final List<ScheduledEvent> aEvents;
+        private final Activity context;
+        private ImageButton aEdit;
+        private ImageButton aDelete;
+
+
+        public EventArrayAdapter(Activity context,List<ScheduledEvent> lis){
+            super(context,R.layout.calenderlistlayout,lis);
+                aEvents = lis;
+            this.context = context;
+        }
+
+        public View getView(int position,View convertView,ViewGroup parent){
+            View view = null;
+            if (convertView == null) {
+                LayoutInflater inflator = context.getLayoutInflater();
+                view = inflator.inflate(R.layout.calenderlistlayout, null);
+                aEdit= (ImageButton) view.findViewById(R.id.EditButton_CalanderList);
+                aEdit.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        mScrollView.setVisibility(View.VISIBLE);
+                        mTextViewCreateEvent.setVisibility(View.GONE);
+                        mTextViewEditEvent.setVisibility(View.VISIBLE);
+
+                        runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
+                        mTextViewCurrentDate.setText("Current Date: " + getNewestDateString());
+
+                        // Toast.makeText(getApplicationContext(), "Press 'confirm' to confirm your changes. Press 'cancel' to discard them.",
+                        // Toast.LENGTH_SHORT).show();
+                    }
+                });
+                aDelete = (ImageButton) view.findViewById(R.id.DeleteButton_CalanderList);
+                aDelete.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(ScheduleActivity.this)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle("Delete Event")
+                                .setMessage("Are you sure you want to delete this event?")
+                                .setPositiveButton("Yes, delete", new DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(), "Event deleted",
+                                                Toast.LENGTH_SHORT).show();
+
+                                        //removeEvent(getNewestDateString());
+                                    }
+
+                                })
+                                .setNegativeButton("No, nevermind", null)
+                                .show();
+                    }
+                });
+            } else {
+                view = convertView;
+            }
+            return view;
+        }
     }
 }

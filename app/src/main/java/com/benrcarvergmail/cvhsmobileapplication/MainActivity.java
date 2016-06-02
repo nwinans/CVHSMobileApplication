@@ -2,14 +2,11 @@ package com.benrcarvergmail.cvhsmobileapplication;
 
 import android.app.Activity;
 import android.content.Context;
-<<<<<<< a2be8148d6d31e4e9ba68b738fa2e1a970c6ec20
 import android.content.Intent;
 import android.content.IntentSender;
-=======
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
->>>>>>> updated crisis menu to use minilayout
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -156,11 +153,10 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
     }
 
-<<<<<<< a2be8148d6d31e4e9ba68b738fa2e1a970c6ec20
     @Override
     protected void onStart() {
         super.onStart();
-=======
+    }
     /* Sends a confirmation message, then sends the user to their dialer with the number automatically inputted */
     private void dialConfirm(final String dial, CharSequence name){
         new AlertDialog.Builder(MainActivity.this)
@@ -172,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(callIntent);
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
->>>>>>> updated crisis menu to use minilayout
     }
 
     private static Animation runFadeOutAnimationOn(Activity ctx, View target) {

@@ -226,58 +226,9 @@
 
 
         </FrameLayout>
-<!-- Here-->
-        <ListView
-            android:id="@+id/ExpandableList_CalanderList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frame_layout_calendar_container"
-            android:background ="#bfbfbf"
-            android:layout_marginLeft = "5dp"
-            android:layout_marginRight = "5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_alignParentRight = "true"
-            android:layout_alignParentEnd = "true"
-            android:layout_alignParentLeft = "true"
-            android:layout_alignParentStart = "true"
-            android:visibility="visible"
-            >
-       </ListView>
+<!-- Here
 
-        <FrameLayout
-            android:id="@+id/framelayout_calendarbuttoncontainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frame_layout_calendar_container"
-            android:background="#bfbfbf"
-            android:layout_marginLeft="45dp"
-            android:layout_marginStart="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_marginEnd="45dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_margin="15dp">
-
-                <Button
-                    android:id="@+id/button_create_calendar_event"
-                    android:text="@string/create_event"
-                    android:drawableBottom="@drawable/drawable_plus"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/CalendarToolButton"/>
-
-                <LinearLayout
+<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
@@ -299,9 +250,50 @@
                         android:layout_width="wrap_content"
                         style="@style/CalendarToolButton"/>
 
-                </LinearLayout>
+                </LinearLayout>-->
+        <FrameLayout
+            android:id="@+id/framelayout_calendarbuttoncontainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frame_layout_calendar_container"
+            android:background="#bfbfbf"
+            android:layout_marginLeft="45dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            </LinearLayout>
+            <ListView
+                android:id="@+id/ExpandableList_CalanderList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/frame_layout_calendar_container"
+                android:background ="#bfbfbf"
+                android:layout_marginLeft = "5dp"
+                android:layout_marginRight = "5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentRight = "true"
+                android:layout_alignParentEnd = "true"
+                android:layout_alignParentLeft = "true"
+                android:layout_alignParentStart = "true"
+                android:visibility="visible"
+                >
+            </ListView>
+
+            <Button
+                android:id="@+id/button_create_calendar_event"
+                android:text="@string/create_event"
+                android:drawableBottom="@drawable/drawable_plus"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/CalendarToolButton"/>
+
 
         </FrameLayout>
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by Austin on 5/26/16.
+ * Should be Fully Functional as of 6/1/2016
  */
 public class ScheduleEventDatabase extends SQLiteOpenHelper{
     public ScheduleEventDatabase(Context context){
@@ -35,7 +36,8 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
                 + EventEntry.COLUMN_NAME_PROJECT + " INT,"
                 + EventEntry.COLUMN_NAME_QUIZ + " INT,"
                 + EventEntry.COLUMN_NAME_BIRTHDAY + " INT,"
-                + EventEntry.COLUMN_NAME_OTHER + " INT" + ")";
+                + EventEntry.COLUMN_NAME_OTHER + " INT,"
+                + EventEntry.COLUMN_NAME_PERIOD+ " INT" + ")";
         d.execSQL(CREATE_EVENTS_TABLE);
 
     }
@@ -45,26 +47,27 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
         d.execSQL("DROP TABLE IF EXISTS " + EventEntry.Table_NAME);
         onCreate(d);
     }
-    public long insertEvent(String date,String title, String desc, boolean homework, boolean test, boolean project, boolean quiz, boolean birthday, boolean other,int id){
+    public long insertEvent(String date,String title, String desc, boolean homework, boolean test, boolean project, boolean quiz, boolean birthday, boolean other,int id,int period){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(EventEntry.COLUMN_NAME_ID,id);
         values.put(EventEntry.COLUMN_NAME_Date, date);
         values.put(EventEntry.COlUMN_NAME_TITLE,title);
         values.put(EventEntry.COLUMN_NAME_DESCRIPTION,desc);
-        values.put(EventEntry.COLUMN_NAME_HOMEWORK,homework);
-        values.put(EventEntry.COLUMN_NAME_TEST, test);
-        values.put(EventEntry.COLUMN_NAME_PROJECT,project);
-        values.put(EventEntry.COLUMN_NAME_QUIZ,quiz);
-        values.put(EventEntry.COLUMN_NAME_BIRTHDAY,birthday);
-        values.put(EventEntry.COLUMN_NAME_OTHER,other);
+        values.put(EventEntry.COLUMN_NAME_HOMEWORK,toInt(homework));
+        values.put(EventEntry.COLUMN_NAME_TEST, toInt(test));
+        values.put(EventEntry.COLUMN_NAME_PROJECT,toInt(project));
+        values.put(EventEntry.COLUMN_NAME_QUIZ,toInt(quiz));
+        values.put(EventEntry.COLUMN_NAME_BIRTHDAY,toInt(birthday));
+        values.put(EventEntry.COLUMN_NAME_OTHER,toInt(other));
+        values.put(EventEntry.COLUMN_NAME_PERIOD,period);
         Log.i("DatabaseInsert",date);
         long d =db.insert(EventEntry.Table_NAME,null,values);
         db.close();
         return d;
     }
     public long insertEvent(ScheduledEvent s){
-        return insertEvent(s.getDate(),s.getTitle(),s.getDesc(),s.getIsHomework(),s.getIsTest(),s.getIsProject(),s.getIsQuiz(),s.getIsBirthday(),s.getIsOther(),(int)s.getId());
+        return insertEvent(s.getDate(),s.getTitle(),s.getDesc(),s.getIsHomework(),s.getIsTest(),s.getIsProject(),s.getIsQuiz(),s.getIsBirthday(),s.getIsOther(),(int)s.getId(),s.getPeriod());
     }
     public ScheduledEvent getData(int id){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -77,7 +80,7 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
         if(res != null){
             res.moveToFirst();
             d = new ScheduledEvent(res.getString(1),res.getString(2),res.getString(3),toBoolean(res.getInt(4)),toBoolean(res.getInt(5)),
-                    toBoolean(res.getInt(6)),toBoolean(res.getInt(7)),toBoolean(res.getInt(8)),toBoolean(res.getInt(9)));
+                    toBoolean(res.getInt(6)),toBoolean(res.getInt(7)),toBoolean(res.getInt(8)),toBoolean(res.getInt(9)),res.getInt(10));
         }else{
             return null;
         }
@@ -95,7 +98,7 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
         if(res.moveToFirst()){
             do{
                 ScheduledEvent event = new ScheduledEvent(res.getString(1),res.getString(2),res.getString(3),toBoolean(res.getInt(4)),toBoolean(res.getInt(5)),
-                        toBoolean(res.getInt(6)),toBoolean(res.getInt(7)),toBoolean(res.getInt(8)),toBoolean(res.getInt(9)));
+                        toBoolean(res.getInt(6)),toBoolean(res.getInt(7)),toBoolean(res.getInt(8)),toBoolean(res.getInt(9)),res.getInt(10));
                 eventList.add(event);
                 Log.i("Database list", "Added to list"+event.toString());
 
@@ -140,7 +143,12 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
     private boolean toBoolean(int d){
         return d == 1;
     }
-
+    private int toInt(boolean d){
+        if (d){
+            return 1;
+        }
+        return 0;
+    }
 
 
 
@@ -156,6 +164,7 @@ public class ScheduleEventDatabase extends SQLiteOpenHelper{
         public static final String COLUMN_NAME_QUIZ = "quiz";
         public static final String COLUMN_NAME_BIRTHDAY = "birthday";
         public static final String COLUMN_NAME_OTHER = "other";
+        public static final String COLUMN_NAME_PERIOD = "period";
         public static final String COLUMN_NAME_ID = "id";
 
     }

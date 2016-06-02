@@ -25,15 +25,6 @@ import android.widget.TextView;
  */
 public class ClassesActivity extends Activity {
 
-    /* References to Text Views
-    private TextView mTextViewClassesOne;
-    private TextView mTextViewClassesTwo;
-    private TextView mTextViewClassesThree;
-    private TextView mTextViewClassesFour;
-    private TextView mTextViewClassesFive;
-    private TextView mTextViewClassesSix;
-    private TextView mTextViewClassesSeven; */
-
     // References to Edit Text views
     private EditText mEditTextClassesOne;
     private EditText mEditTextClassesTwo;
@@ -184,7 +175,7 @@ public class ClassesActivity extends Activity {
                 editsMade = true;
             }
         });
-
+        initEditButtons();
         // Load the user's classes into the EditText views as hints
         loadEditTextHints();
 
@@ -302,6 +293,23 @@ public class ClassesActivity extends Activity {
         mEditTextClassesFive.setText(sharedPreferences.getString("period_five", "Period 5: " ));
         mEditTextClassesSix.setText(sharedPreferences.getString("period_six", "Period 6: "));
         mEditTextClassesSeven.setText(sharedPreferences.getString("period_seven", "Period 7: "));
+    }
+    private void initEditButtons(){
+        ImageButton buttonEditOne = (ImageButton) findViewById(R.id.button_classes_edit_one);
+        ImageButton buttonEditTwo = (ImageButton) findViewById(R.id.button_classes_edit_two);
+        ImageButton buttonEditThree = (ImageButton) findViewById(R.id.button_classes_edit_three);
+        ImageButton buttonEditFour = (ImageButton) findViewById(R.id.button_classes_edit_four);
+        ImageButton buttonEditFive = (ImageButton) findViewById(R.id.button_classes_edit_five);
+        ImageButton buttonEditSix = (ImageButton) findViewById(R.id.button_classes_edit_six);
+        ImageButton buttonEditSeven = (ImageButton) findViewById(R.id.button_classes_edit_seven);
+
+        buttonEditOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditTextClassesOne.setText("");
+                editsMade = true;
+            }
+        });
     }
 }
 

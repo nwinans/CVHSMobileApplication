@@ -24,9 +24,11 @@ public class ScheduledEvent {
     private boolean mIsBirthday;         // Indicates whether the event is a birthday
     private boolean mIsOther;            // Indicates whether the event is something else entirely.
 
+    private int mPeriod; //The period the event was specified for, 0 by default
+
     public ScheduledEvent(String title, String desc, String date1,
                           String date2, boolean bool1, boolean bool2,
-                          boolean bool3, boolean bool4, boolean bool5, boolean bool6) {
+                          boolean bool3, boolean bool4, boolean bool5, boolean bool6,int p) {
         mTitle = title;
         mDesc = desc;
         mDate = date1;
@@ -37,6 +39,7 @@ public class ScheduledEvent {
         mIsQuiz = bool4;
         mIsBirthday = bool5;
         mIsOther = bool6;
+        mPeriod = p;
         id = num;
         num++;
     }
@@ -51,12 +54,13 @@ public class ScheduledEvent {
         mIsQuiz = false;
         mIsBirthday = false;
         mIsOther = false;
+        mPeriod = 0;
         id = num;
         num++;
     }
     public ScheduledEvent(String title, String desc, String date1,
                           boolean bool1, boolean bool2,
-                          boolean bool3, boolean bool4, boolean bool5, boolean bool6) {
+                          boolean bool3, boolean bool4, boolean bool5, boolean bool6,int period) {
         mTitle = title;
         mDesc = desc;
         mDate = date1;
@@ -67,6 +71,7 @@ public class ScheduledEvent {
         mIsQuiz = bool4;
         mIsBirthday = bool5;
         mIsOther = bool6;
+        mPeriod = period;
         id = num;
         num++;
     }
@@ -147,6 +152,7 @@ public class ScheduledEvent {
         return id;
     }
     public void setId(long d){ id = d;}
+    public int getPeriod(){return mPeriod;};
     @Override
     public String toString() {
         String type = "";

@@ -5,23 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-<<<<<<< 56bed8ac98ee5597769f94a273c8cd5e0978a173
-<<<<<<< 9ebc76fb6ab4aec97e55c4412de7be8e98227152
-        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.10" />
-<<<<<<< a2be8148d6d31e4e9ba68b738fa2e1a970c6ec20
-=======
-
-        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.10" />
-
-        <option name="gradleJvm" value="1.8" />
-
-
-=======
-        <option name="gradleJvm" value="1.7" />
->>>>>>> updated crisis menu to use minilayout
-=======
->>>>>>> yoohan start
         <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+        <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
