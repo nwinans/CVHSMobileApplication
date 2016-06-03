@@ -1,11 +1,13 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,7 @@ import java.util.Map;
 /**
  * Created by 3Robotics on 5/20/2016.
  */
-public class TeacherFragment extends Fragment {
+public class TeacherActivity extends Activity {
 
     private ArrayList<Teacher> myData;
     private List<String> mGroupList;
@@ -50,7 +52,7 @@ public class TeacherFragment extends Fragment {
     /**
      * Instantiates a new Club fragment.
      */
-    public TeacherFragment() {
+    public TeacherActivity() {
         // Instantiate the mData ArrayList so we may populate it during onCreateView()
         myData = new ArrayList<>();
     }
@@ -58,25 +60,21 @@ public class TeacherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstantState){
         super.onCreate(savedInstantState);
-        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_clubs, container, false);
+        setContentView(R.layout.fragment_teachers);
 
         // Set up the List Adapter prior to calling populateData()
         mGroupList = new ArrayList<>();
         mTeacherCollection = new LinkedHashMap<>();
-        mExpandableListAdapter = new TeacherExpandableListAdapter(getActivity(), mGroupList, mTeacherCollection);
+        mExpandableListAdapter = new TeacherExpandableListAdapter(this, mGroupList, mTeacherCollection);
 
         // Create object reference to the RecyclerView created in fragment_clubs.xml
         // Populate the mClubData ArrayList. We currently do not utilize the boolean return type
         populateData();
 
-        ExpandableListView mExpandableListView = (ExpandableListView) rootView.findViewById(R.id.listview);
+        final ExpandableListView mExpandableListView = (ExpandableListView) findViewById(R.id.listview);
 
 
         mExpandableListView.setAdapter(mExpandableListAdapter);
@@ -84,25 +82,15 @@ public class TeacherFragment extends Fragment {
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                final String selected = (String) mExpandableListAdapter.getChild(groupPosition, childPosition);
-                Toast.makeText(getContext(), selected, Toast.LENGTH_SHORT).show();
+                Teacher teacher = (Teacher) mExpandableListAdapter.getChild(groupPosition, childPosition);
+                String info = "Email: " + teacher.getEmail();
+                Toast.makeText(getApplicationContext(), info, Toast.LENGTH_SHORT).show();
 
                 return true;
             }
         });
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout)
-                rootView.findViewById(R.id.swipe_refresh_layout_clubs);
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshContent();
-            }
-        });
-
-        return rootView;
     }
+
 
     private void refreshContent() {
         populateData();
@@ -111,10 +99,14 @@ public class TeacherFragment extends Fragment {
 
     private void createGroupList() {
         mGroupList = new ArrayList<>();
-        for (int i = 0; i < myData.size(); i++) {
-            // Log.i(TAG,(i + ": " + mData.get(i).getTitle()));
-            mGroupList.add(myData.get(i).getName());
-        }
+        mGroupList.add("Mathematics");
+        mGroupList.add("Science");
+        mGroupList.add("Social Studies");
+        mGroupList.add("English");
+        mGroupList.add("Physical Education");
+        mGroupList.add("Music");
+        mGroupList.add("Career Technical Education");
+        mGroupList.add("Art");
     }
 
     private void createCollection() {
@@ -129,14 +121,6 @@ public class TeacherFragment extends Fragment {
         ArrayList<Teacher> musicTeachers = new ArrayList<Teacher>();
         ArrayList<Teacher> cteTeachers = new ArrayList<Teacher>();
         ArrayList<Teacher> artTeachers = new ArrayList<Teacher>();
-        mGroupList.add("Mathematics");
-        mGroupList.add("Science");
-        mGroupList.add("Social Studies");
-        mGroupList.add("English");
-        mGroupList.add("Physical Education");
-        mGroupList.add("Music");
-        mGroupList.add("Career Technical Education");
-        mGroupList.add("Art");
 
         for(int i = 0; i < myData.size() ; i++){
             Teacher temp = myData.get(i);
@@ -267,14 +251,14 @@ public class TeacherFragment extends Fragment {
             mExpandableListAdapter.updateData(mGroupList, mTeacherCollection);
             mExpandableListAdapter.notifyDataSetChanged();
 
-            getActivity().runOnUiThread(new Runnable() {
+            /*this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     mExpandableListAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
 
-                    Toast.makeText(getActivity(), "Teachers loaded successfully (probably)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Teachers loaded successfully (probably)", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
 
         private String downloadContent(String urlStr) throws IOException {

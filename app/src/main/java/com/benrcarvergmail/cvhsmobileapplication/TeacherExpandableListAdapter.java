@@ -89,7 +89,7 @@ public class TeacherExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String club = (String) getChild(groupPosition, childPosition);
+        final String club = (String) getChild(groupPosition, childPosition).toString();
         LayoutInflater inflater = mContext.getLayoutInflater();
 
         if (convertView == null) {

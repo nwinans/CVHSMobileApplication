@@ -31,7 +31,7 @@ public class Teacher {
         return department;
     }
     public String toString(){
-        String a = "Name: " + name + " Email: " + email  +"Department: " + department;
+        String a = name;
         return a;
     }
 }
