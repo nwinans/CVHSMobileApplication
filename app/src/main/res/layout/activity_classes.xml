@@ -71,6 +71,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_one"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_one"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -91,6 +94,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_two"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_two"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -111,6 +117,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_three"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_three"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -131,6 +140,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_four"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_four"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -151,6 +163,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_five"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_five"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -171,6 +186,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_six"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_six"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 
@@ -191,6 +209,9 @@
             <ImageButton
                 android:id="@+id/button_classes_trash_seven"
                 style="@style/ClassesTrashButton"/>
+            <ImageButton
+                android:id="@+id/button_classes_edit_seven"
+                style="@style/ClassesEditText"/>
 
         </LinearLayout>
 

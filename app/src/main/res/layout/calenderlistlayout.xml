@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ExpandableList_CalanderList"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/TextView_CalanderList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        >
+    </TextView>
+    <ImageButton
+        android:id="@+id/EditButton_CalanderList"
+        style="@style/ClassesEditText"
+        >
+    </ImageButton>
+    <ImageButton
+        android:id="@+id/DeleteButton_CalanderList"
+        style="@style/ClassesTrashButton" />
+</RelativeLayout>

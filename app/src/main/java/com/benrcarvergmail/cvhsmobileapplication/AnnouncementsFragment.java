@@ -603,6 +603,7 @@ public class AnnouncementsFragment extends Fragment {
             try {
                 return downloadContent(params[0]);
             } catch (IOException e) {
+                Log.e(TAG, "IOException while doInBackground", e);
                 return "Unable to download the requested page...";
             }
         }

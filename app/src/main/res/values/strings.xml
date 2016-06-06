@@ -26,6 +26,7 @@
     <string name="author_sample_text">Author sample text</string>
     <string name="calendar_tab">Calendar</string>
     <string name="clubs_tab">Clubs</string>
+    <string name="teachers_tab">Teachers</string>
     <string name="sponsor_sample_text">Sponsor sample text</string>
     <string name="ip_address_hint">IP Address</string>
     <string name="port_hint">Port</string>
