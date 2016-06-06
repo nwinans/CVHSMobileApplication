@@ -77,9 +77,19 @@
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginTop">13.5dp</item>
     </style>
+
+    <style name="ClassesEditButton">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:src">@drawable/ic_pencil_black_24dp</item>
+        <item name="android:background">#e7e7e7</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginTop">13.5dp</item>
+    </style>
+
     <style name="ClassesEditText">
-        <item name ="android:layout_width">35dp</item>
-        <item name ="android:layout_height">35dp</item>
+        <item name ="android:layout_width">200dp</item>
+        <item name ="android:layout_height">40dp</item>
         <item name ="android:src">@drawable/drawable_edit</item>
         <item name="android:background">#e7e7e7</item>
         <item name="android:layout_marginLeft">5dp</item>

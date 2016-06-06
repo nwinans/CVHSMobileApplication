@@ -50,7 +50,7 @@ import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * Created by Benjamin on 5/3/2016.
+ * Created by Benjamin Carver on 5/3/2016.
  */
 public class ScheduleActivity extends FragmentActivity
         implements CalendarDatePickerDialogFragment.OnDateSetListener {
@@ -125,7 +125,7 @@ public class ScheduleActivity extends FragmentActivity
         mClassListView = (ListView) findViewById(R.id.class_list_view);
         mPeriod = 0;
         initClassesListView();
-        mEventListView = (ListView) findViewById(R.id.ExpandableList_CalanderList);
+        mEventListView = (ListView) findViewById(R.id.ExpandableList_CalendarList);
         initScheduleListView();
 
         //Handling custom calendar events
@@ -267,8 +267,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxOther.setChecked(false);
                     setListViewVisible();
 
-                } else {
-
                 }
             }
         });
@@ -284,8 +282,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
                     setListViewVisible();
-                } else {
-
                 }
             }
         });
@@ -301,8 +297,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
                     setListViewVisible();
-                } else {
-
                 }
             }
         });
@@ -318,8 +312,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxOther.setChecked(false);
                     setListViewVisible();
-                } else {
-
                 }
             }
         });
@@ -335,8 +327,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxHomework.setChecked(false);
                     mCheckBoxOther.setChecked(false);
                     setListViewVisible();
-                } else {
-
                 }
             }
         });
@@ -352,8 +342,6 @@ public class ScheduleActivity extends FragmentActivity
                     mCheckBoxBirthday.setChecked(false);
                     mCheckBoxHomework.setChecked(false);
                     setListViewVisible();
-                } else {
-
                 }
             }
         });
@@ -497,8 +485,8 @@ public class ScheduleActivity extends FragmentActivity
         }
         Log.i(TAG,events.toString());
         Log.i(TAG,getNewestDateString());
-       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,values);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.calenderlistlayout,R.id.TextView_CalanderList,values);
+       // ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.calenderlistlayout,R.id.TextView_CalanderList,values);
         mEventListView.setAdapter(adapter);
     }
     private void initClassesListView(){
@@ -517,7 +505,7 @@ public class ScheduleActivity extends FragmentActivity
         classes[6] = "Period 7: "+sharedPreferences.getString("period_seven", "Period 7: ");
         classes[7] = "cancel";
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,classes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,classes);
         mClassListView.setAdapter(adapter);
         mClassListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
@@ -558,7 +546,7 @@ public class ScheduleActivity extends FragmentActivity
                 }
             }
         });
-
+        prefsEditor.commit();
     }
     private void setListViewVisible(){
         mScrollView.setVisibility(View.GONE);

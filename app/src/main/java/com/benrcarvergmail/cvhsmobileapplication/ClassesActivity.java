@@ -36,6 +36,8 @@ public class ClassesActivity extends Activity {
 
     private boolean editsMade;
 
+    private AlertDialog dialog;
+
     private static final String TAG = "ClassesActivity";
 
     @Override
@@ -194,6 +196,7 @@ public class ClassesActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+
         if (editsMade) {
             // Confirm that the user actually wants to update their classes
             AlertDialog.Builder alertDialogBuilder  = new AlertDialog.Builder(ClassesActivity.this);
@@ -212,7 +215,7 @@ public class ClassesActivity extends Activity {
                     dialogView.findViewById(R.id.button_classes_warning_cancel);
 
             alertDialogBuilder.setView(dialogView);
-            final AlertDialog alertDialog = alertDialogBuilder.create();
+            dialog = alertDialogBuilder.create();
 
             buttonSave.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -232,13 +235,25 @@ public class ClassesActivity extends Activity {
             buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    alertDialog.dismiss();
+                    dialog.dismiss();
                 }
             });
 
-            alertDialog.show();
+            dialog.show();
         } else {
             finish();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Prevents potential leaking of window error.
+        // Basically, if I don't do this, there's a chance the dialog will be
+        // created AFTER we exit the activity, which is bad.
+        if (dialog != null) {
+            dialog.dismiss();
         }
     }
 

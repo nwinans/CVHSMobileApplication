@@ -73,7 +73,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_one"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -96,7 +96,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_two"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -119,7 +119,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_three"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -142,7 +142,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_four"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -165,7 +165,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_five"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -188,7 +188,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_six"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
@@ -211,7 +211,7 @@
                 style="@style/ClassesTrashButton"/>
             <ImageButton
                 android:id="@+id/button_classes_edit_seven"
-                style="@style/ClassesEditText"/>
+                style="@style/ClassesEditButton"/>
 
         </LinearLayout>
 
