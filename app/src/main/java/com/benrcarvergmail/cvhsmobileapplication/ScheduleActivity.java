@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -580,7 +581,7 @@ public class ScheduleActivity extends FragmentActivity
             this.context = context;
         }
 
-        public View getView(int position,View convertView,ViewGroup parent){
+        public View getView(final int pos,View convertView,ViewGroup parent){
             View view = null;
             if (convertView == null) {
                 LayoutInflater inflator = context.getLayoutInflater();
@@ -595,6 +596,15 @@ public class ScheduleActivity extends FragmentActivity
 
                         runFadeInAnimationOn(ScheduleActivity.this, mScrollView);
                         mTextViewCurrentDate.setText("Current Date: " + getNewestDateString());
+                        ScheduledEvent currentEvent = aEvents.get(pos);
+                        mEditTextDesc.setText(currentEvent.getDesc());
+                        mEditTextTitle.setText(currentEvent.getTitle());
+                        mCheckBoxBirthday.setChecked(currentEvent.getIsBirthday());
+                        mCheckBoxHomework.setChecked(currentEvent.getIsHomework());
+                        mCheckBoxProject.setChecked(currentEvent.getIsProject());
+                        mCheckBoxOther.setChecked(currentEvent.getIsOther());
+                        mCheckBoxQuiz.setChecked(currentEvent.getIsQuiz());
+                        mCheckBoxTest.setChecked(currentEvent.getIsTest());
 
                         // Toast.makeText(getApplicationContext(), "Press 'confirm' to confirm your changes. Press 'cancel' to discard them.",
                         // Toast.LENGTH_SHORT).show();
@@ -615,7 +625,7 @@ public class ScheduleActivity extends FragmentActivity
                                         Toast.makeText(getApplicationContext(), "Event deleted",
                                                 Toast.LENGTH_SHORT).show();
 
-                                        //removeEvent(getNewestDateString());
+                                        EventDB.deleteEvent((int)(aEvents.get(pos).getId()));
                                     }
 
                                 })
