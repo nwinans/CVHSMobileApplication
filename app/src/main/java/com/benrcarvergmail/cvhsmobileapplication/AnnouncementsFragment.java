@@ -30,6 +30,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -45,8 +46,7 @@ public class AnnouncementsFragment extends Fragment {
 
     private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
     private final String defaultServerPort = "";            // Default port for the server/database
-    private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=15norrPRiVtM1vVSmCtSTzDQhxrSpSX6QrruIvNOCeS0";
-
+    private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=17xalaHNqjOMFq7FcHfgSMXaNpibj9DgzQ0TJuxf1r-Q";
     private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
     private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
 
@@ -718,12 +718,17 @@ public class AnnouncementsFragment extends Fragment {
                     with the for-loop above. Each iteration of the for-loop goes to the next row, ensuring we
                     get all of the data stored in the spreadsheet.
                      */
-                    int position = columns.getJSONObject(0).getInt("v");
+                    String creation = columns.getJSONObject(0).getString("v");
                     String author = columns.getJSONObject(1).getString("v");
-                    String date = columns.getJSONObject(2).getString("v");
-                    int show_flag = columns.getJSONObject(3).getInt("v");
-                    String title = columns.getJSONObject(4).getString("v");
-                    String content = columns.getJSONObject(5).getString("v");
+                    String date = columns.getJSONObject(2).getString("f");
+                    String activity = columns.getJSONObject(3).getString("v");
+                    //String title = columns.getJSONObject(4).getString("v");
+                    String content = columns.getJSONObject(4).getString("v");
+                    String sApprovedFlag = columns.getJSONObject(5).getString("v");
+
+                    boolean approvedFlag = sApprovedFlag!=null && sApprovedFlag.length()>0 && !sApprovedFlag.equals("null");
+                    //Toast.makeText(getActivity(), "Refresh happening int --  "+approved_flag, Toast.LENGTH_SHORT).show();
+                   // int approved_flag = 1;
 
                     /*
                      We construct a date object utilizing a SimpleDateFormat object. The date is
@@ -732,21 +737,26 @@ public class AnnouncementsFragment extends Fragment {
                      MM/dd/YYYY and use that to parse the dates we pulled from the spreadsheet.
                      We have to parse the dates because they're stored as Strings, basically.
                      */
-
+                    //String sDate = date.substring(5,date.length()-1);
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
                     Date parsedDate = format.parse(date);
+                    //SimpleDateFormat creationTime = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.US);
+                    //Date creationDate = creationTime.parse(creation);
+                    Calendar cal = Calendar.getInstance();
+                    Date currDate = cal.getTime();
 
                     // Parameters for constructor are:
                     // String title, String text, String author, int iconSource, int imageSource, Date announcementDate
-                    Announcement announcement = new Announcement(title, content, author, -1, -1, parsedDate);
-
+                    Announcement announcement = new Announcement(activity, content, author, -1, -1,currDate);
+                   // Toast.makeText(getActivity(), "Refresh happening Dates --  "+parsedDate+" "+currDate+"  <= "+(currDate.compareTo(parsedDate)), Toast.LENGTH_SHORT).show();
                     // If we want to show this announcement, add it to the data ArrayList.
-                    if (show_flag == 1) {
+                    if (approvedFlag && currDate.compareTo(parsedDate) <= 0) {
                         data.add(announcement);
                     }
                 }
 
-            } catch (JSONException | ParseException e) {
+            } catch (Exception e /*JSONException | ParseException e*/) {
+                Toast.makeText(getActivity(), "Refresh errored "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
