@@ -62,7 +62,7 @@ public class AcademicsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Link to FCPS Library Catalogs
-                Uri uri = Uri.parse("http://libcat.fcps.edu/uhtbin/cgisirsi/?ps=niWwvVsnMv/305/113560215/60/1182/X");
+                Uri uri = Uri.parse("http://libcat.fcps.edu/uhtbin/cgisirsi/x/0/0/57/49?user_id=410WEB");
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(myIntent);
             }
@@ -79,8 +79,8 @@ public class AcademicsFragment extends Fragment {
         mButtonTeachers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "You have unleashed the power of Mountain Dew!", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "Easter Egg found!");
+                /*Toast.makeText(getContext(), "You have unleashed the power of Mountain Dew!", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Easter Egg found!");*/
 
                 Intent myIntent = new Intent(getActivity(), TeacherActivity.class);
                 startActivity(myIntent);

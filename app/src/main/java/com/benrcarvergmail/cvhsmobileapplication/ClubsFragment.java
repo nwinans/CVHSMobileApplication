@@ -445,7 +445,7 @@ public class ClubsFragment extends Fragment {
                 public void run() {
                     mExpandableListAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
 
-                    Toast.makeText(getActivity(), "Clubs loaded successfully (probably)", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Clubs loaded successfully (probably)", Toast.LENGTH_SHORT).show();
                 }
             });
         }
