@@ -402,7 +402,7 @@ public class ClubsFragment extends Fragment {
     public class DownloadClubs extends AsyncTask<String, Void, String> {
 
         public DownloadClubs() {
-
+            //default empty constructor
         }
 
         @Override
@@ -462,8 +462,8 @@ public class ClubsFragment extends Fragment {
                 // The following two methods' parameters are in milliseconds. The first method defines
                 // how long we shall try to read the data before timing out. The second is how long we should
                 // try to actually connect before timing out.
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(10 * 1000); // 10 seconds
+                connection.setConnectTimeout(15 * 1000); //15 seconds
 
                 /*
                 We are going to use an HTTP GET request. GET requests data from a specified resource.
@@ -542,7 +542,7 @@ public class ClubsFragment extends Fragment {
                     // Log.i(TAG, "Club created: " + club.toString());
 
                     // If we want to show this announcement, add it to the data ArrayList.
-                    if (1 == 1) {
+                    if (show_flag == 1) {
                         mClubData.add(club);
                     }
                 }
