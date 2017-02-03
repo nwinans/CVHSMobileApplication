@@ -681,19 +681,37 @@ public class AnnouncementsFragment extends Fragment {
                     with the for-loop above. Each iteration of the for-loop goes to the next row, ensuring we
                     get all of the data stored in the spreadsheet.
                      */
-                    String creation = columns.getJSONObject(0).getString("v");
+                    String creation = columns.getJSONObject(0).getString("f");
                     String author = columns.getJSONObject(1).getString("v");
                     String date = columns.getJSONObject(2).getString("f");
                     String activity = columns.getJSONObject(3).getString("v");
                     //String title = columns.getJSONObject(4).getString("v");
                     //ToDo: update the parsing of content to account for new line characters
-                    String content = columns.getJSONObject(4).getString("v");
+                    String tContent = columns.getJSONObject(4).getString("v");
                     String sApprovedFlag = columns.getJSONObject(5).getString("v");
 
                     boolean approvedFlag = sApprovedFlag!=null && sApprovedFlag.length()>0 && !sApprovedFlag.equals("null");
                     //Toast.makeText(getActivity(), "Refresh happening int --  "+approved_flag, Toast.LENGTH_SHORT).show();
                    // int approved_flag = 1;
-
+                    
+                    /*
+                      Basically, the announcement's can have a \n tag in them, the new line character for java.
+                      This allows for more advanced formatting, however it also introduces an error in how the 
+                      spreadsheet is downloaded. When we parse the response from the server, we get a string, 
+                      of which we parse into a JSON tree. In doing so we dont account for the new line character,
+                      instead showing the user "\n" instead of going to a new line. This loops through the body
+                      of the message, replacing all "\n" (two separate characters) with the real new line 
+                      character.
+                     */
+                    String content = "";
+                    for (int i = 0; i < tContent.length() - 2; i++) {  
+                        //we use "\\" instead of "\" in this becuase "\" is the java escape character, so we have to 
+                        //escape the escape character to get an actual "\".
+                        if (tContent.substring(i,i+1).equals("\\")  && tContent.substring(i+1, i+2).equals("n")) {
+                            content += "\n";
+                            i++;
+                        } else content += tContent.substring(i, i+1);
+                    }
                     /*
                      We construct a date object utilizing a SimpleDateFormat object. The date is
                      stored in the spreadsheet in the form of MonthMonth/DayDay/YearYearYearYear,
@@ -702,16 +720,16 @@ public class AnnouncementsFragment extends Fragment {
                      We have to parse the dates because they're stored as Strings, basically.
                      */
                     //String sDate = date.substring(5,date.length()-1);
-                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-                    Date parsedDate = format.parse(date);
-                    //SimpleDateFormat creationTime = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.US);
-                    //Date creationDate = creationTime.parse(creation);
-                    Calendar cal = Calendar.getInstance();
-                    Date currDate = cal.getTime();
+                    //SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+                    //Date parsedDate = format.parse(date);
+                    SimpleDateFormat creationTime = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.US);
+                    Date creationDate = creationTime.parse(creation);
+                    //Calendar cal = Calendar.getInstance();
+                    //Date currDate = cal.getTime();
 
                     // Parameters for constructor are:
                     // String title, String text, String author, int iconSource, int imageSource, Date announcementDate
-                    Announcement announcement = new Announcement(activity, content, author, -1, -1, parsedDate);
+                    Announcement announcement = new Announcement(activity, content, author, -1, -1, creationDate);
                    // Toast.makeText(getActivity(), "Refresh happening Dates --  "+parsedDate+" "+currDate+"  <= "+(currDate.compareTo(parsedDate)), Toast.LENGTH_SHORT).show();
                     // If we want to show this announcement, add it to the data ArrayList.
                     if (approvedFlag/* && currDate.compareTo(parsedDate) <= 0*/) {
