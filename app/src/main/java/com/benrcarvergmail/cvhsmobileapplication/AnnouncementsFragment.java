@@ -1,8 +1,5 @@
 package com.benrcarvergmail.cvhsmobileapplication;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -41,11 +37,6 @@ import java.util.Locale;
 public class AnnouncementsFragment extends Fragment {
 
     private ArrayList<Announcement> data;                       // List of announcements to be displayed
-
-    //private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
-
-    /*private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
-    private final String defaultServerPort = "";            // Default port for the server/database*/
     private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=1ZET4Sf4U3j-8kBuTRVEgk7szsESiwLss6OgaxSLIMik"; //"https://spreadsheets.google.com/tq?key=17xalaHNqjOMFq7FcHfgSMXaNpibj9DgzQ0TJuxf1r-Q";
     private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
     private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
@@ -65,8 +56,6 @@ public class AnnouncementsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        //NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
     }
 
     @Override
@@ -82,43 +71,15 @@ public class AnnouncementsFragment extends Fragment {
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
         mAdapter = new AnnouncementsRecyclerViewAdapter(data);
         // Populate the data ArrayList. We currently do not utilize the boolean return type
-        //populateData(false, defaultServerAddress, defaultServerPort);
+        populateData(false);
         // Set the RecyclerView's adapter to the one we just created
         mAnimatedRecyclerView.setAdapter(mAdapter);
-        // Instantiate the references to the IP Address and Port EditText fields
-        // Notice we are calling rootView.findViewById(), not rv.findViewById().
-        // This is because the EditText fields are NOT a part of the recycler view (rv). They are
-        // a part of the actual announcements fragment, so we use the rootView object.
-        /*mEditIPAddress = (EditText) rootView.findViewById(R.id.ip_address_field);
-        mEditPort = (EditText) rootView.findViewById(R.id.port_field);*/
         // Instantiate a reference to the button that refreshes the announcements and add an
         // onClick listener to that button. Eventually, we will refresh by scrolling or some
         // other nicer implementation but this works for now. Notice we are calling rootView.findViewById(),
         // not rv.findViewById(). This is because the button is NOT a part of the recycler view (rv). It is
         // a part of the actual announcements fragment, so we use the rootView object.
-        final Button refreshAnnouncementsButton = (Button) rootView.findViewById(R.id.button_refresh_connection);
-        refreshAnnouncementsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get the IP and the port entered in the text fields and pass
-                // them to the populateData() method. Notice we are calling toString() after
-                // we call getText(). This is because getText() in this case returns an Editable,
-                // as we are calling getText() on EditText fields. In order to convert the Editable
-                // to a String, we must call toString() after we call getText().
-                /*String IPAddress = mEditIPAddress.getText().toString();
-                String port = mEditPort.getText().toString();
 
-                // Currently, Ben has it set up such that if NO IP address or port is specified, the
-                // app will assume the default addresses are to be used.
-                if (IPAddress.equals("") && port.equals("")) {
-                    populateData(true, defaultServerAddress, defaultServerPort);
-                } else if (IPAddress.equals("")) {
-                    Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
-                }  else {
-                    populateData(true, IPAddress, port);
-                }*/
-            }
-        });
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
         // implementation which provides similar functionality to ListView.
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -128,7 +89,7 @@ public class AnnouncementsFragment extends Fragment {
                 rootView.findViewById(R.id.swipe_refresh_layout_announcements);
 
         // The refresh loading icon will cycle thru these colors
-        // mSwipeRefreshLayout.setColorSchemeColors(R.color.refreshBlue, R.color.refreshYellow, R.color.refreshRed);
+        //mSwipeRefreshLayout.setColorSchemeColors(R.color.refreshBlue, R.color.refreshYellow, R.color.refreshRed);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -143,7 +104,6 @@ public class AnnouncementsFragment extends Fragment {
     // Refreshes the Announcements by reconnecting to the server and pulling new data
     private void refreshContent() {
         //populateData(true);
-        // ToDo: Potentially figure out a way to make this last a little longer because the refresh animation stops too soon so it appears something isn't working for ~1 second.
         //mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setRefreshing(populateData(true));
     }
@@ -636,7 +596,7 @@ public class AnnouncementsFragment extends Fragment {
                 public void run() {
                     mAdapter.notifyDataSetChanged();                // Notify the adapter that the data changed
 
-                    Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Refresh complete", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -653,8 +613,8 @@ public class AnnouncementsFragment extends Fragment {
                 // The following two methods' parameters are in milliseconds. The first method defines
                 // how long we shall try to read the data before timing out. The second is how long we should
                 // try to actually connect before timing out.
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(10 * 1000); //10 seconds
+                connection.setConnectTimeout(15 * 1000); // 15 seconds
 
                 /*
                 We are going to use an HTTP GET request. GET requests data from a specified resource.
@@ -754,7 +714,7 @@ public class AnnouncementsFragment extends Fragment {
                     Announcement announcement = new Announcement(activity, content, author, -1, -1, parsedDate);
                    // Toast.makeText(getActivity(), "Refresh happening Dates --  "+parsedDate+" "+currDate+"  <= "+(currDate.compareTo(parsedDate)), Toast.LENGTH_SHORT).show();
                     // If we want to show this announcement, add it to the data ArrayList.
-                    if (approvedFlag && currDate.compareTo(parsedDate) <= 0) {
+                    if (approvedFlag/* && currDate.compareTo(parsedDate) <= 0*/) {
                         data.add(announcement);
                     }
                 }

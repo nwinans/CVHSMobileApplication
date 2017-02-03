@@ -15,9 +15,9 @@
         android:id="@+id/image_view_ryley_trahan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_ryley_trahan"
         android:padding="5dp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_ryley_trahan"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/image_view_neal_jarvis"
@@ -33,6 +33,6 @@
         android:layout_height="match_parent"
         android:padding="5dp"
         android:src="@drawable/ic_obama"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </LinearLayout>
