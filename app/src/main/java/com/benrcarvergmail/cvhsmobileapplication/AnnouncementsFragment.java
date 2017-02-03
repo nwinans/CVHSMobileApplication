@@ -42,11 +42,11 @@ public class AnnouncementsFragment extends Fragment {
 
     private ArrayList<Announcement> data;                       // List of announcements to be displayed
 
-    private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
+    //private EditText mEditIPAddress, mEditPort;                 // References to the IP Address EditText field and the Port EditText field
 
-    private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
-    private final String defaultServerPort = "";            // Default port for the server/database
-    private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=17xalaHNqjOMFq7FcHfgSMXaNpibj9DgzQ0TJuxf1r-Q";
+    /*private final String defaultServerAddress = "clogicd.com/announcements.txt";  // Default IP address for the server/database
+    private final String defaultServerPort = "";            // Default port for the server/database*/
+    private final String defaultSpreadsheetUrl = "https://spreadsheets.google.com/tq?key=1ZET4Sf4U3j-8kBuTRVEgk7szsESiwLss6OgaxSLIMik"; //"https://spreadsheets.google.com/tq?key=17xalaHNqjOMFq7FcHfgSMXaNpibj9DgzQ0TJuxf1r-Q";
     private AnnouncementsRecyclerViewAdapter mAdapter;          // Reference to the RecyclerViewAdapter
     private AnimatedRecyclerView mAnimatedRecyclerView;         // Reference to Ben's extension of RecyclerView
 
@@ -65,8 +65,8 @@ public class AnnouncementsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        //ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        //NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
     }
 
     @Override
@@ -82,15 +82,15 @@ public class AnnouncementsFragment extends Fragment {
         // Create an adapter for the RecyclerView, passing the ArrayList of text we want displayed
         mAdapter = new AnnouncementsRecyclerViewAdapter(data);
         // Populate the data ArrayList. We currently do not utilize the boolean return type
-        populateData(false, defaultServerAddress, defaultServerPort);
+        //populateData(false, defaultServerAddress, defaultServerPort);
         // Set the RecyclerView's adapter to the one we just created
         mAnimatedRecyclerView.setAdapter(mAdapter);
         // Instantiate the references to the IP Address and Port EditText fields
         // Notice we are calling rootView.findViewById(), not rv.findViewById().
         // This is because the EditText fields are NOT a part of the recycler view (rv). They are
         // a part of the actual announcements fragment, so we use the rootView object.
-        mEditIPAddress = (EditText) rootView.findViewById(R.id.ip_address_field);
-        mEditPort = (EditText) rootView.findViewById(R.id.port_field);
+        /*mEditIPAddress = (EditText) rootView.findViewById(R.id.ip_address_field);
+        mEditPort = (EditText) rootView.findViewById(R.id.port_field);*/
         // Instantiate a reference to the button that refreshes the announcements and add an
         // onClick listener to that button. Eventually, we will refresh by scrolling or some
         // other nicer implementation but this works for now. Notice we are calling rootView.findViewById(),
@@ -105,7 +105,7 @@ public class AnnouncementsFragment extends Fragment {
                 // we call getText(). This is because getText() in this case returns an Editable,
                 // as we are calling getText() on EditText fields. In order to convert the Editable
                 // to a String, we must call toString() after we call getText().
-                String IPAddress = mEditIPAddress.getText().toString();
+                /*String IPAddress = mEditIPAddress.getText().toString();
                 String port = mEditPort.getText().toString();
 
                 // Currently, Ben has it set up such that if NO IP address or port is specified, the
@@ -116,7 +116,7 @@ public class AnnouncementsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Please specify an IP address", Toast.LENGTH_SHORT).show();
                 }  else {
                     populateData(true, IPAddress, port);
-                }
+                }*/
             }
         });
         // A LinearLayoutManager is a A RecyclerView.LayoutManager
@@ -142,9 +142,10 @@ public class AnnouncementsFragment extends Fragment {
 
     // Refreshes the Announcements by reconnecting to the server and pulling new data
     private void refreshContent() {
-        populateData(true, defaultServerAddress, defaultServerPort);
+        //populateData(true);
         // ToDo: Potentially figure out a way to make this last a little longer because the refresh animation stops too soon so it appears something isn't working for ~1 second.
-        mSwipeRefreshLayout.setRefreshing(false);
+        //mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(populateData(true));
     }
 
     /* This will populate the data ArrayList with the data we want to display. This may
@@ -154,7 +155,8 @@ public class AnnouncementsFragment extends Fragment {
      This method is kind of a redundant middle-man between the AsyncTask and the rest of the program.
      It may eventually be removed due to said redundancy but for now, I'm leaving it.
      */
-    private void populateData(boolean doAnimate, String... args) {
+    //private void populateData(boolean doAnimate) {
+    private boolean populateData(boolean doAnimate) {
         /* populateData() is called every time onCreateView() is called by an AnnouncementFragment.
          This happens fairly often. Effectively, with the way RecyclerView works and all, it happens
          a lot. That means that every single time populateData is called, all of this the data below
@@ -180,6 +182,7 @@ public class AnnouncementsFragment extends Fragment {
         } else {
             mAnimatedRecyclerView.setDoAnimate(false);      // Notify the AnimatedRecyclerView that it is okay to animate
         }
+        return false;
     }
 
 
@@ -723,6 +726,7 @@ public class AnnouncementsFragment extends Fragment {
                     String date = columns.getJSONObject(2).getString("f");
                     String activity = columns.getJSONObject(3).getString("v");
                     //String title = columns.getJSONObject(4).getString("v");
+                    //ToDo: update the parsing of content to account for new line characters
                     String content = columns.getJSONObject(4).getString("v");
                     String sApprovedFlag = columns.getJSONObject(5).getString("v");
 
@@ -747,7 +751,7 @@ public class AnnouncementsFragment extends Fragment {
 
                     // Parameters for constructor are:
                     // String title, String text, String author, int iconSource, int imageSource, Date announcementDate
-                    Announcement announcement = new Announcement(activity, content, author, -1, -1,currDate);
+                    Announcement announcement = new Announcement(activity, content, author, -1, -1, parsedDate);
                    // Toast.makeText(getActivity(), "Refresh happening Dates --  "+parsedDate+" "+currDate+"  <= "+(currDate.compareTo(parsedDate)), Toast.LENGTH_SHORT).show();
                     // If we want to show this announcement, add it to the data ArrayList.
                     if (approvedFlag && currDate.compareTo(parsedDate) <= 0) {

@@ -7,9 +7,9 @@
         android:id="@+id/image_view_oliver_small"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_glowing_small"
         android:padding="5dp"
-        android:visibility="visible"/>
+        android:src="@drawable/ic_glowing_small"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/image_view_ryley_trahan"
@@ -23,16 +23,16 @@
         android:id="@+id/image_view_neal_jarvis"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_neal_jarvis"
         android:padding="5dp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_neal_jarvis"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/image_view_barack_obama"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_obama"
         android:padding="5dp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_obama"
+        android:visibility="visible" />
 
 </LinearLayout>
