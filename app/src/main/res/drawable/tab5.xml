@@ -4,5 +4,5 @@
         android:state_pressed="true" />
     <item android:drawable="@drawable/settings_selected"
         android:state_selected="true" />
-    <item android:drawable="@drawable/ic_settings_black_36dp" />
+    <item android:drawable="@drawable/settings_selected" />
 </selector>

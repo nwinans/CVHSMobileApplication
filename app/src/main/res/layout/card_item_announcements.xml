@@ -8,12 +8,12 @@
     android:clickable="true"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="4dp"
-    card_view:cardPreventCornerOverlap="false"
+    card_view:cardPreventCornerOverlap="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="6dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp">
+    card_view:cardCornerRadius="8dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <RelativeLayout
         android:id="@+id/card_data_container"
@@ -48,8 +48,9 @@
                 android:layout_toRightOf="@id/card_view_icon"
                 android:text=""
                 android:paddingLeft="5dp"
-                android:textSize="18sp"
-                android:paddingTop="25dp"
+                android:layout_alignBaseline="@+id/card_view_icon"
+                android:textSize="22sp"
+                android:paddingTop="10dp"
                 android:textColor="#000000" />
 
             <!-- Dummy view as a spacer -->
@@ -64,7 +65,7 @@
                 android:id="@+id/date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:text=""
                 android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
@@ -73,7 +74,7 @@
                 android:paddingRight="5dp"
                 android:paddingEnd="5dp"
                 android:paddingTop="5dp"
-                android:textColor="#b6b6b6" />
+                android:textColor="#999999" />
         </RelativeLayout>
 
         <!-- TextView for the intro generated text -->
@@ -112,6 +113,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="25dp"
+            android:textSize="15sp"
             android:visibility="visible"/>
 
         <!-- Icon notifying the ability to collapse the card -->
@@ -134,8 +136,10 @@
             android:paddingLeft="10dp"
             android:paddingStart="10dp"
             android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:layout_marginTop="5dp"
             android:textColor="@color/colorHyperlink"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

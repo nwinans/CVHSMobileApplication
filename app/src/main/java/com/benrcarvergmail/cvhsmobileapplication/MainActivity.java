@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             // determines what icon to display based on whether or not the tab is active or not.
             R.drawable.tab4, // Two silhouettes. I am setting the drawable to an XML document that
             // determines what icon to display based on whether or not the tab is active or not.
-            R.drawable.tab5 // Gear. I am setting the drawable to an XML document that
+            //R.drawable.tab5 // Gear. I am setting the drawable to an XML document that
             // determines what icon to display based on whether or not the tab is active or not.
     };
 
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(1).setIcon(tabIcons[1]);
         mTabLayout.getTabAt(2).setIcon(tabIcons[2]);
         mTabLayout.getTabAt(3).setIcon(tabIcons[3]);
-        mTabLayout.getTabAt(4).setIcon(tabIcons[4]);
+        //mTabLayout.getTabAt(4).setIcon(tabIcons[4]);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         vpa.addFrag(new ArticlesVideosFragment(), ""); // Placeholder
         vpa.addFrag(new AcademicsFragment(), ""); // Placeholder
         vpa.addFrag(new ClubsFragment(), ""); // Clubs Fragment
-        vpa.addFrag(new SettingsFragment(), ""); // Placeholder
+        //vpa.addFrag(new SettingsFragment(), ""); // Placeholder
     }
 
     /**

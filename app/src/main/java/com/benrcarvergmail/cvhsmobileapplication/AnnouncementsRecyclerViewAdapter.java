@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<AnnouncementsRecyclerViewAdapter.MyViewHolder> {
 
@@ -178,7 +180,8 @@ public class AnnouncementsRecyclerViewAdapter extends RecyclerView.Adapter<Annou
 
         /* Get the proper Announcement's date and assign the
         date TextView's text to the aforementioned date.toString() */
-        holder.mDateTextView.setText(mDataset.get(position).getAnnouncementDate().toString());
+        SimpleDateFormat desiredFormat = new SimpleDateFormat("MMM dd", Locale.US);
+        holder.mDateTextView.setText(desiredFormat.format(mDataset.get(position).getAnnouncementDate()));
 
         /* Get the proper Announcement's title and assign the
         title TextView's text to the aforementioned title. */

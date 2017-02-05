@@ -301,6 +301,7 @@ public class AnnouncementsFragment extends Fragment {
          * @return the announcement date
          */
         public Date getAnnouncementDate() {
+
             return announcementDate;
         }
 
@@ -686,7 +687,6 @@ public class AnnouncementsFragment extends Fragment {
                     String date = columns.getJSONObject(2).getString("f");
                     String activity = columns.getJSONObject(3).getString("v");
                     //String title = columns.getJSONObject(4).getString("v");
-                    //ToDo: update the parsing of content to account for new line characters
                     String tContent = columns.getJSONObject(4).getString("v");
                     String sApprovedFlag = columns.getJSONObject(5).getString("v");
 
@@ -704,13 +704,13 @@ public class AnnouncementsFragment extends Fragment {
                       character.
                      */
                     String content = "";
-                    for (int i = 0; i < tContent.length() - 2; i++) {  
+                    for (int j = 0; j < tContent.length(); j++) {
                         //we use "\\" instead of "\" in this becuase "\" is the java escape character, so we have to 
-                        //escape the escape character to get an actual "\".
-                        if (tContent.substring(i,i+1).equals("\\")  && tContent.substring(i+1, i+2).equals("n")) {
+                        //escape the escape character to get an actual "\"
+                        if (j < tContent.length() - 2 && tContent.substring(j,j+1).equals("\\")  && tContent.substring(j+1, j+2).equals("n")) {
                             content += "\n";
-                            i++;
-                        } else content += tContent.substring(i, i+1);
+                            j++;
+                        } else content += tContent.substring(j, j+1);
                     }
                     /*
                      We construct a date object utilizing a SimpleDateFormat object. The date is
@@ -724,6 +724,8 @@ public class AnnouncementsFragment extends Fragment {
                     //Date parsedDate = format.parse(date);
                     SimpleDateFormat creationTime = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.US);
                     Date creationDate = creationTime.parse(creation);
+                    SimpleDateFormat desiredFormat = new SimpleDateFormat("MM/dd", Locale.US);
+                    String finalDate = desiredFormat.format(creationDate);
                     //Calendar cal = Calendar.getInstance();
                     //Date currDate = cal.getTime();
 
