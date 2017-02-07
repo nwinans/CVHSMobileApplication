@@ -35,12 +35,6 @@ dependencies {
     compile 'com.code-troopers.betterpickers:library:3.1.0'
     compile 'com.google.android.gms:play-services-identity:10.0.1'
     compile 'pub.devrel:easypermissions:0.3.0'
-    compile('com.google.api-client:google-api-client-android:1.22.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    /*compile('com.google.apis:google-api-services-sheets:v4-rev2-1.22.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }*/
     compile 'com.google.code.gson:gson:2.7'
 }
 

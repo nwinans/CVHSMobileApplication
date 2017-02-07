@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
     // Reference to the Relative Layout that displays the plus schedule
     private LinearLayout mPlusLayout;
 
-    // GoogleAPI Client
-    private GoogleApiClient mGoogleApiClient;
-
     private static final String TAG = "MainActivity";
+
+    //spreadsheet holding all plus information
+    private final String spreadsheetURL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,16 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder  = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Crisis Numbers");
                 /* setNegativeButton is an easter-egg message */
-                builder.setNegativeButton(" ",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                String easteregg[] = new String[]{
-                                        "snafuPop","Jick","When the Meme is so Supreme, you let out a scream!"
-                                        ,"He may be #Small, but his money is #BIG.","GRAND DAD??","muck","Ban Daniel Lies"};
-                                double eggnum = Math.random() * easteregg.length;
-                                Toast.makeText(MainActivity.this, easteregg[(int)eggnum], Toast.LENGTH_LONG).show();
-                            }
-                        });
                 builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -122,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 // After the dialog has been built, assign it to an AlertDialog object and show it
-                final AlertDialog alertDialog = builder.show();
+                /*final AlertDialog alertDialog = */builder.show();
 
 
             }
@@ -249,8 +238,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (android.os.Build.VERSION.SDK_INT > 5
-                && keyCode == KeyEvent.KEYCODE_BACK
+        if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             Log.d("CDA", "onKeyDown Called");
             onBackPressed();
@@ -318,8 +306,12 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    private String getPlus() {
 
 
+        return null;
     }
 
 
