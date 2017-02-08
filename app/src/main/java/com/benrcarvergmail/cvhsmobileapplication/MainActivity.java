@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     // Reference to the Relative Layout that displays the plus schedule
     private LinearLayout mPlusLayout;
 
+    private Button mPlusButton;
+
     private static final String TAG = "MainActivity";
 
     //spreadsheet holding all plus information
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button mPlusButton = (Button) findViewById(R.id.button_plusSchedule);
+        mPlusButton = (Button) findViewById(R.id.button_plusSchedule);
         mPlusLayout = (LinearLayout) findViewById(R.id.relativelayout_plusSchedule);
 
         // The onClickListener for the plus button. When clicked, it causes the plus
@@ -142,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 runFadeInAnimationOn(MainActivity.this, mPlusLayout);
             }
         });
+
+        Plus test = new Plus(2);
+        mPlusButton.setText(test.getFullPlus());
 
         // When the user taps the plus layout (when its visible), it will fade back out.
         mPlusLayout.setOnClickListener(new View.OnClickListener() {
