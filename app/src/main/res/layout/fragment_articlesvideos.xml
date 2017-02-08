@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLight">
 
     <FrameLayout
         android:id="@+id/articlesvideos_title_frame_layout"
@@ -9,68 +10,112 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@color/colorClubsTitle"
-        android:elevation="8dp">
+        android:elevation="@dimen/FragHeaderElevation"
+        android:padding="@dimen/FragHeaderPadding">
         <TextView
             android:id="@+id/articlesvideos_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/articles"
-            android:textSize="36sp"
+            android:textSize="@dimen/FragHeaderTextSize"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"/>
-
-    <LinearLayout
-        android:id="@+id/linear_layout_articles"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:weightSum="1">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/educator_toolkit"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_layout_articles"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30sp"
-            android:layout_marginBottom="15sp"
-            android:textSize="20sp"
-            android:drawableTop="@drawable/educator_toolkit_medium"
-            android:layout_gravity="center_horizontal"
-            android:text="http://www.nationaleatingdisorders.org/sites/default/files/Toolkits/EducatorToolkit.pdf"
-            android:layout_weight="0" />
-        <TextView
-            android:id="@+id/general_statistics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15sp"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:text="http://www.nationaleatingdisorders.org/general-statistics"
-            android:layout_weight="0" />
-        <TextView
-            android:id="@+id/what_should_i_say"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15sp"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:text="http://www.nationaleatingdisorders.org/what-should-i-say"
-            android:layout_weight="0" />
-        <TextView
-            android:id="@+id/what_body_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15sp"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
-            android:text="http://www.nationaleatingdisorders.org/what-body-image"
-            android:layout_weight="0" />
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:weightSum="1">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/educator_toolkit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:layout_marginBottom="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:drawableTop="@drawable/educator_toolkit_medium"
+                android:layout_gravity="center_horizontal"
+                android:text="http://www.nationaleatingdisorders.org/sites/default/files/Toolkits/EducatorToolkit.pdf"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/general_statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:text="http://www.nationaleatingdisorders.org/general-statistics"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/what_should_i_say"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:text="http://www.nationaleatingdisorders.org/what-should-i-say"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/what_body_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:text="http://www.nationaleatingdisorders.org/what-body-image"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/project_aware"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:layout_marginBottom="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/stop_bullying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/crisis_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0" />
+            <TextView
+                android:id="@+id/mental_health"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>
