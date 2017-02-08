@@ -7,6 +7,7 @@ import android.content.IntentSender;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     //spreadsheet holding all plus information
     private final String spreadsheetURL = "";
+
+    private final Context ctx  = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,10 +379,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
-    private class DownloadPlus extends AsynchTask<String, void, String> {
+    private class DownloadPlus extends AsyncTask<String, Void, String> {
         
         @Override
-        protected void doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             //params[0] is the spreadsheet
             try {
                 return downloadContent(params[0]);
@@ -462,17 +475,17 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            getActivity().runOnUiThread(new Runnable() {
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //update the plus button text here
-                    Toast.makeText(getActivity(), "Plus loaded successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Plus loaded successfully", Toast.LENGTH_SHORT).show();
                 }
             });
         }
         
-        private void parseObject(JSONObject results) {
-            
+        private void parseDownload(JSONObject results) {
+
         }
     }
 }
