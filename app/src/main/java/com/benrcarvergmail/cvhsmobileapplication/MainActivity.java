@@ -309,26 +309,170 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getPlus() {
-
+        
 
         return null;
     }
+       
+    class Plus {
+        private int period;
+        private String full;
+        private Date date;
+        
+        public Plus(int pd, String f, Date d) {
+            period = pd;
+            full = f;
+            date = d;
+        }
+        
+        public Plus(int pd, Date d) {
+            period = pd;
+            date = d;
+        }
+        
+        public Plus(int pd) {
+            period = pd;
+            date = new Date();
+        }
+        
+        public void setPeriod(int pd) { 
+            period = pd;
+        }
+        
+        public void setFullPlus(String f) {
+            full = f;
+        }
+        
+        public void setDate(Date d) {
+            date = d;
+        }
+        
+        public int getPeriod() {
+            return period;
+        }
+        
+        public String getFullPlus() {
+            if (full != null) return full;
+            full = "";
+            if (period % 2 == 0) full += "B+";
+            if (period % 2 == 1) full += "A+";
+            if (period == 8) full += "7";
+            else full += period;
+            return full;
+        }
+        
+        public String getDate() {
+            return date.toString();
+        }
+    }
+    
+    private class DownloadPlus extends AsynchTask<String, void, String> {
+        
+        @Override
+        protected void doInBackground(String... params) {
+            //params[0] is the spreadsheet
+            try {
+                return downloadContent(params[0]);
+            } catch (IOException e) {
+                Log.e(TAG, "IOException while doInBackground", e);
+                return "Unable to download the requested page.";
+            }
+        }
+        
+        private String downloadContent(String urlStr) throws IOException {
+            InputStream inputStream = null;
 
+            try {
+                // Create a URL object with the URL of the spreadsheet as a parameter passed to this method.
+                URL url = new URL(urlStr);
+                // Create a new HTTPUrlConnection with the URL.
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
+                // The following two methods' parameters are in milliseconds. The first method defines
+                // how long we shall try to read the data before timing out. The second is how long we should
+                // try to actually connect before timing out.
+                connection.setReadTimeout(10 * 1000); //10 seconds
+                connection.setConnectTimeout(15 * 1000); //15 seconds
+
+                /*
+                We are going to use an HTTP GET request. GET requests data from a specified resource.
+                You may have heard of "POST". POST submits data to be processed to a specified resource,
+                 which obviously isn't really what we're wanting to do here.
+                */
+                connection.setRequestMethod("GET");
+                // This sets the value of the doInputField for the URLConnection to what we specify.
+                // A URL can be used for input or output. We're using it for input.
+                connection.setDoInput(true);
+
+                // Connect! Hooray!
+                connection.connect();
+                // Grab the response code.
+                int responseCode = connection.getResponseCode();
+                // Assign our InputStream object to the connect as an input stream so we can process the data.
+                inputStream = connection.getInputStream();
+
+                return convertStreamToString(inputStream);
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }
+        }
+        
+        private String convertStreamToString(InputStream is) {
+            // Convert the input to a String with a buffered reader.
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            // Go line-by-line until we've been through the whole thing.
+            String line = null;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return sb.toString();
+        }
+        
+        @Override
+        protected void onPostExecute(String result) {
+            /*
+            Remove the unneeded parts of the download and construct a JSON object. If we don't do this
+            part, we would have a bunch of unnecessary data around the data we want. We have to cut
+            that out so we can actually parse everything.
+             */
+            Log.d(TAG, result);
+            int start = result.indexOf("{", result.indexOf("{") + 1);
+            int end = result.lastIndexOf("}");
+
+            String resultFromSub = result.substring(start, end);
+
+            try {
+                JSONObject table = new JSONObject(resultFromSub);
+                parseDownload(table);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //update the plus button text here
+                    Toast.makeText(getActivity(), "Plus loaded successfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        
+        private void parseObject(JSONObject results) {
+            
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* wew lad */
