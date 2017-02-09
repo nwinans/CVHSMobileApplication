@@ -8,4 +8,9 @@
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <dimen name="tile_padding">16dp</dimen>
     <dimen name="card_radius">8dp</dimen>
+
+    <dimen name="FragHeaderTextSize">36sp</dimen>
+
+    <dimen name="FragHeaderElevation">8dip</dimen>
+    <dimen name="FragHeaderPadding">5dip</dimen>
 </resources>

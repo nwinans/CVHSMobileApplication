@@ -45,6 +45,8 @@ public class AnnouncementsFragment extends Fragment {
 
     private static final String TAG = "AnnouncementsFragment";  // TAG
 
+    //ToDo: currently, the TitleBar will shrink when scrolling down, if the users swipes to change fragment while the titlebar isn't shown, they won't be able to use the titlebar unless they swipe back and scroll up. To fix this we should add a check to the other fragments and see if the titlebar is visible on launch; if not then make it visible
+
     /**
      * Instantiates a new Announcements fragment.
      */

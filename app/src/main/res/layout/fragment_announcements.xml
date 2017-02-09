@@ -11,14 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@color/colorAnnouncementsTitle"
-        android:elevation="8dp"
-        android:padding="5dip">
+        android:elevation="@dimen/FragHeaderElevation"
+        android:padding="@dimen/FragHeaderPadding">
         <TextView
             android:id="@+id/announcements_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/announcements_tab"
-            android:textSize="36sp"
+            android:textSize="@dimen/FragHeaderTextSize"
             android:layout_gravity="center_horizontal" />
     </FrameLayout>
 
