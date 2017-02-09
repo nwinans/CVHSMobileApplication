@@ -3,8 +3,8 @@
 # Centreville High School - Android Application. 
 This repository contains the source code for Centreville High School's Android application, Wildcat Cares.
 
-## iOS Version:
-The iOS version of Wildcat Cares is available at https://github.com/nwinans/wildcat-mobile
+## Alternative Versions:
+The source code of the iOS version of Wildcat Cares is available at https://github.com/nwinans/wildcat-mobile
 
 ## Additional Libraries Used:
 ###Custom Calendar View:
