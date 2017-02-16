@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     //spreadsheet holding all plus information
-    private final String spreadsheetURL = "";
+    private final String spreadsheetURL = "https://spreadsheets.google.com/tq?key=1z6JyOZYNLoMKuoQACGzv5xN9gQqnQpUyDP4nD0PCQec";
+    //currently this spreadsheet URL is hosted on my personal googledocs. should probably be placed with the rest of the spreadsheets
+    //on the official google account so admin's have write access and can update on the fly.
 
     private final Context ctx  = this;
 
