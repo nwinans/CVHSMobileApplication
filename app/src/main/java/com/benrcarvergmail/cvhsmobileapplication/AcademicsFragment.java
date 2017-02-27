@@ -42,6 +42,15 @@ public class AcademicsFragment extends Fragment {
         Button mButtonLibrary = (Button) rootView.findViewById(R.id.button_library);
 
         /*
+        Commented out until the views are added to the layout xml file
+        
+        Button mButtonAthletics = (Button) rootView.findViewById(R.id.button_athletics);
+        Button mButtonBlackboard = (Button) rootView.findViewById(R.id.button_blackboard);
+        Button mButtonSIS = (Button) rootView.findViewById(R.id.button_sis);
+        Button mButtonBellSchedule = (Button) rootView.findViewById(R.id.button_bellSchedule);
+        */
+        
+        /*
 
         Commented out because I dislike how it looks for now.
 
@@ -79,13 +88,48 @@ public class AcademicsFragment extends Fragment {
         mButtonTeachers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Toast.makeText(getContext(), "You have unleashed the power of Mountain Dew!", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "Easter Egg found!");*/
-
+                
                 Intent myIntent = new Intent(getActivity(), TeacherActivity.class);
                 startActivity(myIntent);
             }
         });
+        
+        /*
+        mButtonAthletics.setOnClickListener(new View.OnClickListener() {
+            @Override 
+            public void onClick(View v) {
+                //ToDo: implement ChromeCustomTabs so the user doesn't have to leave the application to open a link
+                Uri uri = Uri.parse("http://www.wearecville.com");
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(myIntent);
+            }
+        }
+        mButtonBlackboard.setOnClickListener(new View.OnClickListener() {
+            @Override 
+            public void onClick(View v) {
+                //ToDo: implement ChromeCustomTabs so the user doesn't have to leave the application to open a link
+                Uri uri = Uri.parse("http://fcps.blackboard.com");
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(myIntent);
+            }
+        }
+        mButtonSIS.setOnClickListener(new View.OnClickListener() {
+            @Override 
+            public void onClick(View v) {
+                //ToDo: implement ChromeCustomTabs so the user doesn't have to leave the application to open a link
+                Uri uri = Uri.parse("http://www.wearecville.com");
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(myIntent);
+            }
+        }
+        mButtonBellSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override 
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), BellSchedule.class);
+                startActivity(myIntent);
+            }
+        }
+        */
 
         return rootView;
     }
